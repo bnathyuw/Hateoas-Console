@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>HATEOAS console</title>
+
+	<link rel="stylesheet" href="main.css"/>
+	
+	<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+	<script src="main.js"></script>
+	
+</head>
+	
+<body>
+
+<header>
+	<h1>HATEOAS console</h1>
+</header>
+
+<input type="url" name="url" placeholder="Start URL" value="https://api.soundcloud.com/users.json" />
+<select name="verb">
+	<option>GET</option>
+	<option>POST</option>
+	<option>PUT</option>
+	<option>DELETE</option>
+	<option>OPTIONS</option>
+</select>
+<input type="button" value="Go" id="go"/>
+
+<pre id="request">
+
+</pre>
+
+<pre id="response">
+	
+</pre>
+
+<footer>
+	<p>Written by Matthew Butt</p>
+</footer>
+
+</body>
+
+</html>
