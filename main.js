@@ -1,5 +1,7 @@
 ﻿$(function(){
 	$("#go").click(submitRequest);	
+	$("#request").ajaxSend(logRequest);
+	$("#response").ajaxComplete(logResponse);
 });
 
 function submitRequest(){
@@ -7,20 +9,19 @@ function submitRequest(){
 	var url = $("[name=url]").val();
 	$.ajax({
 		url: url,
-		type: verb,
-		beforeSend: alogRequest,
-		complete: alogResponse
+		type: verb
 	});
 }
 
-function logRequest(jqXHR, settings){
+function logRequest(e, jqXHR, settings){
 	var requestText = settings.type + " " + settings.url + "HTTP/1.1";
-	if(jqXHR.requestText != undefined) requestText += jqXHR.requestText;
-	$("#request").text(requestText);
+	if(jqXHR.requestText != undefined) requestText += "\n" + jqXHR.requestText;
+	$(this).text(requestText);
 }
 
-function logResponse(jqXHR, textStatus){
+function logResponse(e, jqXHR, textStatus){
 	var responseText = "HTTP/1.1 " + jqXHR.status + " " + textStatus;
 	responseText += "\n" + jqXHR.getAllResponseHeaders();
-	$("#response").text(responseText);
+	if(jqXHR.responseText != undefined) responseText += "\n" + jqXHR.responseText;
+	$(this).text(responseText);
 }
