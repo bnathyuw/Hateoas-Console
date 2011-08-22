@@ -46,6 +46,8 @@ function doGetRequest(){
 		url: url,
 		verb: verb
 	});
+	
+	$("[name=requestBody]").hide();
 	return false;
 }
 
