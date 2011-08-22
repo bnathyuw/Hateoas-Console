@@ -17,15 +17,27 @@
 	<h1>HATEOAS console</h1>
 </header>
 
-<input type="url" name="url" placeholder="Start URL" value="http://localhost/hateoas-console/" />
+<input type="url" 
+	   name="url" 
+	   placeholder="Start URL" 
+	   required="required"
+	   value="http://localhost/hateoas-console/" />
+	   
 <select name="verb">
 	<option>GET</option>
 	<option>POST</option>
+	<option>HEAD</option>
 	<option>PUT</option>
 	<option>DELETE</option>
 	<option>OPTIONS</option>
 </select>
+
 <input type="button" value="Go" id="go"/>
+
+<div>
+	<textarea name="requestBody"
+			  placeholder="Request body"></textarea>
+</div>
 
 <pre id="request">
 

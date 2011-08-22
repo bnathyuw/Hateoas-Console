@@ -1,6 +1,24 @@
 ﻿#request,
-#response
-{
+#response,
+textarea,
+input,
+select{
 	border: 1px solid black;
 	padding: 5px;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+#request,
+#response{
+	width: 600px;
+	overflow: auto;
+}
+
+input[name=url]{
+	width: 400px;
+}
+
+textarea[name=requestBody]{
+	width: 600px;
 }
