@@ -1,4 +1,6 @@
-﻿(function () {
+﻿/*global $:false */
+
+(function () {
 	"use strict";
 
 	var submitRequest = function () {
