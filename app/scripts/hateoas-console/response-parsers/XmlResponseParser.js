@@ -33,18 +33,15 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 			return a.location - b.location;
 		});
 		
-		// TODO: optimise!
-loopLinksFound: 
-		for (i = 0; i < linksFound.length; i += 1) {
-			link = linksFound[i];
+		linksFound.forEach(function (link) {
 			for (j = 0; j < links.length; j += 1) {
 				if (links[j].uri === link.uri) {
 					links[j].locations.push(link.location);
-					continue loopLinksFound;
+					return;
 				}
 			}
 			links.push({uri: link.uri, locations: [link.location]});
-		}
+		});
 		
 		return links;
 	};
