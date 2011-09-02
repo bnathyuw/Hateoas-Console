@@ -7,10 +7,34 @@ describe("XmlResponseParser", function () {
 		parser = new HATEOAS_CONSOLE.RESPONSE_PARSERS.XmlResponseParser();
 	});
 	
-	it("should be able to parse a result", function () {
-		var response = "<response></response>",
-			output = parser.parse(response);
+	describe("getLinks", function () {
 		
-		expect(typeof output).toEqual("string");
+		it("should return an empty array if there are no links in the response", function () {
+			var links = parser.getLinks("<response></response>");
+			
+			expect(Object.prototype.toString.call(links)).toEqual("[object Array]");
+		});
+		
+		it("should identify a URL in an href attribute", function () {
+			var expectedLink = "http://localhost/bar",
+				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" /></response>");
+			
+			expect(links[0]).toEqual(expectedLink);
+		});
+		
+		it("should identify a URL in a src attribute", function () {
+			var expectedLink = "http://localhost/bar",
+				links = parser.getLinks("<response><foo src=\"" + expectedLink + "\" /></response>");
+			
+			expect(links[0]).toEqual(expectedLink);
+		});
+		
+		it("should identify a URL in a link attribute", function () {
+			var expectedLink = "http://localhost/bar",
+				links = parser.getLinks("<response><foo link=\"" + expectedLink + "\" /></response>");
+			
+			expect(links[0]).toEqual(expectedLink);
+		});
+		
 	});
 });
