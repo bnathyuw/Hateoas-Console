@@ -17,16 +17,16 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 			match,
 			i,
 			j,
-			addLink = function (match) {
-				linksFound.push({location: match.index, uri: match[1]});
+			addLink = function (location, uri) {
+				linksFound.push({location: location, uri: uri});
 			};
 		
 		while ((match = attributeRegex.exec(response)) !== null) {
-			addLink(match);
+			addLink(match.index, match[1]);
 		}
 		
 		while ((match = elementRegex.exec(response)) !== null) {
-			addLink(match);
+			addLink(match.index, match[1]);
 		}
 		
 		linksFound.sort(function (a, b) {
