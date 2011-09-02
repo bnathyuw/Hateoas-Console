@@ -5,48 +5,51 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
 HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 	"use strict";
-	var getLinks = function (response) {
-			var attributeRegex = /(?:href|src|link)="([^"]+)"/g,
-				elementRegex = /<(?:href|src|link)[^>]*>([^<]+)<\/(?:href|src|link)>/g,
-				linksFound = {},
-				links = [],
-				link,
-				match,
-				i,
-				max,
-				uri;
-			
-			while ((match = attributeRegex.exec(response)) !== null) {
-				uri = match[1];
-				if (linksFound[uri] === undefined) {
-					linksFound[uri] = {locations: [match.index], uri: uri};
-				} else {
-					linksFound[uri].locations.push(match.index);
+	var getLinks,
+		Constr;
+	
+	getLinks = function (response) {
+		var attributeRegex = /(?:href|src|link)="([^"]+)"/g,
+			elementRegex = /<(?:href|src|link)[^>]*>([^<]+)<\/(?:href|src|link)>/g,
+			linksFound = [],
+			links = [],
+			link,
+			match,
+			i,
+			j,
+			addLink = function (match) {
+				linksFound.push({location: match.index, uri: match[1]});
+			};
+		
+		while ((match = attributeRegex.exec(response)) !== null) {
+			addLink(match);
+		}
+		
+		while ((match = elementRegex.exec(response)) !== null) {
+			addLink(match);
+		}
+		
+		linksFound.sort(function (a, b) {
+			return a.location - b.location;
+		});
+		
+		// TODO: optimise!
+loopLinksFound: 
+		for (i = 0; i < linksFound.length; i += 1) {
+			link = linksFound[i];
+			for (j = 0; j < links.length; j += 1) {
+				if (links[j].uri === link.uri) {
+					links[j].locations.push(link.location);
+					continue loopLinksFound;
 				}
 			}
-			
-			while ((match = elementRegex.exec(response)) !== null) {
-				uri = match[1];
-				if (linksFound[uri] === undefined) {
-					linksFound[uri] = {locations: [match.index], uri: uri};
-				} else {
-					linksFound[uri].locations.push(match.index);
-				}
-			}
-			
-			for (link in linksFound) {
-				if (linksFound.hasOwnProperty(link)) {
-					links.push(linksFound[link]);
-				}
-			}
-			
-			links.sort(function (a, b) {
-				return a.locations[0] - b.locations[0];
-			});
-			
-			return links;
-		},
-		Constr = function () {};
+			links.push({uri: link.uri, locations: [link.location]});
+		}
+		
+		return links;
+	};
+	
+	Constr = function () {};
 		
 	Constr.prototype = {
 		constructor: HATEOAS_CONSOLE.responseParsers.XmlResponseParser,

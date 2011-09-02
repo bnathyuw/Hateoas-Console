@@ -106,6 +106,17 @@ describe("XmlResponseParser", function () {
 				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>");
 			
 			expect(links[0].locations.length).toEqual(2);
+			expect(links[0].locations[0]).toEqual(15);
+			expect(links[0].locations[1]).toEqual(50);
+		});
+		
+		it("should report locations of duplicate links in correct order", function () {
+			var expectedLink = "http://localhost/bar",
+				links = parser.getLinks("<response><href>" + expectedLink + "</href><foo href=\"" + expectedLink + "\" /></response>");
+			
+			expect(links[0].locations.length).toEqual(2);
+			expect(links[0].locations[0]).toEqual(10);
+			expect(links[0].locations[1]).toEqual(48);
 		});
 		
 	});
