@@ -1,10 +1,12 @@
-﻿/*global describe: false, beforeEach: false, it: false, HATEOAS_CONSOLE: false, expect: false */
+﻿/*global describe: false, toString: false, beforeEach: false, it: false, HATEOAS_CONSOLE: false, expect: false */
 describe("XmlResponseParser", function () {
 	"use strict";
-	var parser;
+	var parser,
+		XmlResponseParser = HATEOAS_CONSOLE.responseParsers.XmlResponseParser;
+	
 	
 	beforeEach(function () {
-		parser = new HATEOAS_CONSOLE.RESPONSE_PARSERS.XmlResponseParser();
+		parser = new XmlResponseParser();
 	});
 	
 	describe("getLinks", function () {
@@ -12,7 +14,7 @@ describe("XmlResponseParser", function () {
 		it("should return an empty array if there are no links in the response", function () {
 			var links = parser.getLinks("<response></response>");
 			
-			expect(Object.prototype.toString.call(links)).toEqual("[object Array]");
+			expect(toString.call(links)).toEqual("[object Array]");
 		});
 		
 		it("should identify a URL in an href attribute", function () {
