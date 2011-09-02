@@ -8,27 +8,41 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 	var getLinks = function (response) {
 			var attributeRegex = /(?:href|src|link)="([^"]+)"/g,
 				elementRegex = /<(?:href|src|link)[^>]*>([^<]+)<\/(?:href|src|link)>/g,
-				linksFound = [],
+				linksFound = {},
 				links = [],
+				link,
 				match,
 				i,
-				max;
+				max,
+				uri;
 			
 			while ((match = attributeRegex.exec(response)) !== null) {
-				linksFound.push({index: match.index, link: match[1]});
+				uri = match[1];
+				if (linksFound[uri] === undefined) {
+					linksFound[uri] = {locations: [match.index], uri: uri};
+				} else {
+					linksFound[uri].locations.push(match.index);
+				}
 			}
 			
 			while ((match = elementRegex.exec(response)) !== null) {
-				linksFound.push({index: match.index, link: match[1]});
+				uri = match[1];
+				if (linksFound[uri] === undefined) {
+					linksFound[uri] = {locations: [match.index], uri: uri};
+				} else {
+					linksFound[uri].locations.push(match.index);
+				}
 			}
 			
-			linksFound.sort(function (a, b) {
-				return a.index - b.index;
+			for (link in linksFound) {
+				if (linksFound.hasOwnProperty(link)) {
+					links.push(linksFound[link]);
+				}
+			}
+			
+			links.sort(function (a, b) {
+				return a.locations[0] - b.locations[0];
 			});
-			
-			for (i = 0, max = linksFound.length; i < max; i += 1) {
-				links.push(linksFound[i].link);
-			}
 			
 			return links;
 		},

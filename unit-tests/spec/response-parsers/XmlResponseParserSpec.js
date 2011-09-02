@@ -17,49 +17,49 @@ describe("XmlResponseParser", function () {
 			expect(toString.call(links)).toEqual("[object Array]");
 		});
 		
-		it("should identify a URL in an href attribute", function () {
+		it("should identify a URI in an href attribute", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" /></response>");
 			
-			expect(links[0]).toEqual(expectedLink);
+			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
-		it("should identify a URL in a src attribute", function () {
+		it("should identify a URI in a src attribute", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><foo src=\"" + expectedLink + "\" /></response>");
 			
-			expect(links[0]).toEqual(expectedLink);
+			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
-		it("should identify a URL in a link attribute", function () {
+		it("should identify a URI in a link attribute", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><foo link=\"" + expectedLink + "\" /></response>");
 			
-			expect(links[0]).toEqual(expectedLink);
+			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
-		it("should identify a URL in an href element", function () {
+		it("should identify a URI in an href element", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><href>" + expectedLink + "</href></response>");
 			
-			expect(links[0]).toEqual(expectedLink);
+			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
-		it("should identify a URL in a src element", function () {
+		it("should identify a URI in a src element", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><src>" + expectedLink + "</src></response>");
 			
-			expect(links[0]).toEqual(expectedLink);
+			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
-		it("should identify a URL in a link element", function () {
+		it("should identify a URI in a link element", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><link>" + expectedLink + "</link></response>");
 			
-			expect(links[0]).toEqual(expectedLink);
+			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
-		it("should identify several URLs when they are present", function () {
+		it("should identify several URIs when they are present", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" />" +
 						"<bar src=\"" + expectedLink + "1\" />" +
@@ -67,13 +67,13 @@ describe("XmlResponseParser", function () {
 						"<src>" + expectedLink + "3</src></response>");
 			
 			expect(links.length).toEqual(4);
-			expect(links[0]).toEqual(expectedLink);
-			expect(links[1]).toEqual(expectedLink + "1");
-			expect(links[2]).toEqual(expectedLink + "2");
-			expect(links[3]).toEqual(expectedLink + "3");
+			expect(links[0].uri).toEqual(expectedLink);
+			expect(links[1].uri).toEqual(expectedLink + "1");
+			expect(links[2].uri).toEqual(expectedLink + "2");
+			expect(links[3].uri).toEqual(expectedLink + "3");
 		});
 		
-		it("should identify several URLs in correct order", function () {
+		it("should identify several URIs in correct order", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" />" +
 						"<href>" + expectedLink + "1</href>" +
@@ -81,17 +81,31 @@ describe("XmlResponseParser", function () {
 						"<src>" + expectedLink + "3</src></response>");
 			
 			expect(links.length).toEqual(4);
-			expect(links[0]).toEqual(expectedLink);
-			expect(links[1]).toEqual(expectedLink + "1");
-			expect(links[2]).toEqual(expectedLink + "2");
-			expect(links[3]).toEqual(expectedLink + "3");
+			expect(links[0].uri).toEqual(expectedLink);
+			expect(links[1].uri).toEqual(expectedLink + "1");
+			expect(links[2].uri).toEqual(expectedLink + "2");
+			expect(links[3].uri).toEqual(expectedLink + "3");
 		});
 		
 		it("should tolerate additional attributes in containing element", function () {
 			var expectedLink = "http://localhost/bar",
 				links = parser.getLinks("<response><href rel=\"me\">" + expectedLink + "</href></response>");
 				
-			expect(links[0]).toEqual(expectedLink);
+			expect(links[0].uri).toEqual(expectedLink);
+		});
+		
+		it("should report duplicate links once", function () {
+			var expectedLink = "http://localhost/bar",
+				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>");
+			
+			expect(links.length).toEqual(1);
+		});
+		
+		it("should report all locations of duplicate links", function () {
+			var expectedLink = "http://localhost/bar",
+				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>");
+			
+			expect(links[0].locations.length).toEqual(2);
 		});
 		
 	});
