@@ -42,7 +42,7 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 		copyAttributes = function (tag, link) {
 			return function (attributeName) {
 				copyDistinctAttributes(attributeName, tag, link);
-			}
+			};
 		},
 		
 		getLinks = function (response) {
@@ -62,7 +62,7 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 				
 				link.locations.push(match.index);
 				
-				attributes.forEach(copyAttributes(tag,link));
+				attributes.forEach(copyAttributes(tag, link));
 			}
 			
 			return links;
