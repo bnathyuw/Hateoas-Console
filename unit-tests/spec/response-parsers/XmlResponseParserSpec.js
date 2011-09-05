@@ -123,28 +123,82 @@ describe("XmlResponseParser", function () {
 			var expectedRel = "me",
 				links = parser.getLinks("<response><foo rel=\"" + expectedRel + "\" href=\"http://localhost/bar\"/></response>");
 				
-			expect(links[0].rel).toEqual(expectedRel);
+			expect(links[0].rel).toContain(expectedRel);
 		});
 		
 		it("should add rel attribute from href tag", function () {
 			var expectedRel = "me",
 				links = parser.getLinks("<response><href rel=\"" + expectedRel + "\">http://localhost/bar\"</href></response>");
 				
-			expect(links[0].rel).toEqual(expectedRel);
+			expect(links[0].rel).toContain(expectedRel);
+		});
+		
+		it("should add several rel attribute values when appropriate", function () {
+			var links = parser.getLinks("<response><foo rel=\"me you him\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rel).toContain("me");
+			expect(links[0].rel).toContain("you");
+			expect(links[0].rel).toContain("him");
+		});
+		
+		it("should add all rel attribute values when a link appears twice", function () {
+			var links = parser.getLinks("<response><foo rel=\"me you him\" href=\"http://localhost/bar\"/>" + 
+				"<foo rel=\"her it\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rel).toContain("me");
+			expect(links[0].rel).toContain("you");
+			expect(links[0].rel).toContain("him");
+			expect(links[0].rel).toContain("her");
+			expect(links[0].rel).toContain("it");
+		});
+		
+		it("should not duplicate rel attribute values", function () {
+			var links = parser.getLinks("<response><foo rel=\"me\" href=\"http://localhost/bar\"/>" + 
+				"<foo rel=\"me\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rel).toContain("me");
+			expect(links[0].rel.length).toEqual(1);
 		});
 		
 		it("should add rev attribute from tag with href attribute", function () {
 			var expectedRev = "me",
 				links = parser.getLinks("<response><foo rev=\"" + expectedRev + "\" href=\"http://localhost/bar\"/></response>");
 				
-			expect(links[0].rev).toEqual(expectedRev);
+			expect(links[0].rev).toContain(expectedRev);
 		});
 		
 		it("should add rev attribute from href tag", function () {
 			var expectedRev = "me",
 				links = parser.getLinks("<response><href rev=\"" + expectedRev + "\">http://localhost/bar\"</href></response>");
 				
-			expect(links[0].rev).toEqual(expectedRev);
+			expect(links[0].rev).toContain(expectedRev);
+		});
+		
+		it("should add several rev attribute values when appropriate", function () {
+			var links = parser.getLinks("<response><foo rev=\"me you him\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rev).toContain("me");
+			expect(links[0].rev).toContain("you");
+			expect(links[0].rev).toContain("him");
+		});
+		
+		it("should add all rev attribute values when a link appears twice", function () {
+			var links = parser.getLinks("<response><foo rev=\"me you him\" href=\"http://localhost/bar\"/>" + 
+				"<foo rev=\"her it\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rev).toContain("me");
+			expect(links[0].rev).toContain("you");
+			expect(links[0].rev).toContain("him");
+			expect(links[0].rev).toContain("her");
+			expect(links[0].rev).toContain("it");
+		});
+		
+		it("should not duplicate rev attribute values", function () {
+			var links = parser.getLinks("<response><foo rev=\"me\" href=\"http://localhost/bar\"/>" + 
+				"<foo rev=\"me\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rev).toContain("me");
+			expect(links[0].rev.length).toEqual(1);
 		});
 		
 	});

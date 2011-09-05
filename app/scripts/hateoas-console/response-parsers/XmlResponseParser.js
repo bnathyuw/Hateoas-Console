@@ -20,9 +20,11 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 				var link = {location: location, uri: uri},
 					addAttribute = function (attributeName) {
 						var regex = new RegExp(" " + attributeName + "=\"([^\"]+)\"", "g"),
-							match = regex.exec(tag);
+							match = regex.exec(tag),
+							values;
 						if (match !== null) {
-							link[attributeName] = match[1];
+							values = match[1].split(" ");
+							link[attributeName] = values;
 						}
 					};
 				
@@ -30,6 +32,17 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 				addAttribute("rev");
 				
 				linksFound.push(link);
+			},
+			copyDistinctAttributes = function (attributeName, linkFound, link) {
+				if (link[attributeName] === undefined) {
+					link[attributeName] = linkFound[attributeName];
+				} else if (linkFound[attributeName] !== undefined) {
+					linkFound[attributeName].forEach(function (value) {
+						if (link[attributeName].indexOf(value) === -1) {
+							link[attributeName].push(value);
+						}
+					});
+				}
 			};
 		
 		while ((match = linkInAttributeRegex.exec(response)) !== null) {
@@ -44,14 +57,20 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 			return a.location - b.location;
 		});
 		
-		linksFound.forEach(function (link) {
+		linksFound.forEach(function (linkFound) {
+			var link;
 			for (i = 0; i < links.length; i += 1) {
-				if (links[i].uri === link.uri) {
-					links[i].locations.push(link.location);
+				link = links[i];
+				if (link.uri === linkFound.uri) {
+					link.locations.push(linkFound.location);
+					
+					copyDistinctAttributes("rel", linkFound, link);
+					copyDistinctAttributes("rev", linkFound, link);
+					
 					return;
 				}
 			}
-			links.push({uri: link.uri, locations: [link.location], rel: link.rel, rev: link.rev});
+			links.push({uri: linkFound.uri, locations: [linkFound.location], rel: linkFound.rel, rev: linkFound.rev});
 		});
 		
 		return links;
