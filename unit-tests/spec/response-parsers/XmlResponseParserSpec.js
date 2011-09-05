@@ -119,5 +119,33 @@ describe("XmlResponseParser", function () {
 			expect(links[0].locations[1]).toEqual(43);
 		});
 		
+		it("should add rel attribute from tag with href attribute", function () {
+			var expectedRel = "me",
+				links = parser.getLinks("<response><foo rel=\"" + expectedRel + "\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rel).toEqual(expectedRel);
+		});
+		
+		it("should add rel attribute from href tag", function () {
+			var expectedRel = "me",
+				links = parser.getLinks("<response><href rel=\"" + expectedRel + "\">http://localhost/bar\"</href></response>");
+				
+			expect(links[0].rel).toEqual(expectedRel);
+		});
+		
+		it("should add rev attribute from tag with href attribute", function () {
+			var expectedRev = "me",
+				links = parser.getLinks("<response><foo rev=\"" + expectedRev + "\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rev).toEqual(expectedRev);
+		});
+		
+		it("should add rev attribute from href tag", function () {
+			var expectedRev = "me",
+				links = parser.getLinks("<response><href rev=\"" + expectedRev + "\">http://localhost/bar\"</href></response>");
+				
+			expect(links[0].rev).toEqual(expectedRev);
+		});
+		
 	});
 });

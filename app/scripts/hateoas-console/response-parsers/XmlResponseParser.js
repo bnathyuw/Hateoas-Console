@@ -9,24 +9,35 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 		Constr;
 	
 	getLinks = function (response) {
-		var attributeRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)/g,
-			elementRegex = /(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>/g,
+		var linkInAttributeRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)/g,
+			linkInElementRegex = /(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>/g,
 			linksFound = [],
 			links = [],
 			link,
 			match,
 			i,
-			j,
-			addLink = function (location, uri) {
-				linksFound.push({location: location, uri: uri});
+			addLink = function (location, tag, uri) {
+				var link = {location: location, uri: uri},
+					addAttribute = function (attributeName) {
+						var regex = new RegExp(" " + attributeName + "=\"([^\"]+)\"", "g"),
+							match = regex.exec(tag);
+						if (match !== null) {
+							link[attributeName] = match[1];
+						}
+					};
+				
+				addAttribute("rel");
+				addAttribute("rev");
+				
+				linksFound.push(link);
 			};
 		
-		while ((match = attributeRegex.exec(response)) !== null) {
-			addLink(match.index, match[2]);
+		while ((match = linkInAttributeRegex.exec(response)) !== null) {
+			addLink(match.index, match[1], match[2]);
 		}
 		
-		while ((match = elementRegex.exec(response)) !== null) {
-			addLink(match.index, match[2]);
+		while ((match = linkInElementRegex.exec(response)) !== null) {
+			addLink(match.index, match[1], match[2]);
 		}
 		
 		linksFound.sort(function (a, b) {
@@ -34,13 +45,13 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 		});
 		
 		linksFound.forEach(function (link) {
-			for (j = 0; j < links.length; j += 1) {
-				if (links[j].uri === link.uri) {
-					links[j].locations.push(link.location);
+			for (i = 0; i < links.length; i += 1) {
+				if (links[i].uri === link.uri) {
+					links[i].locations.push(link.location);
 					return;
 				}
 			}
-			links.push({uri: link.uri, locations: [link.location]});
+			links.push({uri: link.uri, locations: [link.location], rel: link.rel, rev: link.rev});
 		});
 		
 		return links;
