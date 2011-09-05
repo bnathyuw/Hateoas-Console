@@ -39,6 +39,12 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 			});
 		},
 		
+		copyAttributes = function (tag, link) {
+			return function (attributeName) {
+				copyDistinctAttributes(attributeName, tag, link);
+			}
+		},
+		
 		getLinks = function (response) {
 			var searchRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)|(?:(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>)/g,
 				attributes = ["rel", "rev"],
@@ -46,10 +52,7 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 				link,
 				match,
 				tag,
-				uri,
-				copyAttributes = function (attributeName) {
-					copyDistinctAttributes(attributeName, tag, link);
-				};
+				uri;
 			
 			while ((match = searchRegex.exec(response)) !== null) {
 				tag = match[1] || match[3];
@@ -59,7 +62,7 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 				
 				link.locations.push(match.index);
 				
-				attributes.forEach(copyAttributes);
+				attributes.forEach(copyAttributes(tag,link));
 			}
 			
 			return links;
