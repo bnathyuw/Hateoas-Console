@@ -9,8 +9,8 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 		Constr;
 	
 	getLinks = function (response) {
-		var attributeRegex = /(?:href|src|link)="([^"]+)"/g,
-			elementRegex = /<(?:href|src|link)[^>]*>([^<]+)<\/(?:href|src|link)>/g,
+		var attributeRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)/g,
+			elementRegex = /(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>/g,
 			linksFound = [],
 			links = [],
 			link,
@@ -22,11 +22,11 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 			};
 		
 		while ((match = attributeRegex.exec(response)) !== null) {
-			addLink(match.index, match[1]);
+			addLink(match.index, match[2]);
 		}
 		
 		while ((match = elementRegex.exec(response)) !== null) {
-			addLink(match.index, match[1]);
+			addLink(match.index, match[2]);
 		}
 		
 		linksFound.sort(function (a, b) {

@@ -106,8 +106,8 @@ describe("XmlResponseParser", function () {
 				links = parser.getLinks("<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>");
 			
 			expect(links[0].locations.length).toEqual(2);
-			expect(links[0].locations[0]).toEqual(15);
-			expect(links[0].locations[1]).toEqual(50);
+			expect(links[0].locations[0]).toEqual(10);
+			expect(links[0].locations[1]).toEqual(45);
 		});
 		
 		it("should report locations of duplicate links in correct order", function () {
@@ -116,7 +116,7 @@ describe("XmlResponseParser", function () {
 			
 			expect(links[0].locations.length).toEqual(2);
 			expect(links[0].locations[0]).toEqual(10);
-			expect(links[0].locations[1]).toEqual(48);
+			expect(links[0].locations[1]).toEqual(43);
 		});
 		
 	});
