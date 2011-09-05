@@ -9,6 +9,7 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 	var findOrCreateLink = function (links, uri) {
 			var link,
 				i;
+				
 			for (i = 0; i < links.length; i += 1) {
 				if (links[i].uri === uri) {
 					return links[i];
@@ -23,7 +24,7 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 			var regex = new RegExp(" " + attributeName + "=\"([^\"]+)\"", "g"),
 				match = regex.exec(tag),
 				values;
-						
+			
 			link[attributeName] = link[attributeName] || [];
 			
 			if (match === null) {
