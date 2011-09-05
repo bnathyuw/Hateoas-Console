@@ -160,6 +160,13 @@ describe("XmlResponseParser", function () {
 			expect(links[0].rel.length).toEqual(1);
 		});
 		
+		it("should not duplicate rel attribute values even from a single element", function () {
+			var links = parser.getLinks("<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rel).toContain("me");
+			expect(links[0].rel.length).toEqual(1);
+		});
+		
 		it("should add rev attribute from tag with href attribute", function () {
 			var expectedRev = "me",
 				links = parser.getLinks("<response><foo rev=\"" + expectedRev + "\" href=\"http://localhost/bar\"/></response>");
@@ -201,5 +208,11 @@ describe("XmlResponseParser", function () {
 			expect(links[0].rev.length).toEqual(1);
 		});
 		
+		it("should not duplicate rel attribute values even from a single element", function () {
+			var links = parser.getLinks("<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>");
+				
+			expect(links[0].rel).toContain("me");
+			expect(links[0].rel.length).toEqual(1);
+		});
 	});
 });
