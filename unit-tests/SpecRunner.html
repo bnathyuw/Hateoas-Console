@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>Jasmine Test Runner</title>
-  <link rel="stylesheet" type="text/css" href="lib/jasmine-1.0.2/jasmine.css">
+  
+  <link rel="stylesheet" href="lib/jasmine-1.0.2/jasmine.css" />
+  
   <script src="lib/jasmine-1.0.2/jasmine.js"></script>
   <script src="lib/jasmine-1.0.2/jasmine-html.js"></script>
 
@@ -12,15 +14,12 @@
   <script src="http://localhost/hateoas-console/scripts/hateoas-console/response-parsers/XmlResponseParser.js"></script>
 
   <!-- include spec files here... -->
+  <script src="spec/response-parsers/ResponseParserBaseSpec.js"></script>
   <script src="spec/response-parsers/XmlResponseParserSpec.js"></script>
-
 </head>
 <body>
 
-<script>
-  jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-  jasmine.getEnv().execute();
-</script>
+  <script src="runJasmine.js"></script>
 
 </body>
 </html>
