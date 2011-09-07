@@ -1,9 +1,10 @@
 ﻿/*global describe: false, toString: false, beforeEach: false, it: false, HATEOAS_CONSOLE: false, expect: false */
+
 describe("XmlResponseParser", function () {
 	"use strict";
 	var xmlResponseParser = HATEOAS_CONSOLE.responseParsers.xmlResponseParser;
 	
-	describe("	getLinks", function () {
+	describe("getLinks", function () {
 		
 		it("should return an empty array if there are no links in the response", function () {
 			var my = {},
