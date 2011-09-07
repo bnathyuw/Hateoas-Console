@@ -1,12 +1,16 @@
-﻿/*global HATEOAS_CONSOLE */
+﻿/*global HATEOAS_CONSOLE, responseParserBase: false */
 /*jslint regexp: true */
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
+HATEOAS_CONSOLE.responseParsers.xmlResponseParser = function (spec, my) {
 	"use strict";
+
+	my = my || {};
 	
-	var findOrCreateLink = function (links, uri) {
+	var that,
+		
+		findOrCreateLink = function (links, uri) {
 			var link,
 				i;
 
@@ -45,41 +49,33 @@ HATEOAS_CONSOLE.responseParsers.XmlResponseParser = (function () {
 				copyDistinctAttributes(attributeName, tag, link);
 			};
 		},
-
-		getLinks = function () {
-			var searchRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)|(?:(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>)/g,
+		
+		getLinksFromResponse = function (response) {
+			var links = [],
+				searchRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)|(?:(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>)/g,
 				attributes = ["rel", "rev"],
 				link,
 				match,
 				tag,
 				uri;
-				
-			if (this.links === undefined) {
-				this.links = [];
 
-				while ((match = searchRegex.exec(this.response)) !== null) {
-					tag = match[1] || match[3];
-					uri = match[2] || match[4];
+			while ((match = searchRegex.exec(response)) !== null) {
+				tag = match[1] || match[3];
+				uri = match[2] || match[4];
 
-					link = findOrCreateLink(this.links, uri);
+				link = findOrCreateLink(links, uri);
 
-					link.locations.push(match.index);
+				link.locations.push(match.index);
 
-					attributes.forEach(copyAttributes(tag, link));
-				}
-
+				attributes.forEach(copyAttributes(tag, link));
 			}
-			return this.links;
-		},
-
-		XmlResponseParser = function (response) {
-			this.response = response;
+			
+			return links;
 		};
-
-	XmlResponseParser.prototype = {
-		constructor: HATEOAS_CONSOLE.responseParsers.XmlResponseParser,
-		getLinks: getLinks
-	};
-
-	return XmlResponseParser;
-}());
+	
+	my.getLinksFromResponse = getLinksFromResponse;
+	
+	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParserBase(spec, my));
+		
+	return that;
+};
