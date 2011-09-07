@@ -8,21 +8,16 @@ HATEOAS_CONSOLE.responseParsers.responseParserBase = function (spec, my) {
 
 	my = my || {};
 	
-	my.getLinksFromResponse = my.getLinksFromResponse || function () {
-		return [];
-	};
-	
 	var that = {},
 		
-		getResponse = function () {
-			return spec.response;
+		getLinksFromResponse = my.getLinksFromResponse || function () {
+			return [];
 		},
-
+		
 		getLinks = function () {
-			var response = getResponse();
-				
+
 			if (my.links === undefined) {
-				my.links = my.getLinksFromResponse(response);
+				my.links = getLinksFromResponse(spec.response);
 			}
 			
 			return my.links;
