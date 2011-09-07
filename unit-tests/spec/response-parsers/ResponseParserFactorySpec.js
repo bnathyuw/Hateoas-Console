@@ -11,5 +11,12 @@ describe("ResponseParserFactory", function () {
 			
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
+		
+		it("should return jsonResponParser for application/json", function () {
+			var factory = responseParserFactory(),
+				parser = factory.create("application/json");
+			
+			expect(parser.constructor.name).toEqual("JsonResponseParser");
+		});
 	});
 });

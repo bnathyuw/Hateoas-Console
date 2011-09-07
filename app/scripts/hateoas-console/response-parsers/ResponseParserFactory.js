@@ -11,9 +11,16 @@ HATEOAS_CONSOLE.responseParsers.responseParserFactory = function XmlParserFactor
 	var that = {},
 		
 		xmlResponseParser = HATEOAS_CONSOLE.responseParsers.xmlResponseParser,
+		jsonResponseParser = HATEOAS_CONSOLE.responseParsers.jsonResponseParser,
 		
-		create = function () {
-			return xmlResponseParser();
+		create = function (responseType) {
+			switch (responseType) {
+			case "text/xml":
+				return xmlResponseParser();
+			case "application/json":
+				return jsonResponseParser();
+			}
+			
 		};
 	
 	that.create = create;
