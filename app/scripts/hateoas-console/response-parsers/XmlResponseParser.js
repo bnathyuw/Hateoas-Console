@@ -3,7 +3,7 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.xmlResponseParser = function (spec, my) {
+HATEOAS_CONSOLE.responseParsers.xmlResponseParser = function XmlResponseParser(spec, my) {
 	"use strict";
 
 	my = my || {};
@@ -77,5 +77,7 @@ HATEOAS_CONSOLE.responseParsers.xmlResponseParser = function (spec, my) {
 	
 	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParserBase(spec, my));
 		
+	that.constructor = XmlResponseParser;
+	
 	return that;
 };

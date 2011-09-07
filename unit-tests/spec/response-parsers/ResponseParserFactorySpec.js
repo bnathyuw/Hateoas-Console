@@ -1,6 +1,15 @@
 ﻿/*global describe: false, toString: false, beforeEach: false, it: false, HATEOAS_CONSOLE: false, expect: false */
+
 describe("ResponseParserFactory", function () {
-	"use strict";
+	"use strict";	
+	var responseParserFactory = HATEOAS_CONSOLE.responseParsers.responseParserFactory;
 	
-	var ResponseParserFactory = HATEOAS_CONSOLE.responseParsers.ResponseParserFactory;
+	describe("getParser", function () {
+		it("should return xmlResponseParser for text/xml", function () {
+			var factory = responseParserFactory(),
+				parser = factory.create("text/xml");
+			
+			expect(parser.constructor.name).toEqual("XmlResponseParser");
+		});
+	});
 });
