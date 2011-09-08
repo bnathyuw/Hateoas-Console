@@ -7,8 +7,7 @@ describe("XmlResponseParser", function () {
 	describe("getLinks", function () {
 		
 		it("should return an empty array if there are no links in the response", function () {
-			var my = {},
-				parser = xmlResponseParser({response: "<response></response>"}),
+			var parser = xmlResponseParser({response: "<response></response>"}),
 				links = parser.getLinks();
 			
 			expect(toString.call(links)).toEqual("[object Array]");

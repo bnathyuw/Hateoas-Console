@@ -9,18 +9,17 @@ HATEOAS_CONSOLE.responseParsers.responseParserFactory = function XmlParserFactor
 	my = my || {};
 	
 	var that = {},
-		
-		xmlResponseParser = HATEOAS_CONSOLE.responseParsers.xmlResponseParser,
-		jsonResponseParser = HATEOAS_CONSOLE.responseParsers.jsonResponseParser,
-		
+				
+		constructors = {
+			xml: HATEOAS_CONSOLE.responseParsers.xmlResponseParser,
+			json: HATEOAS_CONSOLE.responseParsers.jsonResponseParser,
+			"json-p": HATEOAS_CONSOLE.responseParsers.jsonpResponseParser
+		},
+
 		create = function (responseType) {
-			switch (responseType) {
-			case "text/xml":
-				return xmlResponseParser();
-			case "application/json":
-				return jsonResponseParser();
-			}
-			
+			var	responseFormat = responseType.split(/[\/\+]/).pop(),
+				ctor = constructors[responseFormat];
+			return ctor();
 		};
 	
 	that.create = create;

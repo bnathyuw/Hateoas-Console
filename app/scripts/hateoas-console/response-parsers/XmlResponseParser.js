@@ -10,64 +10,32 @@ HATEOAS_CONSOLE.responseParsers.xmlResponseParser = function XmlResponseParser(s
 	
 	var that,
 		
-		findOrCreateLink = function (links, uri) {
-			var link,
-				i;
-
-			for (i = 0; i < links.length; i += 1) {
-				if (links[i].uri === uri) {
-					return links[i];
-				}
-			}
-			link = {uri: uri, locations: []};
-			links.push(link);
-			return link;
-		},
-
-		copyDistinctAttributes = function (attributeName, tag, link) {
+		getAttributeValues = function (attributeName, tag) {
 			var regex = new RegExp(" " + attributeName + "=\"([^\"]+)\"", "g"),
-				match = regex.exec(tag),
-				values;
-
-			link[attributeName] = link[attributeName] || [];
+				match = regex.exec(tag);
 
 			if (match === null) {
-				return;
+				return [];
 			}
 
-			values = match[1].split(" ");
-
-			values.forEach(function (value) {
-				if (link[attributeName].indexOf(value) === -1) {
-					link[attributeName].push(value);
-				}
-			});
-		},
-
-		copyAttributes = function (tag, link) {
-			return function (attributeName) {
-				copyDistinctAttributes(attributeName, tag, link);
-			};
+			return match[1].split(" ");
 		},
 		
 		getLinksFromResponse = function (response) {
 			var links = [],
 				searchRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)|(?:(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>)/g,
-				attributes = ["rel", "rev"],
-				link,
 				match,
-				tag,
-				uri;
+				tag;
 
 			while ((match = searchRegex.exec(response)) !== null) {
 				tag = match[1] || match[3];
-				uri = match[2] || match[4];
-
-				link = findOrCreateLink(links, uri);
-
-				link.locations.push(match.index);
-
-				attributes.forEach(copyAttributes(tag, link));
+				
+				links.push({
+					uri: match[2] || match[4], 
+					rel: getAttributeValues("rel", tag), 
+					rev: getAttributeValues("rev", tag), 
+					location: match.index
+				});
 			}
 			
 			return links;

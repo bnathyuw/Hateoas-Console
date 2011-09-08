@@ -8,7 +8,30 @@ HATEOAS_CONSOLE.responseParsers.jsonResponseParser = function JsonResponseParser
 
 	my = my || {};
 	
-	var that;
+	var that,
+		
+		getLinksFromResponse = function (response) {
+			var links = [],
+				parsedResponse = JSON.parse(response),
+				c,
+				walkObject = function walkObject (obj) {
+					for (c in obj) {
+						if (obj.hasOwnProperty(c)) {
+							if(c === "href") {
+								links.push({uri: obj[c]});
+							} else {
+								walkObject(obj[c]);
+							}
+						}
+					}				
+				};
+				
+			walkObject(parsedResponse);
+			
+			return links;
+		};
+	
+	my.getLinksFromResponse = getLinksFromResponse;
 	
 	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParserBase(spec, my));
 		

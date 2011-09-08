@@ -12,11 +12,32 @@ describe("ResponseParserFactory", function () {
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
 		
-		it("should return jsonResponParser for application/json", function () {
+		it("should return xmlResponseParser for application/xml", function () {
+			var factory = responseParserFactory(),
+				parser = factory.create("application/xml");
+			
+			expect(parser.constructor.name).toEqual("XmlResponseParser");
+		});
+		
+		it("should return xmlResponseParser for application/something+xml", function () {
+			var factory = responseParserFactory(),
+				parser = factory.create("application/something+xml");
+			
+			expect(parser.constructor.name).toEqual("XmlResponseParser");
+		});
+		
+		it("should return jsonResponseParser for application/json", function () {
 			var factory = responseParserFactory(),
 				parser = factory.create("application/json");
 			
 			expect(parser.constructor.name).toEqual("JsonResponseParser");
+		});
+		
+		it("should return jsonpResponseParser for application/json-p", function () {
+			var factory = responseParserFactory(),
+				parser = factory.create("application/json-p");
+			
+			expect(parser.constructor.name).toEqual("JsonpResponseParser");
 		});
 	});
 });

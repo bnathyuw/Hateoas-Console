@@ -5,10 +5,18 @@ describe("ResponseParserBase", function () {
 	var responseParserBase = HATEOAS_CONSOLE.responseParsers.responseParserBase;
 	
 	describe("getLinks", function () {
-		it("should return value from getLinksFromResponse", function () {
-			var expectedLinks = ["a", "b", "c"],
-				getLinksFromResponse = function (response) {
-					return expectedLinks;
+		it("should return links from getLinksFromResponse", function () {
+			var linksReturned = [
+					{uri: "a", location: 10},
+					{uri: "b", location: 20},
+					{uri: "a", location: 30}
+				],
+				expectedLinks = [
+					{uri: 'a', locations: [10, 30], rel: [], rev: []},
+					{uri: 'b', locations: [20], rel: [], rev: []}
+				],
+				getLinksFromResponse = function () {
+					return linksReturned;
 				},
 				responseParser = responseParserBase({}, {getLinksFromResponse: getLinksFromResponse}),
 				actualLinks = responseParser.getLinks();
@@ -18,7 +26,7 @@ describe("ResponseParserBase", function () {
 		
 		it("should call getLinksFromResponse only once", function () {
 			var callCount = 0,
-				getLinksFromResponse = function (response) {
+				getLinksFromResponse = function () {
 					callCount += 1;
 					return [];
 				},
