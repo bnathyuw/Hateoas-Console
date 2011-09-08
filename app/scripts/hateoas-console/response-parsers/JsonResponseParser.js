@@ -13,8 +13,12 @@ HATEOAS_CONSOLE.responseParsers.jsonResponseParser = function JsonResponseParser
 			var links = [];
 
 			JSON.parse(response, function (key, value) {
-				if (key === "href") {
+				if (key === "href" || key === "link" || key === "src") {
 					links.push({uri: value});
+				} else if (key === "hrefs" || key === "links" || key === "srcs") {
+					value.forEach(function (v) {
+						links.push({uri: v});
+					});
 				}
 				return value;
 			});
