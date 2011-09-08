@@ -12,7 +12,8 @@ HATEOAS_CONSOLE.responseParsers.responseParserFactory = function XmlParserFactor
 		constructors = {
 			xml: HATEOAS_CONSOLE.responseParsers.xmlResponseParser,
 			json: HATEOAS_CONSOLE.responseParsers.jsonResponseParser,
-			"json-p": HATEOAS_CONSOLE.responseParsers.jsonpResponseParser
+			"json-p": HATEOAS_CONSOLE.responseParsers.jsonpResponseParser,
+			html: HATEOAS_CONSOLE.responseParsers.xmlResponseParser
 		},
 
 		create = function (responseType) {

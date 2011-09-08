@@ -39,5 +39,12 @@ describe("ResponseParserFactory", function () {
 			
 			expect(parser.constructor.name).toEqual("JsonpResponseParser");
 		});
+		
+		it("should return jsonpResponseParser for text/html", function () {
+			var factory = responseParserFactory(),
+				parser = factory.create("text/html");
+			
+			expect(parser.constructor.name).toEqual("XmlResponseParser");
+		});
 	});
 });
