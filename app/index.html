@@ -6,10 +6,6 @@
 
 	<link rel="stylesheet" href="main.css"/>
 	
-	<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-	<script src="scripts/hateoas-console/utils.js"></script>
-	<script src="scripts/hateoas-console/main.js"></script>
-	
 </head>
 	
 <body>
@@ -22,7 +18,7 @@
 	   name="url" 
 	   placeholder="Start URL" 
 	   required="required"
-	   value="http://localhost/hateoas-console/" />
+	   value="/" />
 	   
 <select name="verb">
 	<option>GET</option>
@@ -55,6 +51,16 @@
 <footer>
 	<p>Written by Matthew Butt</p>
 </footer>
+
+<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+<script src="scripts/hateoas-console/utils.js"></script>
+<script src="scripts/hateoas-console/main.js"></script>
+<script src="scripts/hateoas-console/response-parsers/ResponseParserBase.js"></script>
+<script src="scripts/hateoas-console/response-parsers/JsonpResponseParser.js"></script>
+<script src="scripts/hateoas-console/response-parsers/XmlResponseParser.js"></script>
+<script src="scripts/hateoas-console/response-parsers/JsonResponseParser.js"></script>
+<script src="scripts/hateoas-console/response-parsers/ResponseParserFactory.js"></script>
+
 
 </body>
 
