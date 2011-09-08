@@ -16,10 +16,10 @@ HATEOAS_CONSOLE.responseParsers.responseParserFactory = function XmlParserFactor
 			html: HATEOAS_CONSOLE.responseParsers.xmlResponseParser
 		},
 
-		create = function (responseType) {
+		create = function (responseType, spec) {
 			var	responseFormat = responseType.split(/[\/\+]/).pop(),
 				ctor = constructors[responseFormat];
-			return ctor();
+			return ctor(spec);
 		};
 	
 	that.create = create;
