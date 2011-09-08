@@ -1,5 +1,4 @@
 ﻿/*global HATEOAS_CONSOLE, responseParserBase: false */
-/*jslint regexp: true */
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
@@ -11,22 +10,14 @@ HATEOAS_CONSOLE.responseParsers.jsonResponseParser = function JsonResponseParser
 	var that,
 		
 		getLinksFromResponse = function (response) {
-			var links = [],
-				parsedResponse = JSON.parse(response),
-				c,
-				walkObject = function walkObject (obj) {
-					for (c in obj) {
-						if (obj.hasOwnProperty(c)) {
-							if(c === "href") {
-								links.push({uri: obj[c]});
-							} else {
-								walkObject(obj[c]);
-							}
-						}
-					}				
-				};
-				
-			walkObject(parsedResponse);
+			var links = [];
+
+			JSON.parse(response, function (key, value) {
+				if (key === "href") {
+					links.push({uri: value});
+				}
+				return value;
+			});
 			
 			return links;
 		};

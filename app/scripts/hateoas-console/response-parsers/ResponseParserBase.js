@@ -1,5 +1,4 @@
 ﻿/*global HATEOAS_CONSOLE */
-/*jslint regexp: true */
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
