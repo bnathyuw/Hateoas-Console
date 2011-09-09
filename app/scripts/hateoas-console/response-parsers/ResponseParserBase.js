@@ -8,6 +8,30 @@ HATEOAS_CONSOLE.responseParsers.responseParserBase = function ResponseParserBase
 	my = my || {};
 	
 	var that = {},
+	
+		compareOrigin = function (requestUri, uri) {
+			var uriParser = HATEOAS_CONSOLE.uriParser.uriParser(),
+				parsedRequestUri,
+				parsedLinkUri;
+			
+			parsedRequestUri = uriParser.parse(requestUri);
+			
+			if (!parsedRequestUri) {
+				return false;
+			}
+			
+			parsedLinkUri = uriParser.parse(uri);
+			
+			// TODO: deal with schemeless URIs
+			
+			if (!parsedLinkUri) {
+				return false;
+			}
+			
+			return parsedRequestUri.scheme === parsedLinkUri.scheme &&
+				parsedRequestUri.authority === parsedLinkUri.authority;
+			
+		},
 		
 		findOrCreateLink = function (uri) {
 			var link,
@@ -18,7 +42,12 @@ HATEOAS_CONSOLE.responseParsers.responseParserBase = function ResponseParserBase
 					return my.links[i];
 				}
 			}
-			link = {uri: uri, locations: []};
+			
+			link = {
+				uri: uri, 
+				locations: [], 
+				hasSameOrigin: compareOrigin(spec.uri, uri)
+			};
 			my.links.push(link);
 			return link;
 		},

@@ -46,7 +46,7 @@
 				return;
 			}
 			
-			table = $("<table><thead><tr><td>Link</td><td>Rel</td><td>Rev</td></tr></thead></table>");
+			table = $("<table><thead><tr><td>Link</td><td>Rel</td><td>Rev</td><td>Has Same Origin</td></tr></thead></table>");
 			
 			links.forEach(function (link) {
 				tr = $("<tr>");
@@ -65,6 +65,10 @@
 					text(link.rev.toString());
 				tr.append(td);
 				
+				td = $("<td>").
+					text(link.hasSameOrigin.toString());
+				tr.append(td);
+				
 				table.append(tr);
 			});
 			
@@ -81,7 +85,7 @@
 			responseText += "\n" + jqXHR.getAllResponseHeaders();
 			if (jqXHR.responseText !== undefined) {
 				responseText += "\n\n" + jqXHR.responseText;
-				responseParser = responseParserFactory.create(contentType, {response: jqXHR.responseText});
+				responseParser = responseParserFactory.create(contentType, {response: jqXHR.responseText, uri: settings.url});
 				links = responseParser.getLinks();
 				
 				writeLinks(links);

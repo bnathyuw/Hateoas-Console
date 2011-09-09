@@ -76,7 +76,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
 			return instance;
 		}
 		
-		var hierarchicalPartRegex = /^\/\/(?:([^:]*):([^@]*)@)?(([^:]*)(?::([0-9]*))?)(?:\/(.*))?$/,
+		var hierarchicalPartRegex = /^\/\/(?:([^:]*):([^@]*)@)?(([^\/:]*)(?::([0-9]*))?)(?:\/(.*))?$/,
 			parse = function (hierarchicalPart) {
 				var match = hierarchicalPartRegex.exec(hierarchicalPart),
 					parts;

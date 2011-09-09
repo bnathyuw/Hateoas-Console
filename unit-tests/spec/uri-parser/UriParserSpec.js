@@ -66,6 +66,15 @@ describe("UriParser", function () {
 			expect(parsedUri.port).toEqual(80);
 		});
 		
+		it("should return correct hierarchical subparts for a simple http url", function () {
+			var parsedUri = parser.parse("https://localhost/foo");
+			
+			expect(parsedUri.authority).toEqual("localhost");
+			expect(parsedUri.path).toEqual("foo");
+			expect(parsedUri.host).toEqual("localhost");
+			expect(parsedUri.port.toString()).toEqual(NaN.toString());
+		});
+		
 		it("should return correct hierarchical subparts for https", function () {
 			var parsedUri = parser.parse("https://that.place.com:80/foo/bar/goo");
 			
