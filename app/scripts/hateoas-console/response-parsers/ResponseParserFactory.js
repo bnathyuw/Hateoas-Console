@@ -2,36 +2,46 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.responseParserFactory = function ResponseParserFactory() {
-	"use strict";
+(function () {
 
-	var that = {},
-				
-		constructors = {
-			xml: HATEOAS_CONSOLE.responseParsers.xmlResponseParser,
-			json: HATEOAS_CONSOLE.responseParsers.jsonResponseParser,
-			"json-p": HATEOAS_CONSOLE.responseParsers.jsonpResponseParser,
-			html: HATEOAS_CONSOLE.responseParsers.xmlResponseParser
-		},
+	var instance;
 
-		create = function (contentType, spec) {
-			var	mimeType = contentType.split(";").shift(),
-				responseFormat = mimeType.split(/[\/\+]/).pop(),
-				ctor = constructors[responseFormat];
+	HATEOAS_CONSOLE.responseParsers.responseParserFactory = function ResponseParserFactory() {
+		"use strict";
+		
+		if (instance !== undefined) {
+			return instance;
+		}
+
+		var constructors = {
+				xml: HATEOAS_CONSOLE.responseParsers.xmlResponseParser,
+				json: HATEOAS_CONSOLE.responseParsers.jsonResponseParser,
+				"json-p": HATEOAS_CONSOLE.responseParsers.jsonpResponseParser,
+				html: HATEOAS_CONSOLE.responseParsers.xmlResponseParser
+			},
+
+			create = function (contentType, spec) {
+				var	mimeType = contentType.split(";").shift(),
+					responseFormat = mimeType.split(/[\/\+]/).pop(),
+					ctor = constructors[responseFormat];
 			
-			if (ctor === undefined) {
-				throw { 
-					name: "Constructor Not Found",
-					message: "No constructor exists for type " + contentType
-				};
-			}
+				if (ctor === undefined) {
+					throw { 
+						name: "Constructor Not Found",
+						message: "No constructor exists for type " + contentType
+					};
+				}
 			
-			return ctor(spec);
-		};
+				return ctor(spec);
+			};
+		
+		instance = {
+			create: create
+		}
+		
+		instance.constructor = ResponseParserFactory;
 	
-	that.create = create;
+		return instance;
+	};
 	
-	that.constructor = ResponseParserFactory;
-	
-	return that;
-};
+}());

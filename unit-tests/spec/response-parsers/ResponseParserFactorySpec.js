@@ -4,6 +4,13 @@ describe("ResponseParserFactory", function () {
 	"use strict";	
 	var responseParserFactory = HATEOAS_CONSOLE.responseParsers.responseParserFactory;
 	
+	it("should be a singleton", function () {
+		var factory1 = responseParserFactory(),
+			factory2 = responseParserFactory();
+		
+		expect(factory1 === factory2).toEqual(true);
+	});
+	
 	describe("getParser", function () {
 		it("should return xmlResponseParser for text/xml", function () {
 			var factory = responseParserFactory(),
