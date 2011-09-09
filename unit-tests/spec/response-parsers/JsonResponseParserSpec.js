@@ -45,6 +45,27 @@ describe("JsonResponseParser", function () {
 			expect(links[0].uri).toEqual(response.src);
 		});
 		
+		it("should identify a URI from a key ending in url", function () {
+			var response = {
+					"my-url": "http://localhost/bar"	
+				},
+				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				links = parser.getLinks();
+			
+			expect(links[0].uri).toEqual(response["my-url"]);
+		});
+		
+		it("should identify a URI from a key ending in uri", function () {
+			var response = {
+					"my-uri": "http://localhost/bar"	
+				},
+				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				links = parser.getLinks();
+			
+			expect(links[0].uri).toEqual(response["my-uri"]);
+		});
+		
+		
 		it("should identify a deeply nested URI", function () {
 			var response = {
 					foo: {

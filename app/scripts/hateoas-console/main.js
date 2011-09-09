@@ -89,7 +89,6 @@
 			$(this).text(responseText);
 			
 			html = $(this).html();
-			$(this).html(addLinks(html));
 		},
 
 		doGetRequest = function () {

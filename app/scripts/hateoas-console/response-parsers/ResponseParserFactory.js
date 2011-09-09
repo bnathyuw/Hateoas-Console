@@ -16,9 +16,18 @@ HATEOAS_CONSOLE.responseParsers.responseParserFactory = function XmlParserFactor
 			html: HATEOAS_CONSOLE.responseParsers.xmlResponseParser
 		},
 
-		create = function (responseType, spec) {
-			var	responseFormat = responseType.split(/[\/\+]/).pop(),
+		create = function (contentType, spec) {
+			var	mimeType = contentType.split(";").shift(),
+				responseFormat = mimeType.split(/[\/\+]/).pop(),
 				ctor = constructors[responseFormat];
+			
+			if (ctor === undefined) {
+				throw { 
+					name: "Constructor Not Found",
+					message: "No constructor exists for type " + contentType
+				};
+			}
+			
 			return ctor(spec);
 		};
 	

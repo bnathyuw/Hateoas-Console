@@ -8,14 +8,18 @@ HATEOAS_CONSOLE.responseParsers.jsonResponseParser = function JsonResponseParser
 	my = my || {};
 	
 	var that,
+	
+		singleLinkRegExp = /^(?:href|link|src|\S*url|\S*uri)$/g,
+		
+		multipleLinkRegExp = /^(?:href|link|src|\S*url|\S*uri)s$/g,
 		
 		getLinksFromResponse = function (response) {
 			var links = [];
 
 			JSON.parse(response, function (key, value) {
-				if (key === "href" || key === "link" || key === "src") {
+				if (singleLinkRegExp.test(key)) {
 					links.push({uri: value});
-				} else if (key === "hrefs" || key === "links" || key === "srcs") {
+				} else if (multipleLinkRegExp.test(key)) {
 					value.forEach(function (v) {
 						links.push({uri: v});
 					});

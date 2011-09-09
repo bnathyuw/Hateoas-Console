@@ -37,6 +37,22 @@ describe("XmlResponseParser", function () {
 			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
+		it("should identify a URI in an attribute ending in url", function () {
+			var expectedLink = "http://localhost/bar",
+				links = xmlResponseParser({response: "<response><foo my-url=\"" + expectedLink + "\" /></response>"}).
+					getLinks();
+			
+			expect(links[0].uri).toEqual(expectedLink);
+		});
+		
+		it("should identify a URI in an attribute ending in uri", function () {
+			var expectedLink = "http://localhost/bar",
+				links = xmlResponseParser({response: "<response><foo my-uri=\"" + expectedLink + "\" /></response>"}).
+					getLinks();
+			
+			expect(links[0].uri).toEqual(expectedLink);
+		});
+		
 		it("should identify a URI in an href element", function () {
 			var expectedLink = "http://localhost/bar",
 				links = xmlResponseParser({response: "<response><href>" + expectedLink + "</href></response>"}).
@@ -56,6 +72,23 @@ describe("XmlResponseParser", function () {
 		it("should identify a URI in a link element", function () {
 			var expectedLink = "http://localhost/bar",
 				links = xmlResponseParser({response: "<response><link>" + expectedLink + "</link></response>"}).
+					getLinks();
+			
+			expect(links[0].uri).toEqual(expectedLink);
+		});
+		
+		it("should identify a URI in an element ending in url", function () {
+			var expectedLink = "http://localhost/bar",
+				links = xmlResponseParser({response: "<response><my-url>" + expectedLink + "</my-url></response>"}).
+					getLinks();
+			
+			expect(links[0].uri).toEqual(expectedLink);
+		});
+
+
+		it("should identify a URI in an element ending in uri", function () {
+			var expectedLink = "http://localhost/bar",
+				links = xmlResponseParser({response: "<response><my-uri>" + expectedLink + "</my-uri></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);

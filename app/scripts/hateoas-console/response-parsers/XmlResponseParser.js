@@ -23,7 +23,7 @@ HATEOAS_CONSOLE.responseParsers.xmlResponseParser = function XmlResponseParser(s
 		
 		getLinksFromResponse = function (response) {
 			var links = [],
-				searchRegex = /(<[^>]+(?:href|src|link)="([^"]+)"[^>]*>)|(?:(<(?:href|src|link)[^>]*>)([^<]+)<\/(?:href|src|link)>)/g,
+				searchRegex = /(<[^>]+(?:href|src|link|\S*url|\S*uri)="([^"]+)"[^>]*>)|(?:(<(?:href|src|link|\S*url|\S*uri)[^>]*>)([^<]+)<\/(?:href|src|link|\S*url|\S*uri)>)/g,
 				match,
 				tag;
 

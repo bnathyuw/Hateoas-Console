@@ -46,5 +46,23 @@ describe("ResponseParserFactory", function () {
 			
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
+		
+		it("should be able to cope with charset declarations in the content type", function () {
+			var factory = responseParserFactory(),
+				parser = factory.create("application/xml; charset=utf-8");
+				
+			expect(parser.constructor.name).toEqual("XmlResponseParser");
+		});
+		
+		it("should throw an appropriate error if no constructor can be found", function () {
+			var factory = responseParserFactory();
+				
+			expect(function () {
+				factory.create("application/foo");
+			}).toThrow({
+				name: "Constructor Not Found",
+				message: "No constructor exists for type application/foo"
+			});
+		});
 	});
 });
