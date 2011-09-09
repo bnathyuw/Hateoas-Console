@@ -2,11 +2,9 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.responseParserFactory = function XmlParserFactory(spec, my) {
+HATEOAS_CONSOLE.responseParsers.responseParserFactory = function ResponseParserFactory() {
 	"use strict";
 
-	my = my || {};
-	
 	var that = {},
 				
 		constructors = {
@@ -33,7 +31,7 @@ HATEOAS_CONSOLE.responseParsers.responseParserFactory = function XmlParserFactor
 	
 	that.create = create;
 	
-	that.constructor = XmlParserFactory;
+	that.constructor = ResponseParserFactory;
 	
 	return that;
 };
