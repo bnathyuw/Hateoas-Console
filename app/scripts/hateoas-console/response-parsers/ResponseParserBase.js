@@ -15,7 +15,7 @@ HATEOAS_CONSOLE.responseParsers.responseParserBase = function ResponseParserBase
 		
 		parsedRequestUri = uriParser.parse(spec.uri),
 	
-		compareOrigin = function (requestUri, uri) {
+		compareOrigin = function (uri) {
 			var parsedLinkUri;
 			
 			if (!parsedRequestUri) {
@@ -48,7 +48,7 @@ HATEOAS_CONSOLE.responseParsers.responseParserBase = function ResponseParserBase
 			link = {
 				uri: uri, 
 				locations: [], 
-				hasSameOrigin: compareOrigin(spec.uri, uri)
+				hasSameOrigin: compareOrigin(uri)
 			};
 			my.links.push(link);
 			return link;
