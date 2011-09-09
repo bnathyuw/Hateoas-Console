@@ -25,7 +25,9 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
 				var match = uriRegex.exec(uri),
 					parts,
 					hpp,
-					hppConstructor;
+					hppConstructor,
+					extraParts,
+					c;
 				
 				if (!match) {
 					return;
@@ -42,7 +44,12 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
 				
 				if (hppConstructor) {
 					hpp = hppConstructor();
-					hpp.parse(parts);
+					extraParts = hpp.parse(parts.hierarchicalPart);
+					for (c in extraParts) {
+						if (extraParts.hasOwnProperty(c)) {
+							parts[c] = extraParts[c];
+						}
+					}
 				}
 					
 				return parts;
@@ -70,19 +77,24 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
 		}
 		
 		var hierarchicalPartRegex = /^\/\/(?:([^:]*):([^@]*)@)?(([^:]*)(?::([0-9]*))?)(?:\/(.*))?$/,
-			parse = function (parts) {
-				var match = hierarchicalPartRegex.exec(parts.hierarchicalPart);
+			parse = function (hierarchicalPart) {
+				var match = hierarchicalPartRegex.exec(hierarchicalPart),
+					parts;
 				
 				if (!match) {
 					return;
 				}
 				
-				parts.username = match[1];
-				parts.password = match[2];
-				parts.authority = match[3];
-				parts.host = match[4];
-				parts.port = +match[5];
-				parts.path = match[6];
+				parts = {
+					username: match[1],
+					password: match[2],
+					authority: match[3],
+					host: match[4],
+					port: +match[5],
+					path: match[6]
+				};
+				
+				return parts;
 			};
 		
 		instance = {
