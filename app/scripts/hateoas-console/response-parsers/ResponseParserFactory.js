@@ -3,11 +3,11 @@
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
 (function () {
+	"use strict";
 
 	var instance;
 
 	HATEOAS_CONSOLE.responseParsers.responseParserFactory = function ResponseParserFactory() {
-		"use strict";
 		
 		if (instance !== undefined) {
 			return instance;
@@ -37,7 +37,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 		
 		instance = {
 			create: create
-		}
+		};
 		
 		instance.constructor = ResponseParserFactory;
 	

@@ -11,6 +11,12 @@ describe("ResponseParserFactory", function () {
 		expect(factory1 === factory2).toEqual(true);
 	});
 	
+	it("should identify itself as ResponseParserFactory", function () {
+		var factory = responseParserFactory();
+		
+		expect(factory.constructor.name).toEqual("ResponseParserFactory");
+	});
+	
 	describe("getParser", function () {
 		it("should return xmlResponseParser for text/xml", function () {
 			var factory = responseParserFactory(),

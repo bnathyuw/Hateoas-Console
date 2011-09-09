@@ -4,6 +4,12 @@ describe("XmlResponseParser", function () {
 	"use strict";
 	var xmlResponseParser = HATEOAS_CONSOLE.responseParsers.xmlResponseParser;
 	
+	it("should identify itself as XmlResponseParser", function () {
+		var parser = xmlResponseParser();
+		
+		expect(parser.constructor.name).toEqual("XmlResponseParser");
+	});
+	
 	describe("getLinks", function () {
 		
 		it("should return an empty array if there are no links in the response", function () {

@@ -4,6 +4,12 @@ describe("JsonResponseParser", function () {
 	"use strict";
 	var jsonResponseParser = HATEOAS_CONSOLE.responseParsers.jsonResponseParser;
 	
+	it("should identify itself as JsonResponseParser", function () {
+		var parser = jsonResponseParser();
+		
+		expect(parser.constructor.name).toEqual("JsonResponseParser");
+	});
+	
 	describe("getLinks", function () {
 	
 		it("should return an empty array if there are no links in the response", function () {

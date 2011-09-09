@@ -4,6 +4,12 @@ describe("ResponseParserBase", function () {
 	"use strict";
 	var responseParserBase = HATEOAS_CONSOLE.responseParsers.responseParserBase;
 	
+	it("should identify itself as ResponseParserBase", function () {
+		var parser = responseParserBase();
+		
+		expect(parser.constructor.name).toEqual("ResponseParserBase");
+	});
+	
 	describe("getLinks", function () {
 		it("should return links from getLinksFromResponse", function () {
 			var linksReturned = [
