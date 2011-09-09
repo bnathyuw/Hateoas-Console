@@ -9,9 +9,9 @@ HATEOAS_CONSOLE.responseParsers.jsonResponseParser = function JsonResponseParser
 	
 	var that,
 	
-		singleLinkRegExp = /^(?:href|link|src|\S*url|\S*uri)$/g,
+		singleLinkRegExp = /^\S*(?:href|link|src|url|uri)$/g,
 		
-		multipleLinkRegExp = /^(?:href|link|src|\S*url|\S*uri)s$/g,
+		multipleLinkRegExp = /^\S*(?:href|link|src|url|uri)s$/g,
 		
 		getLinksFromResponse = function (response) {
 			var links = [];
