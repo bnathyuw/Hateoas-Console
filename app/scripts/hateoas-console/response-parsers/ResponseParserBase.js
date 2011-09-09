@@ -4,17 +4,19 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
 HATEOAS_CONSOLE.responseParsers.responseParserBase = function ResponseParserBase(spec, my) {
 	"use strict";
+	
+	spec = spec || {};
 
 	my = my || {};
 	
 	var that = {},
 	
+		uriParser = HATEOAS_CONSOLE.uriParser.uriParser(),
+		
+		parsedRequestUri = uriParser.parse(spec.uri),
+	
 		compareOrigin = function (requestUri, uri) {
-			var uriParser = HATEOAS_CONSOLE.uriParser.uriParser(),
-				parsedRequestUri,
-				parsedLinkUri;
-			
-			parsedRequestUri = uriParser.parse(requestUri);
+			var parsedLinkUri;
 			
 			if (!parsedRequestUri) {
 				return false;
