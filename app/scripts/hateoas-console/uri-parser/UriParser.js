@@ -14,14 +14,21 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
 			return instance;
 		}
 		
-		var uriRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
+		var memo = {},
+			uriRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
 			hppConstructors = {
 				http: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser,
 				https: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser,
 				ftp: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser,
 				ftps: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser
 			},
+			
 			parse = function (uri) {
+				
+				if (memo[uri]) {
+					return memo[uri];
+				}
+				
 				var match = uriRegex.exec(uri),
 					parts,
 					hpp,
@@ -51,8 +58,10 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
 						}
 					}
 				}
+				
+				memo[uri] = parts;
 					
-				return parts;
+				return memo[uri];
 			};
 	
 		instance = {
