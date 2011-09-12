@@ -2,18 +2,18 @@
 
 describe("XmlResponseParser", function () {
 	"use strict";
-	var xmlResponseParser = HATEOAS_CONSOLE.responseParsers.xmlResponseParser;
+	var xmlLinkFinder = HATEOAS_CONSOLE.responseParsers.xmlLinkFinder;
 	
-	it("should identify itself as XmlResponseParser", function () {
-		var parser = xmlResponseParser();
+	it("should identify itself as XmlLinkFinder", function () {
+		var parser = xmlLinkFinder();
 		
-		expect(parser.constructor.name).toEqual("XmlResponseParser");
+		expect(parser.constructor.name).toEqual("XmlLinkFinder");
 	});
 	
 	describe("getLinks", function () {
 		
 		it("should return an empty array if there are no links in the response", function () {
-			var parser = xmlResponseParser({response: "<response></response>"}),
+			var parser = xmlLinkFinder({response: "<response></response>"}),
 				links = parser.getLinks();
 			
 			expect(toString.call(links)).toEqual("[object Array]");
@@ -21,7 +21,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in an href attribute", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo href=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><foo href=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -29,7 +29,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in a src attribute", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo src=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><foo src=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -37,7 +37,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in a link attribute", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo link=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><foo link=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -45,7 +45,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in an attribute ending in url", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo my-url=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><foo my-url=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -53,7 +53,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in an attribute ending in uri", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo my-uri=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><foo my-uri=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -61,7 +61,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in an href element", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><href>" + expectedLink + "</href></response>"}).
+				links = xmlLinkFinder({response: "<response><href>" + expectedLink + "</href></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -69,7 +69,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in a src element", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><src>" + expectedLink + "</src></response>"}).
+				links = xmlLinkFinder({response: "<response><src>" + expectedLink + "</src></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -77,7 +77,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in a link element", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><link>" + expectedLink + "</link></response>"}).
+				links = xmlLinkFinder({response: "<response><link>" + expectedLink + "</link></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -85,7 +85,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify a URI in an element ending in url", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><my-url>" + expectedLink + "</my-url></response>"}).
+				links = xmlLinkFinder({response: "<response><my-url>" + expectedLink + "</my-url></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -94,7 +94,7 @@ describe("XmlResponseParser", function () {
 
 		it("should identify a URI in an element ending in uri", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><my-uri>" + expectedLink + "</my-uri></response>"}).
+				links = xmlLinkFinder({response: "<response><my-uri>" + expectedLink + "</my-uri></response>"}).
 					getLinks();
 			
 			expect(links[0].uri).toEqual(expectedLink);
@@ -102,7 +102,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify several URIs when they are present", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo href=\"" + expectedLink + "\" />" +
+				links = xmlLinkFinder({response: "<response><foo href=\"" + expectedLink + "\" />" +
 						"<bar src=\"" + expectedLink + "1\" />" +
 						"<href>" + expectedLink + "2</href>" +
 						"<src>" + expectedLink + "3</src></response>"}).
@@ -117,7 +117,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should identify several URIs in correct order", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo href=\"" + expectedLink + "\" />" +
+				links = xmlLinkFinder({response: "<response><foo href=\"" + expectedLink + "\" />" +
 						"<href>" + expectedLink + "1</href>" +
 						"<bar src=\"" + expectedLink + "2\" />" +
 						"<src>" + expectedLink + "3</src></response>"}).
@@ -132,7 +132,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should tolerate additional attributes in containing element", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><href rel=\"me\">" + expectedLink + "</href></response>"}).
+				links = xmlLinkFinder({response: "<response><href rel=\"me\">" + expectedLink + "</href></response>"}).
 					getLinks();
 				
 			expect(links[0].uri).toEqual(expectedLink);
@@ -140,7 +140,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should report duplicate links once", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links.length).toEqual(1);
@@ -148,7 +148,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should report all locations of duplicate links", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links[0].locations.length).toEqual(2);
@@ -158,7 +158,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should report locations of duplicate links in correct order", function () {
 			var expectedLink = "http://localhost/bar",
-				links = xmlResponseParser({response: "<response><href>" + expectedLink + "</href><foo href=\"" + expectedLink + "\" /></response>"}).
+				links = xmlLinkFinder({response: "<response><href>" + expectedLink + "</href><foo href=\"" + expectedLink + "\" /></response>"}).
 					getLinks();
 			
 			expect(links[0].locations.length).toEqual(2);
@@ -168,7 +168,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should add rel attribute from tag with href attribute", function () {
 			var expectedRel = "me",
-				links = xmlResponseParser({response: "<response><foo rel=\"" + expectedRel + "\" href=\"http://localhost/bar\"/></response>"}).
+				links = xmlLinkFinder({response: "<response><foo rel=\"" + expectedRel + "\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
 			expect(links[0].rel).toContain(expectedRel);
@@ -176,14 +176,14 @@ describe("XmlResponseParser", function () {
 		
 		it("should add rel attribute from href tag", function () {
 			var expectedRel = "me",
-				links = xmlResponseParser({response: "<response><href rel=\"" + expectedRel + "\">http://localhost/bar\"</href></response>"}).
+				links = xmlLinkFinder({response: "<response><href rel=\"" + expectedRel + "\">http://localhost/bar\"</href></response>"}).
 					getLinks();
 				
 			expect(links[0].rel).toContain(expectedRel);
 		});
 		
 		it("should add several rel attribute values when appropriate", function () {
-			var links = xmlResponseParser({response: "<response><foo rel=\"me you him\" href=\"http://localhost/bar\"/></response>"}).
+			var links = xmlLinkFinder({response: "<response><foo rel=\"me you him\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
 			expect(links[0].rel).toContain("me");
@@ -192,7 +192,7 @@ describe("XmlResponseParser", function () {
 		});
 		
 		it("should add all rel attribute values when a link appears twice", function () {
-			var links = xmlResponseParser({response: "<response><foo rel=\"me you him\" href=\"http://localhost/bar\"/>" + 
+			var links = xmlLinkFinder({response: "<response><foo rel=\"me you him\" href=\"http://localhost/bar\"/>" + 
 						"<foo rel=\"her it\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
@@ -204,7 +204,7 @@ describe("XmlResponseParser", function () {
 		});
 		
 		it("should not duplicate rel attribute values", function () {
-			var links = xmlResponseParser({response: "<response><foo rel=\"me\" href=\"http://localhost/bar\"/>" + 
+			var links = xmlLinkFinder({response: "<response><foo rel=\"me\" href=\"http://localhost/bar\"/>" + 
 						"<foo rel=\"me\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
@@ -213,7 +213,7 @@ describe("XmlResponseParser", function () {
 		});
 		
 		it("should not duplicate rel attribute values even from a single element", function () {
-			var links = xmlResponseParser({response: "<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>"}).
+			var links = xmlLinkFinder({response: "<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
 			expect(links[0].rel).toContain("me");
@@ -222,7 +222,7 @@ describe("XmlResponseParser", function () {
 		
 		it("should add rev attribute from tag with href attribute", function () {
 			var expectedRev = "me",
-				links = xmlResponseParser({response: "<response><foo rev=\"" + expectedRev + "\" href=\"http://localhost/bar\"/></response>"}).
+				links = xmlLinkFinder({response: "<response><foo rev=\"" + expectedRev + "\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
 			expect(links[0].rev).toContain(expectedRev);
@@ -230,14 +230,14 @@ describe("XmlResponseParser", function () {
 		
 		it("should add rev attribute from href tag", function () {
 			var expectedRev = "me",
-				links = xmlResponseParser({response: "<response><href rev=\"" + expectedRev + "\">http://localhost/bar\"</href></response>"}).
+				links = xmlLinkFinder({response: "<response><href rev=\"" + expectedRev + "\">http://localhost/bar\"</href></response>"}).
 					getLinks();
 				
 			expect(links[0].rev).toContain(expectedRev);
 		});
 		
 		it("should add several rev attribute values when appropriate", function () {
-			var links = xmlResponseParser({response: "<response><foo rev=\"me you him\" href=\"http://localhost/bar\"/></response>"}).
+			var links = xmlLinkFinder({response: "<response><foo rev=\"me you him\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
 			expect(links[0].rev).toContain("me");
@@ -246,7 +246,7 @@ describe("XmlResponseParser", function () {
 		});
 		
 		it("should add all rev attribute values when a link appears twice", function () {
-			var links = xmlResponseParser({response: "<response><foo rev=\"me you him\" href=\"http://localhost/bar\"/>" + 
+			var links = xmlLinkFinder({response: "<response><foo rev=\"me you him\" href=\"http://localhost/bar\"/>" + 
 						"<foo rev=\"her it\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
@@ -258,7 +258,7 @@ describe("XmlResponseParser", function () {
 		});
 		
 		it("should not duplicate rev attribute values", function () {
-			var links = xmlResponseParser({response: "<response><foo rev=\"me\" href=\"http://localhost/bar\"/>" + 
+			var links = xmlLinkFinder({response: "<response><foo rev=\"me\" href=\"http://localhost/bar\"/>" + 
 						"<foo rev=\"me\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
@@ -267,7 +267,7 @@ describe("XmlResponseParser", function () {
 		});
 		
 		it("should not duplicate rel attribute values even from a single element", function () {
-			var links = xmlResponseParser({response: "<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>"}).
+			var links = xmlLinkFinder({response: "<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
 			expect(links[0].rel).toContain("me");

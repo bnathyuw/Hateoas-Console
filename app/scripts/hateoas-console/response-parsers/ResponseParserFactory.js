@@ -14,10 +14,10 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 		}
 
 		var constructors = {
-				xml: HATEOAS_CONSOLE.responseParsers.xmlResponseParser,
-				json: HATEOAS_CONSOLE.responseParsers.jsonResponseParser,
-				"json-p": HATEOAS_CONSOLE.responseParsers.jsonpResponseParser,
-				html: HATEOAS_CONSOLE.responseParsers.xmlResponseParser
+				xml: HATEOAS_CONSOLE.responseParsers.xmlLinkFinder,
+				json: HATEOAS_CONSOLE.responseParsers.jsonLinkFinder,
+				"json-p": HATEOAS_CONSOLE.responseParsers.jsonpLinkFinder,
+				html: HATEOAS_CONSOLE.responseParsers.xmlLinkFinder
 			},
 
 			create = function (contentType, spec) {

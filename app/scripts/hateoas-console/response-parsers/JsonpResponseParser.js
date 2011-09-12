@@ -3,7 +3,7 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.jsonpResponseParser = function JsonpResponseParser(spec, my) {
+HATEOAS_CONSOLE.responseParsers.jsonpLinkFinder = function JsonpLinkFinder(spec, my) {
 	"use strict";
 
 	my = my || {};
@@ -12,7 +12,7 @@ HATEOAS_CONSOLE.responseParsers.jsonpResponseParser = function JsonpResponsePars
 	
 	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParserBase(spec, my));
 		
-	that.constructor = JsonpResponseParser;
+	that.constructor = JsonpLinkFinder;
 	
 	return that;
 };

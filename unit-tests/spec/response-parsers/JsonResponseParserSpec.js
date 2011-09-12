@@ -2,19 +2,18 @@
 
 describe("JsonResponseParser", function () {
 	"use strict";
-	var jsonResponseParser = HATEOAS_CONSOLE.responseParsers.jsonResponseParser;
+	var jsonLinkFinder = HATEOAS_CONSOLE.responseParsers.jsonLinkFinder;
 	
-	it("should identify itself as JsonResponseParser", function () {
-		var parser = jsonResponseParser();
-		
-		expect(parser.constructor.name).toEqual("JsonResponseParser");
+	it("should identify itself as JsonLinkFinder", function () {
+		var parser = jsonLinkFinder();
+		expect(parser.constructor.name).toEqual("JsonLinkFinder");
 	});
 	
 	describe("getLinks", function () {
 	
 		it("should return an empty array if there are no links in the response", function () {
 			var response = {},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 			
 			expect(toString.call(links)).toEqual("[object Array]");
@@ -24,7 +23,7 @@ describe("JsonResponseParser", function () {
 			var response = {
 					href: "http://localhost/bar"	
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 			
 			expect(links[0].uri).toEqual(response.href);
@@ -35,7 +34,7 @@ describe("JsonResponseParser", function () {
 			var response = {
 					link: "http://localhost/bar"	
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 			
 			expect(links[0].uri).toEqual(response.link);
@@ -45,7 +44,7 @@ describe("JsonResponseParser", function () {
 			var response = {
 					src: "http://localhost/bar"	
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 			
 			expect(links[0].uri).toEqual(response.src);
@@ -55,7 +54,7 @@ describe("JsonResponseParser", function () {
 			var response = {
 					"my-url": "http://localhost/bar"	
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 			
 			expect(links[0].uri).toEqual(response["my-url"]);
@@ -65,7 +64,7 @@ describe("JsonResponseParser", function () {
 			var response = {
 					"my-uri": "http://localhost/bar"	
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 			
 			expect(links[0].uri).toEqual(response["my-uri"]);
@@ -80,7 +79,7 @@ describe("JsonResponseParser", function () {
 						}
 					}
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 			
 			expect(links[0].uri).toEqual(response.foo.bar.href);
@@ -95,7 +94,7 @@ describe("JsonResponseParser", function () {
 						src: "http://localhost/bar1"
 					}
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 		
 			expect(links.length).toEqual(2);
@@ -112,7 +111,7 @@ describe("JsonResponseParser", function () {
 						src: "http://localhost/bar"
 					}
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 		
 			expect(links.length).toEqual(1);
@@ -130,7 +129,7 @@ describe("JsonResponseParser", function () {
 						}
 					]
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 		
 			expect(links.length).toEqual(2);
@@ -142,7 +141,7 @@ describe("JsonResponseParser", function () {
 			var response = {
 					hrefs: ["http://localhost/bar", "http://localhost/bar2"]
 				},
-				parser = jsonResponseParser({response: JSON.stringify(response)}),
+				parser = jsonLinkFinder({response: JSON.stringify(response)}),
 				links = parser.getLinks();
 		
 			expect(links.length).toEqual(2);
