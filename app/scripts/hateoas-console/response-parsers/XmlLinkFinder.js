@@ -1,4 +1,4 @@
-﻿/*global HATEOAS_CONSOLE, responseParserBase: false */
+﻿/*global HATEOAS_CONSOLE, responseParser: false */
 /*jslint regexp: true */
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
