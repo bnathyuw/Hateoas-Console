@@ -21,13 +21,13 @@ HATEOAS_CONSOLE.responseParsers.xmlLinkFinder = function XmlLinkFinder(spec, my)
 			return match[1].split(" ");
 		},
 		
-		getLinksFromResponse = function (response) {
+		getLinks = function () {
 			var links = [],
 				searchRegex = /(<[^>]+\s\S*(?:href|src|link|url|uri)="([^"]+)"[^>]*>)|(?:(<(\S*(?:href|src|link|url|uri))[^>]*>)([^<]+)<\/\4>)/g,
 				match,
 				tag;
 
-			while ((match = searchRegex.exec(response)) !== null) {
+			while ((match = searchRegex.exec(spec.response)) !== null) {
 				tag = match[1] || match[3];
 				
 				links.push({
@@ -41,9 +41,9 @@ HATEOAS_CONSOLE.responseParsers.xmlLinkFinder = function XmlLinkFinder(spec, my)
 			return links;
 		};
 	
-	my.getLinksFromResponse = getLinksFromResponse;
-	
-	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParser(spec, my));
+	that = {
+		getLinks: getLinks
+	};
 		
 	that.constructor = XmlLinkFinder;
 	

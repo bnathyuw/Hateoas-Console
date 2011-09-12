@@ -138,34 +138,6 @@ describe("XmlResponseParser", function () {
 			expect(links[0].uri).toEqual(expectedLink);
 		});
 		
-		it("should report duplicate links once", function () {
-			var expectedLink = "http://localhost/bar",
-				links = xmlLinkFinder({response: "<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>"}).
-					getLinks();
-			
-			expect(links.length).toEqual(1);
-		});
-		
-		it("should report all locations of duplicate links", function () {
-			var expectedLink = "http://localhost/bar",
-				links = xmlLinkFinder({response: "<response><foo href=\"" + expectedLink + "\" /><foo href=\"" + expectedLink + "\" /></response>"}).
-					getLinks();
-			
-			expect(links[0].locations.length).toEqual(2);
-			expect(links[0].locations[0]).toEqual(10);
-			expect(links[0].locations[1]).toEqual(45);
-		});
-		
-		it("should report locations of duplicate links in correct order", function () {
-			var expectedLink = "http://localhost/bar",
-				links = xmlLinkFinder({response: "<response><href>" + expectedLink + "</href><foo href=\"" + expectedLink + "\" /></response>"}).
-					getLinks();
-			
-			expect(links[0].locations.length).toEqual(2);
-			expect(links[0].locations[0]).toEqual(10);
-			expect(links[0].locations[1]).toEqual(43);
-		});
-		
 		it("should add rel attribute from tag with href attribute", function () {
 			var expectedRel = "me",
 				links = xmlLinkFinder({response: "<response><foo rel=\"" + expectedRel + "\" href=\"http://localhost/bar\"/></response>"}).
@@ -191,29 +163,9 @@ describe("XmlResponseParser", function () {
 			expect(links[0].rel).toContain("him");
 		});
 		
-		it("should add all rel attribute values when a link appears twice", function () {
-			var links = xmlLinkFinder({response: "<response><foo rel=\"me you him\" href=\"http://localhost/bar\"/>" + 
-						"<foo rel=\"her it\" href=\"http://localhost/bar\"/></response>"}).
-					getLinks();
-				
-			expect(links[0].rel).toContain("me");
-			expect(links[0].rel).toContain("you");
-			expect(links[0].rel).toContain("him");
-			expect(links[0].rel).toContain("her");
-			expect(links[0].rel).toContain("it");
-		});
-		
 		it("should not duplicate rel attribute values", function () {
 			var links = xmlLinkFinder({response: "<response><foo rel=\"me\" href=\"http://localhost/bar\"/>" + 
 						"<foo rel=\"me\" href=\"http://localhost/bar\"/></response>"}).
-					getLinks();
-				
-			expect(links[0].rel).toContain("me");
-			expect(links[0].rel.length).toEqual(1);
-		});
-		
-		it("should not duplicate rel attribute values even from a single element", function () {
-			var links = xmlLinkFinder({response: "<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>"}).
 					getLinks();
 				
 			expect(links[0].rel).toContain("me");
@@ -243,35 +195,6 @@ describe("XmlResponseParser", function () {
 			expect(links[0].rev).toContain("me");
 			expect(links[0].rev).toContain("you");
 			expect(links[0].rev).toContain("him");
-		});
-		
-		it("should add all rev attribute values when a link appears twice", function () {
-			var links = xmlLinkFinder({response: "<response><foo rev=\"me you him\" href=\"http://localhost/bar\"/>" + 
-						"<foo rev=\"her it\" href=\"http://localhost/bar\"/></response>"}).
-					getLinks();
-				
-			expect(links[0].rev).toContain("me");
-			expect(links[0].rev).toContain("you");
-			expect(links[0].rev).toContain("him");
-			expect(links[0].rev).toContain("her");
-			expect(links[0].rev).toContain("it");
-		});
-		
-		it("should not duplicate rev attribute values", function () {
-			var links = xmlLinkFinder({response: "<response><foo rev=\"me\" href=\"http://localhost/bar\"/>" + 
-						"<foo rev=\"me\" href=\"http://localhost/bar\"/></response>"}).
-					getLinks();
-				
-			expect(links[0].rev).toContain("me");
-			expect(links[0].rev.length).toEqual(1);
-		});
-		
-		it("should not duplicate rel attribute values even from a single element", function () {
-			var links = xmlLinkFinder({response: "<response><foo rel=\"me me\" href=\"http://localhost/bar\"/></response>"}).
-					getLinks();
-				
-			expect(links[0].rel).toContain("me");
-			expect(links[0].rel.length).toEqual(1);
 		});
 	});
 });
