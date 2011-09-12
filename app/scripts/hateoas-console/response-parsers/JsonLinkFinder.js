@@ -13,10 +13,10 @@ HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder(spec, m
 		
 		multipleLinkRegExp = /^\S*(?:href|link|src|url|uri)s$/g,
 		
-		getLinksFromResponse = function (response) {
+		getLinks = function () {
 			var links = [];
 
-			JSON.parse(response, function (key, value) {
+			JSON.parse(spec.response, function (key, value) {
 				if (singleLinkRegExp.test(key)) {
 					links.push({uri: value});
 				} else if (multipleLinkRegExp.test(key)) {
@@ -30,9 +30,9 @@ HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder(spec, m
 			return links;
 		};
 	
-	my.getLinksFromResponse = getLinksFromResponse;
-	
-	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParser(spec, my));
+	that = {
+		getLinks: getLinks
+	};
 		
 	that.constructor = JsonLinkFinder;
 	

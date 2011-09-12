@@ -102,22 +102,6 @@ describe("JsonResponseParser", function () {
 			expect(links[1].uri).toEqual(response.bar.src);
 		});
 		
-		it("should not double-count duplicate URIs", function () {
-			var response = {
-					foo: {
-						href: "http://localhost/bar"
-					},
-					bar: {
-						src: "http://localhost/bar"
-					}
-				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
-		
-			expect(links.length).toEqual(1);
-			expect(links[0].uri).toEqual(response.foo.href);
-		});
-		
 		it("should be able to identify links in arrays", function () {
 			var response = {
 					foo: [
