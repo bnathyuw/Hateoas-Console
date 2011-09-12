@@ -5,15 +5,9 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 (function () {
 	"use strict";
 
-	var instance;
-
-	HATEOAS_CONSOLE.responseParsers.linkFinderFactory = function LinkFinderFactory() {
+	var instance,
 		
-		if (instance) {
-			return instance;
-		}
-
-		var constructors = {
+		constructors = {
 				xml: HATEOAS_CONSOLE.responseParsers.xmlLinkFinder,
 				json: HATEOAS_CONSOLE.responseParsers.jsonLinkFinder,
 				"json-p": HATEOAS_CONSOLE.responseParsers.jsonpLinkFinder,
@@ -34,7 +28,13 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 			
 				return ctor(spec);
 			};
+
+	HATEOAS_CONSOLE.responseParsers.linkFinderFactory = function LinkFinderFactory() {
 		
+		if (instance) {
+			return instance;
+		}
+
 		instance = {
 			create: create
 		};
