@@ -2,21 +2,19 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder(spec, my) {
+HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder() {
 	"use strict";
 
-	my = my || {};
-	
 	var that,
 	
 		singleLinkRegExp = /^\S*(?:href|link|src|url|uri)$/g,
 		
 		multipleLinkRegExp = /^\S*(?:href|link|src|url|uri)s$/g,
 		
-		getLinks = function () {
+		getLinks = function (response) {
 			var links = [];
 
-			JSON.parse(spec.response, function (key, value) {
+			JSON.parse(response, function (key, value) {
 				if (singleLinkRegExp.test(key)) {
 					links.push({uri: value});
 				} else if (multipleLinkRegExp.test(key)) {

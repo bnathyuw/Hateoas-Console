@@ -2,13 +2,11 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, my) {
+HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec) {
 	"use strict";
 	
 	spec = spec || {};
 
-	my = my || {};
-	
 	var that = {},
 	
 		response = spec.response || "",
@@ -17,11 +15,13 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, m
 		
 		contentType = spec.contentType || "",
 		
-		linkFinder = spec.linkFinder || HATEOAS_CONSOLE.responseParsers.linkFinderFactory().create(contentType, {response: response}),
+		linkFinder = spec.linkFinder || HATEOAS_CONSOLE.responseParsers.linkFinderFactory().create(contentType),
 	
 		uriParser = spec.uriParser || HATEOAS_CONSOLE.uriParser.uriParser(),
 		
 		parsedRequestUri = uriParser.parse(uri),
+		
+		links,
 	
 		compareOrigin = function (parsedLinkUri) {
 			if (!parsedRequestUri || !parsedLinkUri) {
@@ -40,9 +40,9 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, m
 				parts,
 				i;
 
-			for (i = 0; i < my.links.length; i += 1) {
-				if (my.links[i].uri === uri) {
-					return my.links[i];
+			for (i = 0; i < links.length; i += 1) {
+				if (links[i].uri === uri) {
+					return links[i];
 				}
 			}
 			
@@ -54,7 +54,7 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, m
 				locations: [], 
 				hasSameOrigin: compareOrigin(parts)
 			};
-			my.links.push(link);
+			links.push(link);
 			return link;
 		},
 		
@@ -84,20 +84,20 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, m
 		},
 		
 		getLinks = function () {
-			var links;
+			var linksFound;
 			
-			if (my.links === undefined) {
+			if (links === undefined) {
 			
-				my.links = [];
+				links = [];
 				
-				links = linkFinder.getLinks();
+				linksFound = linkFinder.getLinks(response);
 				
-				links.forEach(function (link) {
+				linksFound.forEach(function (link) {
 					addLink(link);
 				});
 			}
 			
-			return my.links;
+			return links;
 		};
 		
 	that.getLinks = getLinks;

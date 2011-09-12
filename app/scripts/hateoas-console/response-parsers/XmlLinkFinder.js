@@ -3,11 +3,9 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.xmlLinkFinder = function XmlLinkFinder(spec, my) {
+HATEOAS_CONSOLE.responseParsers.xmlLinkFinder = function XmlLinkFinder() {
 	"use strict";
 
-	my = my || {};
-	
 	var that,
 		
 		getAttributeValues = function (attributeName, tag) {
@@ -21,13 +19,13 @@ HATEOAS_CONSOLE.responseParsers.xmlLinkFinder = function XmlLinkFinder(spec, my)
 			return match[1].split(" ");
 		},
 		
-		getLinks = function () {
+		getLinks = function (response) {
 			var links = [],
 				searchRegex = /(<[^>]+\s\S*(?:href|src|link|url|uri)="([^"]+)"[^>]*>)|(?:(<(\S*(?:href|src|link|url|uri))[^>]*>)([^<]+)<\/\4>)/g,
 				match,
 				tag;
 
-			while ((match = searchRegex.exec(spec.response)) !== null) {
+			while ((match = searchRegex.exec(response)) !== null) {
 				tag = match[1] || match[3];
 				
 				links.push({

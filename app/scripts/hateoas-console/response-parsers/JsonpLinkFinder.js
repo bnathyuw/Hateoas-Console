@@ -3,11 +3,9 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.jsonpLinkFinder = function JsonpLinkFinder(spec, my) {
+HATEOAS_CONSOLE.responseParsers.jsonpLinkFinder = function JsonpLinkFinder() {
 	"use strict";
 
-	my = my || {};
-	
 	var that;
 	
 	that = {};

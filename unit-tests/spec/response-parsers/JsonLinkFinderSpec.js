@@ -13,8 +13,8 @@ describe("JsonResponseParser", function () {
 	
 		it("should return an empty array if there are no links in the response", function () {
 			var response = {},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 			
 			expect(toString.call(links)).toEqual("[object Array]");
 		});
@@ -23,8 +23,8 @@ describe("JsonResponseParser", function () {
 			var response = {
 					href: "http://localhost/bar"	
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 			
 			expect(links[0].uri).toEqual(response.href);
 		});
@@ -34,8 +34,8 @@ describe("JsonResponseParser", function () {
 			var response = {
 					link: "http://localhost/bar"	
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 			
 			expect(links[0].uri).toEqual(response.link);
 		});
@@ -44,8 +44,8 @@ describe("JsonResponseParser", function () {
 			var response = {
 					src: "http://localhost/bar"	
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 			
 			expect(links[0].uri).toEqual(response.src);
 		});
@@ -54,8 +54,8 @@ describe("JsonResponseParser", function () {
 			var response = {
 					"my-url": "http://localhost/bar"	
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 			
 			expect(links[0].uri).toEqual(response["my-url"]);
 		});
@@ -64,8 +64,8 @@ describe("JsonResponseParser", function () {
 			var response = {
 					"my-uri": "http://localhost/bar"	
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 			
 			expect(links[0].uri).toEqual(response["my-uri"]);
 		});
@@ -79,8 +79,8 @@ describe("JsonResponseParser", function () {
 						}
 					}
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 			
 			expect(links[0].uri).toEqual(response.foo.bar.href);
 		});
@@ -94,8 +94,8 @@ describe("JsonResponseParser", function () {
 						src: "http://localhost/bar1"
 					}
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 		
 			expect(links.length).toEqual(2);
 			expect(links[0].uri).toEqual(response.foo.href);
@@ -113,8 +113,8 @@ describe("JsonResponseParser", function () {
 						}
 					]
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 		
 			expect(links.length).toEqual(2);
 			expect(links[0].uri).toEqual(response.foo[0].href);
@@ -125,8 +125,8 @@ describe("JsonResponseParser", function () {
 			var response = {
 					hrefs: ["http://localhost/bar", "http://localhost/bar2"]
 				},
-				parser = jsonLinkFinder({response: JSON.stringify(response)}),
-				links = parser.getLinks();
+				parser = jsonLinkFinder(),
+				links = parser.getLinks(JSON.stringify(response));
 		
 			expect(links.length).toEqual(2);
 			expect(links[0].uri).toEqual(response.hrefs[0]);
