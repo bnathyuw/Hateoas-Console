@@ -3,7 +3,7 @@
 (function () {
 	"use strict";
 
-	var linkFinderFactory,
+	var responseParser,
 	
 		submitRequest = function () {
 			var verb = $("[name=verb]").val(),
@@ -79,14 +79,14 @@
 			var responseText = "HTTP/1.1 " + jqXHR.status,
 				html,
 				contentType = jqXHR.getResponseHeader("Content-Type"),
-				responseParser,
+				parser,
 				links;
 			
 			responseText += "\n" + jqXHR.getAllResponseHeaders();
 			if (jqXHR.responseText !== undefined) {
 				responseText += "\n\n" + jqXHR.responseText;
-				responseParser = linkFinderFactory.create(contentType, {response: jqXHR.responseText, uri: settings.url});
-				links = responseParser.getLinks();
+				parser = responseParser({contentType: contentType, response: jqXHR.responseText, uri: settings.url});
+				links = parser.getLinks();
 				
 				writeLinks(links);
 			}
@@ -125,7 +125,7 @@
 		};
 
 	$(function () {
-		linkFinderFactory = HATEOAS_CONSOLE.responseParsers.linkFinderFactory();
+		responseParser = HATEOAS_CONSOLE.responseParsers.responseParser;
 		$("#go").click(submitRequest);	
 		$("#request").ajaxSend(logRequest);
 		$("#response").ajaxComplete(logResponse);

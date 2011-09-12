@@ -11,9 +11,17 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, m
 	
 	var that = {},
 	
-		uriParser = HATEOAS_CONSOLE.uriParser.uriParser(),
+		response = spec.response || "",
 		
-		parsedRequestUri = uriParser.parse(spec.uri),
+		uri = spec.uri || "",
+		
+		contentType = spec.contentType || "",
+		
+		linkFinder = spec.linkFinder || HATEOAS_CONSOLE.responseParsers.linkFinderFactory().create(contentType, {response: response}),
+	
+		uriParser = spec.uriParser || HATEOAS_CONSOLE.uriParser.uriParser(),
+		
+		parsedRequestUri = uriParser.parse(uri),
 	
 		compareOrigin = function (parsedLinkUri) {
 			if (!parsedRequestUri || !parsedLinkUri) {
@@ -75,10 +83,6 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, m
 		
 		},
 		
-		getLinksFromResponse = my.getLinksFromResponse || function () {
-			return [];
-		},
-		
 		getLinks = function () {
 			var links;
 			
@@ -86,7 +90,7 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, m
 			
 				my.links = [];
 				
-				links = getLinksFromResponse(spec.response);
+				links = linkFinder.getLinks();
 				
 				links.forEach(function (link) {
 					addLink(link);

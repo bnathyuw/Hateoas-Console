@@ -5,13 +5,13 @@ describe("ResponseParser", function () {
 	var responseParser = HATEOAS_CONSOLE.responseParsers.responseParser;
 	
 	it("should identify itself as ResponseParser", function () {
-		var parser = responseParser();
+		var parser = responseParser({linkFinder: {}});
 		
 		expect(parser.constructor.name).toEqual("ResponseParser");
 	});
 	
 	describe("getLinks", function () {
-		it("should return links from getLinksFromResponse", function () {
+		it("should return links from getLinks", function () {
 			var linksReturned = [
 					{uri: "a", location: 10},
 					{uri: "b", location: 20},
@@ -21,10 +21,10 @@ describe("ResponseParser", function () {
 					{uri: 'a', locations: [10, 30], rel: [], rev: []},
 					{uri: 'b', locations: [20], rel: [], rev: []}
 				],
-				getLinksFromResponse = function () {
+				getLinks = function () {
 					return linksReturned;
 				},
-				parser = responseParser({}, {getLinksFromResponse: getLinksFromResponse}),
+				parser = responseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(2);
@@ -37,13 +37,13 @@ describe("ResponseParser", function () {
 
 		});
 		
-		it("should call getLinksFromResponse only once", function () {
+		it("should call getLinks only once", function () {
 			var callCount = 0,
-				getLinksFromResponse = function () {
+				getLinks = function () {
 					callCount += 1;
 					return [];
 				},
-				parser = responseParser({}, {getLinksFromResponse: getLinksFromResponse});
+				parser = responseParser({linkFinder: {getLinks: getLinks}});
 			
 			parser.getLinks();
 			parser.getLinks();
@@ -61,10 +61,10 @@ describe("ResponseParser", function () {
 					{uri: "/bar", location: 10},
 					{uri: "bar", location: 10}
 				],
-				getLinksFromResponse = function () {
+				getLinks = function () {
 					return linksReturned;
 				},
-				parser = responseParser({uri: "http://localhost/"}, {getLinksFromResponse: getLinksFromResponse}),
+				parser = responseParser({uri: "http://localhost/", linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks[0].hasSameOrigin).toEqual(true);
