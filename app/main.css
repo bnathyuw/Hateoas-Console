@@ -1,4 +1,5 @@
-﻿#request,
+﻿@charset 'UTF-8';
+#request,
 #response,
 #links,
 textarea,
@@ -18,11 +19,11 @@ select {
 	overflow: auto;
 }
 
-input[name=url] {
+input[name='url'] {
 	width: 400px;
 }
 
-textarea[name=requestBody] {
+textarea[name='requestBody'] {
 	width: 600px;
 }
 

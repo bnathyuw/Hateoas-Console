@@ -62,7 +62,7 @@ describe("ResponseParserBase", function () {
 					{uri: "bar", location: 10}
 				],
 				getLinksFromResponse = function () {
-				return linksReturned;
+					return linksReturned;
 				},
 				responseParser = responseParserBase({uri: "http://localhost/"}, {getLinksFromResponse: getLinksFromResponse}),
 				actualLinks = responseParser.getLinks();
