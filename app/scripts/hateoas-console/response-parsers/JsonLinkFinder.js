@@ -2,37 +2,44 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder() {
+(function () {
 	"use strict";
 
-	var that,
-	
-		singleLinkRegExp = /^\S*(?:href|link|src|url|uri)$/g,
-		
-		multipleLinkRegExp = /^\S*(?:href|link|src|url|uri)s$/g,
-		
-		getLinks = function (response) {
-			var links = [];
+	var instance;
 
-			JSON.parse(response, function (key, value) {
-				if (singleLinkRegExp.test(key)) {
-					links.push({uri: value});
-				} else if (multipleLinkRegExp.test(key)) {
-					value.forEach(function (v) {
-						links.push({uri: v});
-					});
-				}
-				return value;
-			});
+	HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder() {
+	
+		if (instance) {
+			return instance;
+		}
+
+		var singleLinkRegExp = /^\S*(?:href|link|src|url|uri)$/g,
 			
-			return links;
-		};
-	
-	that = {
-		getLinks: getLinks
-	};
+			multipleLinkRegExp = /^\S*(?:href|link|src|url|uri)s$/g,
+			
+			getLinks = function (response) {
+				var links = [];
+
+				JSON.parse(response, function (key, value) {
+					if (singleLinkRegExp.test(key)) {
+						links.push({uri: value});
+					} else if (multipleLinkRegExp.test(key)) {
+						value.forEach(function (v) {
+							links.push({uri: v});
+						});
+					}
+					return value;
+				});
+				
+				return links;
+			};
 		
-	that.constructor = JsonLinkFinder;
-	
-	return that;
-};
+		instance = {
+			getLinks: getLinks
+		};
+			
+		instance.constructor = JsonLinkFinder;
+		
+		return instance;
+	};
+}());

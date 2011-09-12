@@ -9,7 +9,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
 	HATEOAS_CONSOLE.responseParsers.linkFinderFactory = function LinkFinderFactory() {
 		
-		if (instance !== undefined) {
+		if (instance) {
 			return instance;
 		}
 
@@ -25,7 +25,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 					responseFormat = mimeType.split(/[\/\+]/).pop(),
 					ctor = constructors[responseFormat];
 			
-				if (ctor === undefined) {
+				if (!ctor) {
 					throw { 
 						name: "Constructor Not Found",
 						message: "No constructor exists for type " + contentType
