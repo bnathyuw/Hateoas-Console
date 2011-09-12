@@ -1,13 +1,13 @@
 ﻿/*global describe: false, HATEOAS_CONSOLE: false, it: false, expect: false */
 
-describe("ResponseParserBase", function () {
+describe("ResponseParser", function () {
 	"use strict";
-	var responseParserBase = HATEOAS_CONSOLE.responseParsers.responseParserBase;
+	var responseParser = HATEOAS_CONSOLE.responseParsers.responseParser;
 	
-	it("should identify itself as ResponseParserBase", function () {
-		var parser = responseParserBase();
+	it("should identify itself as ResponseParser", function () {
+		var parser = responseParser();
 		
-		expect(parser.constructor.name).toEqual("ResponseParserBase");
+		expect(parser.constructor.name).toEqual("ResponseParser");
 	});
 	
 	describe("getLinks", function () {
@@ -24,8 +24,8 @@ describe("ResponseParserBase", function () {
 				getLinksFromResponse = function () {
 					return linksReturned;
 				},
-				responseParser = responseParserBase({}, {getLinksFromResponse: getLinksFromResponse}),
-				actualLinks = responseParser.getLinks();
+				parser = responseParser({}, {getLinksFromResponse: getLinksFromResponse}),
+				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(2);
 			
@@ -43,10 +43,10 @@ describe("ResponseParserBase", function () {
 					callCount += 1;
 					return [];
 				},
-				responseParser = responseParserBase({}, {getLinksFromResponse: getLinksFromResponse});
+				parser = responseParser({}, {getLinksFromResponse: getLinksFromResponse});
 			
-			responseParser.getLinks();
-			responseParser.getLinks();
+			parser.getLinks();
+			parser.getLinks();
 			
 			expect(callCount).toEqual(1);
 		});
@@ -64,8 +64,8 @@ describe("ResponseParserBase", function () {
 				getLinksFromResponse = function () {
 					return linksReturned;
 				},
-				responseParser = responseParserBase({uri: "http://localhost/"}, {getLinksFromResponse: getLinksFromResponse}),
-				actualLinks = responseParser.getLinks();
+				parser = responseParser({uri: "http://localhost/"}, {getLinksFromResponse: getLinksFromResponse}),
+				actualLinks = parser.getLinks();
 			
 			expect(actualLinks[0].hasSameOrigin).toEqual(true);
 			expect(actualLinks[1].hasSameOrigin).toEqual(true);

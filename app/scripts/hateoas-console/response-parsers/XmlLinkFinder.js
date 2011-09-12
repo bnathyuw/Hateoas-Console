@@ -43,7 +43,7 @@ HATEOAS_CONSOLE.responseParsers.xmlLinkFinder = function XmlLinkFinder(spec, my)
 	
 	my.getLinksFromResponse = getLinksFromResponse;
 	
-	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParserBase(spec, my));
+	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParser(spec, my));
 		
 	that.constructor = XmlLinkFinder;
 	

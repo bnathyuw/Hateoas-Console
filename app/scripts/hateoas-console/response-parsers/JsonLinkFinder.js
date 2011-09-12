@@ -32,7 +32,7 @@ HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder(spec, m
 	
 	my.getLinksFromResponse = getLinksFromResponse;
 	
-	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParserBase(spec, my));
+	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParser(spec, my));
 		
 	that.constructor = JsonLinkFinder;
 	

@@ -2,7 +2,7 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
-HATEOAS_CONSOLE.responseParsers.responseParserBase = function ResponseParserBase(spec, my) {
+HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec, my) {
 	"use strict";
 	
 	spec = spec || {};
@@ -98,7 +98,7 @@ HATEOAS_CONSOLE.responseParsers.responseParserBase = function ResponseParserBase
 		
 	that.getLinks = getLinks;
 	
-	that.constructor = ResponseParserBase;
+	that.constructor = ResponseParser;
 	
 	return that;
 };

@@ -10,7 +10,7 @@ HATEOAS_CONSOLE.responseParsers.jsonpLinkFinder = function JsonpLinkFinder(spec,
 	
 	var that;
 	
-	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParserBase(spec, my));
+	that = Object.create(HATEOAS_CONSOLE.responseParsers.responseParser(spec, my));
 		
 	that.constructor = JsonpLinkFinder;
 	
