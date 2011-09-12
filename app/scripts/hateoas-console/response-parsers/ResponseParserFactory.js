@@ -7,7 +7,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 
 	var instance;
 
-	HATEOAS_CONSOLE.responseParsers.responseParserFactory = function ResponseParserFactory() {
+	HATEOAS_CONSOLE.responseParsers.linkFinderFactory = function LinkFinderFactory() {
 		
 		if (instance !== undefined) {
 			return instance;
@@ -39,7 +39,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 			create: create
 		};
 		
-		instance.constructor = ResponseParserFactory;
+		instance.constructor = LinkFinderFactory;
 	
 		return instance;
 	};

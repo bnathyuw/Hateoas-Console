@@ -1,74 +1,74 @@
 ﻿/*global describe: false, toString: false, beforeEach: false, it: false, HATEOAS_CONSOLE: false, expect: false */
 
-describe("ResponseParserFactory", function () {
+describe("LinkFinderFactory", function () {
 	"use strict";	
-	var responseParserFactory = HATEOAS_CONSOLE.responseParsers.responseParserFactory;
+	var linkFinderFactory = HATEOAS_CONSOLE.responseParsers.linkFinderFactory;
 	
 	it("should be a singleton", function () {
-		var factory1 = responseParserFactory(),
-			factory2 = responseParserFactory();
+		var factory1 = linkFinderFactory(),
+			factory2 = linkFinderFactory();
 		
 		expect(factory1 === factory2).toEqual(true);
 	});
 	
-	it("should identify itself as ResponseParserFactory", function () {
-		var factory = responseParserFactory();
+	it("should identify itself as LinkFinderFactory", function () {
+		var factory = linkFinderFactory();
 		
-		expect(factory.constructor.name).toEqual("ResponseParserFactory");
+		expect(factory.constructor.name).toEqual("LinkFinderFactory");
 	});
 	
 	describe("getParser", function () {
 		it("should return xmlResponseParser for text/xml", function () {
-			var factory = responseParserFactory(),
+			var factory = linkFinderFactory(),
 				parser = factory.create("text/xml");
 			
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
 		
 		it("should return xmlResponseParser for application/xml", function () {
-			var factory = responseParserFactory(),
+			var factory = linkFinderFactory(),
 				parser = factory.create("application/xml");
 			
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
 		
 		it("should return xmlResponseParser for application/something+xml", function () {
-			var factory = responseParserFactory(),
+			var factory = linkFinderFactory(),
 				parser = factory.create("application/something+xml");
 			
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
 		
 		it("should return jsonResponseParser for application/json", function () {
-			var factory = responseParserFactory(),
+			var factory = linkFinderFactory(),
 				parser = factory.create("application/json");
 			
 			expect(parser.constructor.name).toEqual("JsonResponseParser");
 		});
 		
 		it("should return jsonpResponseParser for application/json-p", function () {
-			var factory = responseParserFactory(),
+			var factory = linkFinderFactory(),
 				parser = factory.create("application/json-p");
 			
 			expect(parser.constructor.name).toEqual("JsonpResponseParser");
 		});
 		
 		it("should return jsonpResponseParser for text/html", function () {
-			var factory = responseParserFactory(),
+			var factory = linkFinderFactory(),
 				parser = factory.create("text/html");
 			
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
 		
 		it("should be able to cope with charset declarations in the content type", function () {
-			var factory = responseParserFactory(),
+			var factory = linkFinderFactory(),
 				parser = factory.create("application/xml; charset=utf-8");
 				
 			expect(parser.constructor.name).toEqual("XmlResponseParser");
 		});
 		
 		it("should throw an appropriate error if no constructor can be found", function () {
-			var factory = responseParserFactory();
+			var factory = linkFinderFactory();
 				
 			expect(function () {
 				factory.create("application/foo");
