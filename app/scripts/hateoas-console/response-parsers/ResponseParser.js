@@ -62,7 +62,7 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec) {
 
 			link[attributeName] = link[attributeName] || [];
 
-			if (values === undefined) {
+			if (!values) {
 				return;
 			}
 
@@ -84,18 +84,19 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec) {
 		},
 		
 		getLinks = function () {
+			if (links) {
+				return links;
+			}
+			
 			var linksFound;
 			
-			if (!links) {
+			links = [];
 			
-				links = [];
-				
-				linksFound = linkFinder.getLinks(response);
-				
-				linksFound.forEach(function (link) {
-					addLink(link);
-				});
-			}
+			linksFound = linkFinder.getLinks(response);
+			
+			linksFound.forEach(function (link) {
+				addLink(link);
+			});
 			
 			return links;
 		};
