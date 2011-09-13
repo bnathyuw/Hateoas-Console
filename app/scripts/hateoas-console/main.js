@@ -14,7 +14,7 @@
 				},
 				requestBody = $("[name=requestBody]").val();
 			
-			if (requestBody !== undefined) {
+			if (requestBody) {
 				settings.data = requestBody;
 			}
 			$.ajax(settings);
@@ -22,7 +22,7 @@
 
 		logRequest = function (e, jqXHR, settings) {
 			var requestText = settings.type + " " + settings.url + " HTTP/1.1";
-			if (settings.data !== undefined) {
+			if (settings.data) {
 				requestText += "\n\n" + settings.data;
 			}
 			$(this).text(requestText);
@@ -42,7 +42,7 @@
 			
 			linksDiv.html("");
 			
-			if (links === undefined) {
+			if (!links) {
 				return;
 			}
 			
@@ -83,7 +83,7 @@
 				links;
 			
 			responseText += "\n" + jqXHR.getAllResponseHeaders();
-			if (jqXHR.responseText !== undefined) {
+			if (jqXHR.responseText) {
 				responseText += "\n\n" + jqXHR.responseText;
 				parser = responseParser({contentType: contentType, response: jqXHR.responseText, uri: settings.url});
 				links = parser.getLinks();

@@ -86,7 +86,7 @@ HATEOAS_CONSOLE.responseParsers.responseParser = function ResponseParser(spec) {
 		getLinks = function () {
 			var linksFound;
 			
-			if (links === undefined) {
+			if (!links) {
 			
 				links = [];
 				
