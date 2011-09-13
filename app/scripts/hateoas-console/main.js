@@ -28,11 +28,6 @@
 			$(this).text(requestText);
 		},
 
-		addLinks = function (input) {
-			var urlRegex = /https?:\/\/([\S]+\.)+[A-Z]+(\/[a-z0-9\._\/~%\-\+&\#\?!=\(\)@]*)?/gi;	
-			return input.replace(urlRegex, "<a href=\"$&\">$&</a>");
-		},
-		
 		writeLinks = function (links) {
 			var linksDiv = $("#links"),
 				table,
