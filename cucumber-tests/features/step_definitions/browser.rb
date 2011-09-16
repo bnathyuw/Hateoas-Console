@@ -25,3 +25,11 @@ end
 Then /^my request is logged$/ do
   @browser.pre(:id => 'request').text.include? '#{@verb} #{@address}'
 end
+
+Then /^the response is logged$/ do
+  @browser.pre(:id => 'response').text.include? '<title>HATEOAS console</title>'
+end
+
+Then /^links from the response are logged$/ do
+  @browser.div(:id => 'links').table.exists?
+end
