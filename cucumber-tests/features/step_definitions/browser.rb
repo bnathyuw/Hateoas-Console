@@ -1,7 +1,7 @@
 require 'watir-webdriver'
 
 Given /^I have a browser open$/ do
-  @browser ||= Watir::Browser.new :firefox
+  @browser ||= new_browser
 end
 
 Given /^I open the hateoas console$/ do
