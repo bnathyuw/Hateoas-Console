@@ -1,6 +1,6 @@
 # HATEOAS Console
 
-For more information on the motivation behind this work, please read my original blog post, [http://blog.matthewbutt.com/2011/09/18/hateoas-console-the-beginning/](HATEOAS Console: the beginning).
+For more information on the motivation behind this work, please read my original blog post, [HATEOAS Console: the beginning](http://blog.matthewbutt.com/2011/09/18/hateoas-console-the-beginning/).
 
 ## Setup
 
