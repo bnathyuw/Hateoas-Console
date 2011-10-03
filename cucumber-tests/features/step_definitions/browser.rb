@@ -1,7 +1,5 @@
-require 'watir-webdriver'
-
 Given /^I have a browser open$/ do
-  @browser ||= new_browser
+  
 end
 
 Given /^I open the hateoas console$/ do
@@ -23,13 +21,13 @@ Given /^I click Go$/ do
 end
 
 Then /^my request is logged$/ do
-  @browser.pre(:id => 'request').text.include? '#{@verb} #{@address}'
+  @browser.pre(:id => 'request').text.include?('#{@verb} #{@address}').should be_true
 end
 
 Then /^the response is logged$/ do
-  @browser.pre(:id => 'response').text.include? '<title>HATEOAS console</title>'
+  @browser.pre(:id => 'response').text.include?('<title>HATEOAS console</title>').should be_true
 end
 
 Then /^links from the response are logged$/ do
-  @browser.div(:id => 'links').table.exists?
+  @browser.div(:id => 'links').table.exists?.should be_true
 end

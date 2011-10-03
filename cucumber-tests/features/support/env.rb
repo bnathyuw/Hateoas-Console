@@ -1,5 +1,12 @@
-﻿require "watir-webdriver"
+﻿require 'watir-webdriver'
+require 'watir-page-helper'
 
-  def new_browser
-    @@browser ||= Watir::Browser.new :firefox
-  end
+browser = Watir::Browser.new :firefox
+
+Before do
+	@browser = browser
+end
+
+at_exit do
+	browser.close
+end
