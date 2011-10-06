@@ -11,6 +11,10 @@ select {
 	padding: 5px;
 }
 
+textarea[name=requestBody] {
+	display: block;
+}
+
 #request,
 #response,
 #links {
