@@ -1,4 +1,4 @@
-﻿/*global Backbone: false*/
+﻿/*global Backbone: false, HATEOAS_CONSOLE: false*/
 
 HATEOAS_CONSOLE.namespace("views");
 
@@ -12,7 +12,8 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 		},
 		
 		events: {
-			"change [name=verb]":	"showRequestBody"
+			"change [name=verb]":	"showRequestBody",
+			"click	#go":			"saveRequest"
 		},
 		
 		showRequestBody: function () {
@@ -22,6 +23,13 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 			} else {
 				this.$("[name=requestBody]").hide();
 			}
+		},
+		
+		saveRequest: function () {
+			this.model.save({
+				url: this.$("[name=url]").val(),
+				verb: this.$("[name=verb]").val()
+			});
 		}
 	});
 }());

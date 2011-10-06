@@ -1,13 +1,18 @@
-/*global describe: false, beforeEach: false, loadFixtures: false, RequestForm: false, it: false, expect: false, $: false */
+/*global describe: false, beforeEach: false, loadFixtures: false, RequestForm: false, it: false, expect: false, $: false, HATEOAS_CONSOLE: false, spyOn */
 describe("RequestForm", function () {
 	"use strict";
 
 	var RequestForm = HATEOAS_CONSOLE.views.RequestForm,
+		model,
 		requestForm;
 	
 	beforeEach(function () {
 		loadFixtures("requestForm.html");
-		requestForm = new RequestForm();
+		model = {
+			save: function () {},
+			set: function () {}
+		};
+		requestForm = new RequestForm({model: model});
 	});
 	
 	it("should hide the request field on initialize", function () {
@@ -31,6 +36,21 @@ describe("RequestForm", function () {
 					trigger("change");
 				
 				expect($("[name=requestBody]"))[spec.predicate]();
+			});
+		});
+	});
+	
+	describe("effects of clicking 'Go'", function () {
+		beforeEach(function () {
+			spyOn(requestForm.model, "save");
+			spyOn(requestForm.model, "set");
+			$("#go").trigger("click");
+		});
+		
+		it("should update and save the model", function () {
+			expect(requestForm.model.save).toHaveBeenCalledWith({
+				url: $("[name=url]").val(),
+				verb: $("[name=verb]").val()
 			});
 		});
 	});
