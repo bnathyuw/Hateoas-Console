@@ -5,7 +5,7 @@
 	var request = new HATEOAS_CONSOLE.models.RestRequest(),
 		requestForm = new HATEOAS_CONSOLE.views.RequestForm({model: request});
 		
-	Backbone.sync = function(method, model, options) {
+	Backbone.sync = function (method, model, options) {
 		options.success();
-	}
+	};
 }());
