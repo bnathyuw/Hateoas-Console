@@ -7,7 +7,9 @@ For more information on the motivation behind this work, please read my original
 The projects are configured to be set up on a web server like this:
 
 **http://hateoas-console.local/** maps to **/Hateoas-Console/app/**  
+**http://hateoas-console.local/lib/** maps to **/Hateoas-Console/lib/**
 **http://unit-tests.hateoas-console.local/** maps to **/Hateoas-Console/unit-tests/**
+**http://unit-tests.hateoas-console.local/lib/** maps to **/Hateoas-Console/lib/**
 
 If you don't configure the project like this, the unit tests won't run.
 
