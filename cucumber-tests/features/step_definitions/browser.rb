@@ -29,5 +29,9 @@ Then /^links from the response are logged$/ do
 end
 
 Then /^the request body field is not visible$/ do
-	@browser.text_field(:name => 'requestBody').exists?.should be_false
+	@browser.text_field(:name => 'requestBody').visible?.should be_false
+end
+
+Then /^the request body field is visible$/ do
+	@browser.text_field(:name => 'requestBody').visible?.should be_true
 end
