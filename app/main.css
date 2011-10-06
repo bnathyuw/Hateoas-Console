@@ -11,7 +11,7 @@ select {
 	padding: 5px;
 }
 
-textarea[name=requestBody] {
+textarea[name="requestBody"] {
 	display: block;
 }
 

@@ -2,5 +2,9 @@
 
 (function () {
 	"use strict";
-	var pageView = new HATEOAS_CONSOLE.views.PageView();
+	var request = {
+			save: function () {},
+			set: function () {}
+		},
+		requestForm = new HATEOAS_CONSOLE.views.RequestForm({model: request});
 }());
