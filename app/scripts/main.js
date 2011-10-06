@@ -2,9 +2,6 @@
 
 (function () {
 	"use strict";
-	var request = {
-			save: function () {},
-			set: function () {}
-		},
+	var request = new HATEOAS_CONSOLE.models.RestRequest(),
 		requestForm = new HATEOAS_CONSOLE.views.RequestForm({model: request});
 }());
