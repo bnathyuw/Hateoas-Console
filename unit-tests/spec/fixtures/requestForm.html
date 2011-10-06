@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html>
+<head></head>
+<body>
+<form>
+
+<input type="url" 
+	   name="url" 
+	   placeholder="Start URL" 
+	   required="required"
+	   value="http://hateoas-console.local/" />
+	   
+<select name="verb">
+	<option>GET</option>
+	<option>POST</option>
+	<option>HEAD</option>
+	<option>PUT</option>
+	<option>DELETE</option>
+	<option>OPTIONS</option>
+</select>
+
+<input type="button" value="Go" id="go"/>
+
+	<textarea name="requestBody"
+			  placeholder="Request body"></textarea>
+
+</form>
+</body>
