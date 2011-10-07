@@ -1,14 +1,14 @@
 /*global HATEOAS_CONSOLE */
 /*jslint regexp: true */
 
-HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
+HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 (function () {
 	"use strict";
 
 	var instance;
 
-	HATEOAS_CONSOLE.uriParser.uriParser = function UriParser() {
+	HATEOAS_CONSOLE.parsers.uriParser = function UriParser() {
 		
 		if (instance) {
 			return instance;
@@ -19,10 +19,10 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
 			uriRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
 			
 			hppConstructors = {
-				http: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser,
-				https: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser,
-				ftp: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser,
-				ftps: HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser
+				http: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser,
+				https: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser,
+				ftp: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser,
+				ftps: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser
 			},
 			
 			parse = function (uri) {

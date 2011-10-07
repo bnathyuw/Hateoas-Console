@@ -1,14 +1,14 @@
 ﻿/*global HATEOAS_CONSOLE, responseParser: false */
 /*jslint regexp: true */
 
-HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
+HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 (function () {
 	"use strict";
 	
 	var instance;
 
-	HATEOAS_CONSOLE.responseParsers.jsonpLinkFinder = function JsonpLinkFinder() {
+	HATEOAS_CONSOLE.parsers.jsonpLinkFinder = function JsonpLinkFinder() {
 
 		if (instance) {
 			return instance;

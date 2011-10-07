@@ -7,7 +7,7 @@
 		request = new HATEOAS_CONSOLE.models.RestRequest(),
 		
 		requestParser = new HATEOAS_CONSOLE.parsers.RequestParser({
-			uriParser: new HATEOAS_CONSOLE.uriParser.uriParser()
+			uriParser: new HATEOAS_CONSOLE.parsers.uriParser()
 		}),
 		
 		requestLog = new HATEOAS_CONSOLE.views.RequestLog({

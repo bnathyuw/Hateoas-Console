@@ -2,7 +2,7 @@
 
 describe("ResponseParser", function () {
 	"use strict";
-	var responseParser = HATEOAS_CONSOLE.responseParsers.responseParser;
+	var responseParser = HATEOAS_CONSOLE.parsers.responseParser;
 	
 	it("should identify itself as ResponseParser", function () {
 		var parser = responseParser({linkFinder: {}});

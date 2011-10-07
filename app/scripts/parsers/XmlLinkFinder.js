@@ -1,7 +1,7 @@
 ﻿/*global HATEOAS_CONSOLE, responseParser: false */
 /*jslint regexp: true */
 
-HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
+HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 (function () {
 	"use strict";
@@ -39,7 +39,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 			return links;
 		};
 
-	HATEOAS_CONSOLE.responseParsers.xmlLinkFinder = function XmlLinkFinder() {
+	HATEOAS_CONSOLE.parsers.xmlLinkFinder = function XmlLinkFinder() {
 	
 		if (instance) {
 			return instance;

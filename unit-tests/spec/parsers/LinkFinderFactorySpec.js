@@ -2,7 +2,7 @@
 
 describe("LinkFinderFactory", function () {
 	"use strict";	
-	var linkFinderFactory = HATEOAS_CONSOLE.responseParsers.linkFinderFactory;
+	var linkFinderFactory = HATEOAS_CONSOLE.parsers.linkFinderFactory;
 	
 	it("should be a singleton", function () {
 		var factory1 = linkFinderFactory(),

@@ -1,14 +1,14 @@
 /*global HATEOAS_CONSOLE */
 /*jslint regexp: true */
 
-HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.uriParser");
+HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 (function () {
 	"use strict";
 	
 	var instance;
 	
-	HATEOAS_CONSOLE.uriParser.urlHierarchicalPartParser = function UrlHierarchicalPartParser() {
+	HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser = function UrlHierarchicalPartParser() {
 		if (instance) {
 			return instance;
 		}

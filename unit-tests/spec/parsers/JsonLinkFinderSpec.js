@@ -2,7 +2,7 @@
 
 describe("JsonResponseParser", function () {
 	"use strict";
-	var jsonLinkFinder = HATEOAS_CONSOLE.responseParsers.jsonLinkFinder;
+	var jsonLinkFinder = HATEOAS_CONSOLE.parsers.jsonLinkFinder;
 	
 	it("should identify itself as JsonLinkFinder", function () {
 		var parser = jsonLinkFinder();

@@ -1,6 +1,6 @@
 ﻿/*global HATEOAS_CONSOLE, responseParser: false */
 
-HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
+HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 (function () {
 	"use strict";
@@ -28,7 +28,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.responseParsers");
 			return links;
 		};
 
-	HATEOAS_CONSOLE.responseParsers.jsonLinkFinder = function JsonLinkFinder() {
+	HATEOAS_CONSOLE.parsers.jsonLinkFinder = function JsonLinkFinder() {
 	
 		if (instance) {
 			return instance;

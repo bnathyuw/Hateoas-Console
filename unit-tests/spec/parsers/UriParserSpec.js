@@ -2,7 +2,7 @@
 
 describe("UriParser", function () {
 	"use strict";	
-	var uriParser = HATEOAS_CONSOLE.uriParser.uriParser;
+	var uriParser = HATEOAS_CONSOLE.parsers.uriParser;
 	
 	it("should be a singleton", function () {
 		var parser1 = uriParser(),

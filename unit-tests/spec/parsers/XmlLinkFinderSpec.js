@@ -2,7 +2,7 @@
 
 describe("XmlResponseParser", function () {
 	"use strict";
-	var xmlLinkFinder = HATEOAS_CONSOLE.responseParsers.xmlLinkFinder;
+	var xmlLinkFinder = HATEOAS_CONSOLE.parsers.xmlLinkFinder;
 	
 	it("should identify itself as XmlLinkFinder", function () {
 		var parser = xmlLinkFinder();
