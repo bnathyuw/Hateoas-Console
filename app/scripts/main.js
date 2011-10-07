@@ -9,6 +9,7 @@
 		ResponseLog = HATEOAS_CONSOLE.views.ResponseLog,
 		RequestForm = HATEOAS_CONSOLE.views.RequestForm,
 		RequestMaker = HATEOAS_CONSOLE.http.RequestMaker,
+		LinksPanel = HATEOAS_CONSOLE.views.LinksPanel,
 		
 		aggregator = _.extend({}, Backbone.Events),
 	
@@ -26,6 +27,9 @@
 		responseParser = {
 			toHttpString: function () {
 				return "<title>HATEOAS console</title>";
+			},
+			getLinks: function () {
+				return "<table><tr><td>Links</td></tr></table>";
 			}
 		},
 		
@@ -36,6 +40,11 @@
 		},
 		
 		responseLog = new ResponseLog({
+			aggregator: aggregator,
+			responseParserFactory: responseParserFactory
+		}),
+		
+		linksPanel = new LinksPanel({
 			aggregator: aggregator,
 			responseParserFactory: responseParserFactory
 		}),
