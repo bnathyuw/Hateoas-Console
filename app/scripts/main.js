@@ -8,6 +8,7 @@
 		RequestLog = HATEOAS_CONSOLE.views.RequestLog,
 		ResponseLog = HATEOAS_CONSOLE.views.ResponseLog,
 		RequestForm = HATEOAS_CONSOLE.views.RequestForm,
+		RequestMaker = HATEOAS_CONSOLE.http.RequestMaker,
 		
 		aggregator = _.extend({}, Backbone.Events),
 	
@@ -41,6 +42,10 @@
 		
 		requestForm = new RequestForm({
 			model: request,
+			aggregator: aggregator
+		}),
+		
+		requestMaker = new RequestMaker({
 			aggregator: aggregator
 		});
 }());
