@@ -1,4 +1,4 @@
-/*global describe: false, beforeEach: false, loadFixtures: false, RequestForm: false, it: false, expect: false, $: false, HATEOAS_CONSOLE: false, spyOn */
+/*global describe: false, beforeEach: false, loadFixtures: false, RequestForm: false, it: false, expect: false, $: false, HATEOAS_CONSOLE: false, spyOn: false, _: false, Backbone: false */
 describe("RequestForm", function () {
 	"use strict";
 
@@ -13,9 +13,7 @@ describe("RequestForm", function () {
 			save: function () {},
 			set: function () {}
 		};
-		aggregator = {
-			trigger: function () {}
-		};
+		aggregator = _.extend({}, Backbone.Events);
 		requestForm = new RequestForm({model: model, aggregator: aggregator});
 	});
 	
