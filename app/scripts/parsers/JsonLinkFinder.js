@@ -28,7 +28,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 			return links;
 		};
 
-	HATEOAS_CONSOLE.parsers.jsonLinkFinder = function JsonLinkFinder() {
+	HATEOAS_CONSOLE.parsers.JsonLinkFinder = function JsonLinkFinder() {
 	
 		if (instance) {
 			return instance;

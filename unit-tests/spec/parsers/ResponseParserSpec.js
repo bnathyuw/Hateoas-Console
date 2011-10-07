@@ -2,10 +2,10 @@
 
 describe("ResponseParser", function () {
 	"use strict";
-	var responseParser = HATEOAS_CONSOLE.parsers.responseParser;
+	var ResponseParser = HATEOAS_CONSOLE.parsers.ResponseParser;
 	
 	it("should identify itself as ResponseParser", function () {
-		var parser = responseParser({linkFinder: {}});
+		var parser = new ResponseParser({linkFinder: {}});
 		
 		expect(parser.constructor.name).toEqual("ResponseParser");
 	});
@@ -19,7 +19,7 @@ describe("ResponseParser", function () {
 						{uri: "c", location: 30}
 					];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(3);
@@ -37,7 +37,7 @@ describe("ResponseParser", function () {
 						{uri: "a", location: 30}
 					];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
@@ -54,7 +54,7 @@ describe("ResponseParser", function () {
 						{uri: "a", location: 30}
 					];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
@@ -70,7 +70,7 @@ describe("ResponseParser", function () {
 						{uri: "a", location: 30, rel: ["him"]}
 					];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
@@ -86,7 +86,7 @@ describe("ResponseParser", function () {
 						{uri: "a", location: 30, rel: ["me"]}
 					];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
@@ -102,7 +102,7 @@ describe("ResponseParser", function () {
 						{uri: "a", location: 30, rev: ["him"]}
 					];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
@@ -118,7 +118,7 @@ describe("ResponseParser", function () {
 						{uri: "a", location: 30, rev: ["me"]}
 					];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
@@ -132,7 +132,7 @@ describe("ResponseParser", function () {
 					callCount += 1;
 					return [];
 				},
-				parser = responseParser({linkFinder: {getLinks: getLinks}});
+				parser = new ResponseParser({linkFinder: {getLinks: getLinks}});
 			
 			parser.getLinks();
 			parser.getLinks();
@@ -153,7 +153,7 @@ describe("ResponseParser", function () {
 				getLinks = function () {
 					return linksReturned;
 				},
-				parser = responseParser({uri: "http://localhost/", linkFinder: {getLinks: getLinks}}),
+				parser = new ResponseParser({uri: "http://localhost/", linkFinder: {getLinks: getLinks}}),
 				actualLinks = parser.getLinks();
 			
 			expect(actualLinks[0].hasSameOrigin).toEqual(true);

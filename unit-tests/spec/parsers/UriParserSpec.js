@@ -2,24 +2,24 @@
 
 describe("UriParser", function () {
 	"use strict";	
-	var uriParser = HATEOAS_CONSOLE.parsers.uriParser;
+	var UriParser = HATEOAS_CONSOLE.parsers.UriParser;
 	
 	it("should be a singleton", function () {
-		var parser1 = uriParser(),
-			parser2 = uriParser();
+		var parser1 = new UriParser(),
+			parser2 = new UriParser();
 		
 		expect(parser1 === parser2).toEqual(true);
 	});
 	
 	it("should identify itself as UriParser", function () {
-		var parser = uriParser();
+		var parser = new UriParser();
 		
 		expect(parser.constructor.name).toEqual("UriParser");
 	});
 	
 	describe("parse", function () {
 	
-		var parser = uriParser();
+		var parser = new UriParser();
 		
 		it("should return correct parts from full uri", function () {
 			var parsedUri = parser.parse("http://localhost/foo?bar=1#lala");

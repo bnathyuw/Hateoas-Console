@@ -39,7 +39,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 			return links;
 		};
 
-	HATEOAS_CONSOLE.parsers.xmlLinkFinder = function XmlLinkFinder() {
+	HATEOAS_CONSOLE.parsers.XmlLinkFinder = function XmlLinkFinder() {
 	
 		if (instance) {
 			return instance;

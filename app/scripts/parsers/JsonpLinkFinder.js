@@ -8,7 +8,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 	
 	var instance;
 
-	HATEOAS_CONSOLE.parsers.jsonpLinkFinder = function JsonpLinkFinder() {
+	HATEOAS_CONSOLE.parsers.JsonpLinkFinder = function JsonpLinkFinder() {
 
 		if (instance) {
 			return instance;

@@ -8,7 +8,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 	var instance;
 
-	HATEOAS_CONSOLE.parsers.uriParser = function UriParser() {
+	HATEOAS_CONSOLE.parsers.UriParser = function UriParser() {
 		
 		if (instance) {
 			return instance;
@@ -19,10 +19,10 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 			uriRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
 			
 			hppConstructors = {
-				http: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser,
-				https: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser,
-				ftp: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser,
-				ftps: HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser
+				http: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
+				https: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
+				ftp: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
+				ftps: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser
 			},
 			
 			parse = function (uri) {
@@ -34,7 +34,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 				var match = uriRegex.exec(uri),
 					parts,
 					hpp,
-					hppConstructor,
+					HppConstructor,
 					extraParts,
 					c;
 				
@@ -49,10 +49,10 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 					fragment: match[4]
 				};
 				
-				hppConstructor = hppConstructors[parts.scheme];
+				HppConstructor = hppConstructors[parts.scheme];
 				
-				if (hppConstructor) {
-					hpp = hppConstructor();
+				if (HppConstructor) {
+					hpp = new HppConstructor();
 					extraParts = hpp.parse(parts.hierarchicalPart);
 					for (c in extraParts) {
 						if (extraParts.hasOwnProperty(c)) {

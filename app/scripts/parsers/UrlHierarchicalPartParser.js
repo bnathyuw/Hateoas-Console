@@ -8,7 +8,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 	
 	var instance;
 	
-	HATEOAS_CONSOLE.parsers.urlHierarchicalPartParser = function UrlHierarchicalPartParser() {
+	HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser = function UrlHierarchicalPartParser() {
 		if (instance) {
 			return instance;
 		}
