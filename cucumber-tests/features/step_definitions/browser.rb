@@ -2,9 +2,10 @@ When /^I open the hateoas console$/ do
 	@browser.goto "http://hateoas-console.local/"
 end
 
-When /^I enter (\S*) in the address box$/ do |address|
-	@address = address
-	@browser.text_field(:name => 'url').set(address)
+When /^I enter (http:\/\/([^\/]*)\/(.*)) in the address box$/ do |url, host, path|
+	@host = host
+	@path = path
+	@browser.text_field(:name => 'url').set(url)
 end
 
 When /^I select (\S*) from the verb selector$/ do |verb|
@@ -17,11 +18,13 @@ When /^I click Go$/ do
 end
 
 Then /^my request is logged$/ do
-	@browser.pre(:id => 'request').text.include?('#{@verb} #{@address}').should be_true
+	text = @browser.pre(:id => 'request').text
+	text.should include("#{@verb} /#{@path} HTTP/1.1")
+	text.should include("Host: #{@host}")
 end
 
 Then /^the response is logged$/ do
-	@browser.pre(:id => 'response').text.include?('<title>HATEOAS console</title>').should be_true
+	@browser.pre(:id => 'response').text.should include('<title>HATEOAS console</title>')
 end
 
 Then /^links from the response are logged$/ do
@@ -29,9 +32,9 @@ Then /^links from the response are logged$/ do
 end
 
 Then /^the request body field is not visible$/ do
-	@browser.text_field(:name => 'requestBody').visible?.should be_false
+	@browser.text_field(:name => 'requestBody').should_not be_visible
 end
 
 Then /^the request body field is visible$/ do
-	@browser.text_field(:name => 'requestBody').visible?.should be_true
+	@browser.text_field(:name => 'requestBody').should be_visible
 end
