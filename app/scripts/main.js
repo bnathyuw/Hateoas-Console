@@ -6,11 +6,9 @@
 	
 		request = new HATEOAS_CONSOLE.models.RestRequest(),
 		
-		requestParser = { 
-			parse: function () {
-				return "";
-			}
-		},
+		requestParser = new HATEOAS_CONSOLE.parsers.RequestParser({
+			uriParser: new HATEOAS_CONSOLE.uriParser.uriParser()
+		}),
 		
 		requestLog = new HATEOAS_CONSOLE.views.RequestLog({
 			aggregator: aggregator,
