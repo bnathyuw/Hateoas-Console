@@ -2,20 +2,44 @@
 
 (function () {
 	"use strict";
-	var aggregator = _.extend({}, Backbone.Events),
-	
-		request = new HATEOAS_CONSOLE.models.RestRequest(),
+	var RestRequest = HATEOAS_CONSOLE.models.RestRequest,
+		RequestParser = HATEOAS_CONSOLE.parsers.RequestParser,
+		UriParser = HATEOAS_CONSOLE.parsers.UriParser,
+		RequestLog = HATEOAS_CONSOLE.views.RequestLog,
+		ResponseLog = HATEOAS_CONSOLE.views.ResponseLog,
+		RequestForm = HATEOAS_CONSOLE.views.RequestForm,
 		
-		requestParser = new HATEOAS_CONSOLE.parsers.RequestParser({
-			uriParser: new HATEOAS_CONSOLE.parsers.UriParser()
+		aggregator = _.extend({}, Backbone.Events),
+	
+		request = new RestRequest(),
+		
+		requestParser = new RequestParser({
+			uriParser: new UriParser()
 		}),
 		
-		requestLog = new HATEOAS_CONSOLE.views.RequestLog({
+		requestLog = new RequestLog({
 			aggregator: aggregator,
 			requestParser: requestParser
 		}),
 		
-		requestForm = new HATEOAS_CONSOLE.views.RequestForm({
+		responseParser = {
+			toHttpString: function () {
+				return "<title>HATEOAS console</title>";
+			}
+		},
+		
+		responseParserFactory = {
+			create: function () {
+				return responseParser;
+			}
+		},
+		
+		responseLog = new ResponseLog({
+			aggregator: aggregator,
+			responseParserFactory: responseParserFactory
+		}),
+		
+		requestForm = new RequestForm({
 			model: request,
 			aggregator: aggregator
 		});
