@@ -32,7 +32,7 @@ describe("RequestLog", function () {
 			var expectedLog = "Neque porro quisquam est qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit";
 			requestParser.parse = function () {
 				return expectedLog;
-			}
+			};
 			aggregator.trigger("send", model);
 			expect($("#request")).toHaveText(expectedLog);
 		});
