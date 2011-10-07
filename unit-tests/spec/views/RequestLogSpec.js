@@ -28,6 +28,14 @@ describe("RequestLog", function () {
 			expect(requestParser.parse).toHaveBeenCalledWith(model);
 		});
 		
+		it("should show the response from the parser on the page", function () {
+			var expectedLog = "Neque porro quisquam est qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit";
+			requestParser.parse = function () {
+				return expectedLog;
+			}
+			aggregator.trigger("send", model);
+			expect($("#request")).toHaveText(expectedLog);
+		});
 		
 	});
 });
