@@ -4,6 +4,7 @@ describe("RequestForm", function () {
 
 	var RequestForm = HATEOAS_CONSOLE.views.RequestForm,
 		model,
+		aggregator,
 		requestForm;
 	
 	beforeEach(function () {
@@ -12,7 +13,10 @@ describe("RequestForm", function () {
 			save: function () {},
 			set: function () {}
 		};
-		requestForm = new RequestForm({model: model});
+		aggregator = {
+			trigger: function () {}
+		};
+		requestForm = new RequestForm({model: model, aggregator: aggregator});
 	});
 	
 	it("should hide the request field on initialize", function () {
@@ -42,16 +46,21 @@ describe("RequestForm", function () {
 	
 	describe("effects of clicking 'Go'", function () {
 		beforeEach(function () {
-			spyOn(requestForm.model, "save");
-			spyOn(requestForm.model, "set");
-			$("#go").trigger("click");
 		});
 		
-		it("should update and save the model", function () {
-			expect(requestForm.model.save).toHaveBeenCalledWith({
+		it("should update the model", function () {
+			spyOn(requestForm.model, "set");
+			$("#go").trigger("click");
+			expect(requestForm.model.set).toHaveBeenCalledWith({
 				url: $("[name=url]").val(),
 				verb: $("[name=verb]").val()
 			});
+		});
+		
+		it("should trigger a send event", function () {
+			spyOn(requestForm.aggregator, "trigger");
+			$("#go").trigger("click");
+			expect(aggregator.trigger).toHaveBeenCalledWith("send", requestForm.model);
 		});
 	});
 });

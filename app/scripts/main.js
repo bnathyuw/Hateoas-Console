@@ -1,11 +1,11 @@
-﻿/*global $: false, jQuery: false, HATEOAS_CONSOLE: false, Backbone: false */
+﻿/*global $: false, jQuery: false, HATEOAS_CONSOLE: false, Backbone: false, _: false */
 
 (function () {
 	"use strict";
-	var request = new HATEOAS_CONSOLE.models.RestRequest(),
-		requestForm = new HATEOAS_CONSOLE.views.RequestForm({model: request});
-		
-	Backbone.sync = function (method, model, options) {
-		options.success();
-	};
+	var aggregator = _.extend({}, Backbone.Events),
+		request = new HATEOAS_CONSOLE.models.RestRequest(),
+		requestForm = new HATEOAS_CONSOLE.views.RequestForm({
+			model: request,
+			aggregator: aggregator
+		});
 }());

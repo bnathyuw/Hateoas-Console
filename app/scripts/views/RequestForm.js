@@ -7,8 +7,9 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 	return Backbone.View.extend({
 		el: "form",
 		
-		initialize: function () {
+		initialize: function (options) {
 			this.$("[name=requestBody]").hide();
+			this.aggregator = options.aggregator;
 		},
 		
 		events: {
@@ -26,10 +27,11 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 		},
 		
 		saveRequest: function () {
-			this.model.save({
+			this.model.set({
 				url: this.$("[name=url]").val(),
 				verb: this.$("[name=verb]").val()
 			});
+			this.aggregator.trigger("send", this.model);
 		}
 	});
 }());
