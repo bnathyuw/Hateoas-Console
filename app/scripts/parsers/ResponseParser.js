@@ -133,7 +133,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 		},
 		
 		toHttpString = function () {
-			return "HTTP STRING";
+			return "<title>HATEOAS console</title>";
 		};
 		
 	this.getLinks = getLinks;
