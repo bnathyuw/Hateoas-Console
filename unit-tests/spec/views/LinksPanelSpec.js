@@ -1,4 +1,4 @@
-﻿/*global HATEOAS_CONSOLE: false, Backbone: false, describe: false, beforeEach: false */
+﻿/*global HATEOAS_CONSOLE: false, Backbone: false, describe: false, beforeEach: false, loadFixtures: false, _: false, it: false, spyOn: false, expect: false, $: false */
 
 describe("LinksPanel", function () {
 	"use strict";
