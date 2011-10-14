@@ -41,7 +41,8 @@
 					uriParser: new UriParser(),
 					linkFinderFactory: new LinkFinderFactory(),
 					uri: "http://hateoas-console.local/",
-					contentType: "application/html"
+					contentType: "application/xml",
+					response: "<response><link rel='home'>http://www.google.com</link></response>"
 				};
 				return new ResponseParser(spec);
 			}

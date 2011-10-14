@@ -45,13 +45,14 @@ describe("LinksPanel", function () {
 			expect(responseParser.getLinks).toHaveBeenCalled();
 		});
 		
-		it("should write the links from the parser to the screen", function () {
-			var expectedResponse = "arma virumque cano Troiae qui primus ab oris";
+		it("should output a table", function () {
 			responseParser.getLinks = function () {
-				return expectedResponse;
+				return [
+					{}
+				];
 			};
 			aggregator.trigger("received", response);
-			expect($("#links")).toHaveText(expectedResponse);
+			expect($("#links table")).toExist();
 		});
 	});
 });

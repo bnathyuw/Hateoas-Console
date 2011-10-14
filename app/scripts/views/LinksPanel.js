@@ -18,9 +18,9 @@ HATEOAS_CONSOLE.views.LinksPanel = (function () {
 			
 			logResponse: function (response) {
 				var responseParser = responseParserFactory.create(response),
-					responseString = responseParser.getLinks();
+					links = responseParser.getLinks();
 					
-				$(this.el).html(responseString);
+				$(this.el).html("<table></table>");
 			}
 		};
 	}());
