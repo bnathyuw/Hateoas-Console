@@ -4,7 +4,9 @@
 	"use strict";
 	var RestRequest = HATEOAS_CONSOLE.models.RestRequest,
 		RequestParser = HATEOAS_CONSOLE.parsers.RequestParser,
+		ResponseParser = HATEOAS_CONSOLE.parsers.ResponseParser,
 		UriParser = HATEOAS_CONSOLE.parsers.UriParser,
+		LinkFinderFactory = HATEOAS_CONSOLE.parsers.LinkFinderFactory,
 		RequestLog = HATEOAS_CONSOLE.views.RequestLog,
 		ResponseLog = HATEOAS_CONSOLE.views.ResponseLog,
 		RequestForm = HATEOAS_CONSOLE.views.RequestForm,
@@ -34,8 +36,14 @@
 		},
 		
 		responseParserFactory = {
-			create: function () {
-				return responseParser;
+			create: function (response) {
+				var spec = {
+					uriParser: new UriParser(),
+					linkFinderFactory: new LinkFinderFactory(),
+					uri: "http://hateoas-console.local/",
+					contentType: "application/html"
+				};
+				return new ResponseParser(spec);
 			}
 		},
 		

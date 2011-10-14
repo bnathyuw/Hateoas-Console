@@ -36,6 +36,13 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 			message: "Parameter spec is missing a required member: uri"
 		};
 	}
+	
+	if (!spec.contentType) {
+		throw {	
+			name: "Invalid Parameter",
+			message: "Parameter spec is missing a required member: contentType"
+		};
+	}
 
 	var response = spec.response,
 		

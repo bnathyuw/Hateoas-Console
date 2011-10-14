@@ -30,7 +30,8 @@ describe("ResponseParser", function () {
 			expect(function () {
 				var parser = new ResponseParser({
 						uri: "http://localhost/",
-						uriParser: new UriParser()
+						uriParser: new UriParser(),
+						contentType: "text/html"
 					});
 			}).toThrow({
 				name: "Invalid Parameter",
@@ -42,7 +43,8 @@ describe("ResponseParser", function () {
 			expect(function () {
 				var parser = new ResponseParser({
 						uri: "http://localhost/",
-						linkFinderFactory: linkFinderFactory
+						linkFinderFactory: linkFinderFactory,
+						contentType: "text/html"
 					});
 			}).toThrow({
 				name: "Invalid Parameter",
@@ -54,11 +56,25 @@ describe("ResponseParser", function () {
 			expect(function () {
 				var parser = new ResponseParser({
 						uriParser: new UriParser(),
-						linkFinderFactory: linkFinderFactory
+						linkFinderFactory: linkFinderFactory,
+						contentType: "text/html"
 					});
 			}).toThrow({
 				name: "Invalid Parameter",
 				message: "Parameter spec is missing a required member: uri"
+			});
+		});
+		
+		it("should throw an exception if no contentType is passed in", function () {
+			expect(function () {
+				var parser = new ResponseParser({
+						uriParser: new UriParser(),
+						linkFinderFactory: linkFinderFactory,
+						uri: "http://localhost/"
+					});
+			}).toThrow({
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: contentType"
 			});
 		});
 	});
@@ -71,7 +87,8 @@ describe("ResponseParser", function () {
 			parser = new ResponseParser({
 				uri: "http://localhost/",
 				linkFinderFactory: linkFinderFactory,
-				uriParser: new UriParser()
+				uriParser: new UriParser(),
+				contentType: "text/html"
 			});
 		});
 	
