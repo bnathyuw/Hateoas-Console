@@ -5,23 +5,19 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 	"use strict";
 	
+	if (!this instanceof ResponseParser) {
+		return new ResponseParser(spec);
+	}
+	
 	spec = spec || {};
 
-	var that = {},
-	
-		response = spec.response,
+	var response = spec.response,
 		
-		uri = spec.uri,
-		
-		contentType = spec.contentType,
-		
-		linkFinderFactory = spec.linkFinderFactory,
-		
-		linkFinder = linkFinderFactory.create(contentType),
+		linkFinder = spec.linkFinderFactory.create(spec.contentType),
 	
 		uriParser = spec.uriParser,
 		
-		parsedRequestUri = uriParser.parse(uri),
+		parsedRequestUri = uriParser.parse(spec.uri),
 		
 		links,
 	
@@ -103,9 +99,5 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 			return links;
 		};
 		
-	that.getLinks = getLinks;
-	
-	that.constructor = ResponseParser;
-	
-	return that;
+	this.getLinks = getLinks;
 };
