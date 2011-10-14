@@ -1,26 +1,46 @@
-﻿/*global describe: false, HATEOAS_CONSOLE: false, it: false, expect: false */
+﻿/*global describe: false, HATEOAS_CONSOLE: false, it: false, expect: false, beforeEach: false, spyOn: false */
 
 describe("ResponseParser", function () {
 	"use strict";
-	var ResponseParser = HATEOAS_CONSOLE.parsers.ResponseParser;
+	var ResponseParser = HATEOAS_CONSOLE.parsers.ResponseParser,
+		links,
+		linkFinder = {
+			getLinks: function () {
+				return links;
+			}
+		},
+		linkFinderFactory = {
+			create: function () {
+				return linkFinder;
+			}
+		},
+		parser;
+	
+	beforeEach(function () {
+		parser = new ResponseParser({
+			uri: "http://localhost/",
+			linkFinderFactory: linkFinderFactory
+		});
+	});
 	
 	it("should identify itself as ResponseParser", function () {
-		var parser = new ResponseParser({linkFinder: {}});
+		var parser = new ResponseParser({linkFinderFactory: {create: function () {}}});
 		
 		expect(parser.constructor.name).toEqual("ResponseParser");
 	});
 	
 	describe("getLinks", function () {
+			
 		it("should return each link from getLinks", function () {
-			var getLinks = function () {
-					return [
-						{uri: "a", location: 10},
-						{uri: "b", location: 20},
-						{uri: "c", location: 30}
-					];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
+			
+			links = [
+				{uri: "a", location: 10},
+				{uri: "b", location: 20},
+				{uri: "c", location: 30}
+			];
+		
+			actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(3);
 			
@@ -30,16 +50,16 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should return duplicate links just once", function () {
-			var getLinks = function () {
-					return [
-						{uri: "a", location: 10},
-						{uri: "a", location: 20},
-						{uri: "a", location: 30}
-					];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
 			
+			links = [
+				{uri: "a", location: 10},
+				{uri: "a", location: 20},
+				{uri: "a", location: 30}
+			];
+			
+			actualLinks = parser.getLinks();
+		
 			expect(actualLinks.length).toEqual(1);
 			
 			expect(actualLinks[0].uri).toEqual("a");
@@ -47,15 +67,15 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should return all locations for duplicate links", function () {
-			var getLinks = function () {
-					return [
-						{uri: "a", location: 10},
-						{uri: "a", location: 20},
-						{uri: "a", location: 30}
-					];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
+			
+			links = [
+				{uri: "a", location: 10},
+				{uri: "a", location: 20},
+				{uri: "a", location: 30}
+			];
+			
+			actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
 			
@@ -63,15 +83,15 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should return all rel values for duplicate links", function () {
-			var getLinks = function () {
-					return [
-						{uri: "a", location: 10, rel: ["me"]},
-						{uri: "a", location: 20, rel: ["you"]},
-						{uri: "a", location: 30, rel: ["him"]}
-					];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
+			
+			links = [
+				{uri: "a", location: 10, rel: ["me"]},
+				{uri: "a", location: 20, rel: ["you"]},
+				{uri: "a", location: 30, rel: ["him"]}
+			];
+			
+			actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
 			
@@ -79,15 +99,15 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should should return only distinct rel values", function () {
-			var getLinks = function () {
-					return [
-						{uri: "a", location: 10, rel: ["me"]},
-						{uri: "a", location: 20, rel: ["me"]},
-						{uri: "a", location: 30, rel: ["me"]}
-					];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
+			
+			links = [
+				{uri: "a", location: 10, rel: ["me"]},
+				{uri: "a", location: 20, rel: ["me"]},
+				{uri: "a", location: 30, rel: ["me"]}
+			];
+			
+			actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
 			
@@ -95,15 +115,15 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should return all rev values for duplicate links", function () {
-			var getLinks = function () {
-					return [
-						{uri: "a", location: 10, rev: ["me"]},
-						{uri: "a", location: 20, rev: ["you"]},
-						{uri: "a", location: 30, rev: ["him"]}
-					];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
+			
+			links = [
+				{uri: "a", location: 10, rev: ["me"]},
+				{uri: "a", location: 20, rev: ["you"]},
+				{uri: "a", location: 30, rev: ["him"]}
+			];
+			
+			actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
 			
@@ -111,15 +131,15 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should should return only distinct rev values", function () {
-			var getLinks = function () {
-					return [
-						{uri: "a", location: 10, rev: ["me"]},
-						{uri: "a", location: 20, rev: ["me"]},
-						{uri: "a", location: 30, rev: ["me"]}
-					];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
+			
+			links = [
+				{uri: "a", location: 10, rev: ["me"]},
+				{uri: "a", location: 20, rev: ["me"]},
+				{uri: "a", location: 30, rev: ["me"]}
+			];
+			
+			actualLinks = parser.getLinks();
 			
 			expect(actualLinks.length).toEqual(1);
 			
@@ -127,12 +147,13 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should call getLinks only once", function () {
-			var callCount = 0,
-				getLinks = function () {
-					callCount += 1;
-					return [];
-				},
-				parser = new ResponseParser({linkFinder: {getLinks: getLinks}});
+			var callCount = 0;
+		
+			spyOn(linkFinder, "getLinks").
+				andCallFake(function () {
+					callCount = callCount + 1;
+					return links;
+				});
 			
 			parser.getLinks();
 			parser.getLinks();
@@ -141,20 +162,18 @@ describe("ResponseParser", function () {
 		});
 		
 		it("should mark links as same origin if and only if they have the same scheme and authority", function () {
-			var linksReturned = [
-					{uri: "http://localhost/bar", location: 10},
-					{uri: "http://localhost/bar2", location: 20},
-					{uri: "https://localhost/bar3", location: 30},
-					{uri: "http://otherhost/bar", location: 40},
-					{uri: "http://localhost:90/bar", location: 10},
-					{uri: "/bar", location: 10},
-					{uri: "bar", location: 10}
-				],
-				getLinks = function () {
-					return linksReturned;
-				},
-				parser = new ResponseParser({uri: "http://localhost/", linkFinder: {getLinks: getLinks}}),
-				actualLinks = parser.getLinks();
+			var actualLinks;
+			links = [
+				{uri: "http://localhost/bar", location: 10},
+				{uri: "http://localhost/bar2", location: 20},
+				{uri: "https://localhost/bar3", location: 30},
+				{uri: "http://otherhost/bar", location: 40},
+				{uri: "http://localhost:90/bar", location: 10},
+				{uri: "/bar", location: 10},
+				{uri: "bar", location: 10}
+			];
+
+			actualLinks = parser.getLinks();
 			
 			expect(actualLinks[0].hasSameOrigin).toEqual(true);
 			expect(actualLinks[1].hasSameOrigin).toEqual(true);

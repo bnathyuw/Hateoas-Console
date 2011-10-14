@@ -9,13 +9,15 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 
 	var that = {},
 	
-		response = spec.response || "",
+		response = spec.response,
 		
-		uri = spec.uri || "",
+		uri = spec.uri,
 		
-		contentType = spec.contentType || "",
+		contentType = spec.contentType,
 		
-		linkFinder = spec.linkFinder || new HATEOAS_CONSOLE.parsers.LinkFinderFactory().create(contentType),
+		linkFinderFactory = spec.linkFinderFactory,
+		
+		linkFinder = linkFinderFactory.create(contentType),
 	
 		uriParser = spec.uriParser || new HATEOAS_CONSOLE.parsers.UriParser(),
 		
