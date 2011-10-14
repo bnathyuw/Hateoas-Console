@@ -9,7 +9,33 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 		return new ResponseParser(spec);
 	}
 	
-	spec = spec || {};
+	if (!spec) {
+		throw {
+			name: "Missing parameter",
+			message: "Required parameter spec is missing"
+		};
+	}
+	
+	if (!spec.uriParser) {
+		throw {	
+			name: "Invalid Parameter",
+			message: "Parameter spec is missing a required member: uriParser"
+		};
+	}
+	
+	if (!spec.linkFinderFactory) {
+		throw {	
+			name: "Invalid Parameter",
+			message: "Parameter spec is missing a required member: linkFinderFactory"
+		};
+	}
+	
+	if (!spec.uri) {
+		throw {	
+			name: "Invalid Parameter",
+			message: "Parameter spec is missing a required member: uri"
+		};
+	}
 
 	var response = spec.response,
 		

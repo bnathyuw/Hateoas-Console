@@ -14,23 +14,67 @@ describe("ResponseParser", function () {
 			create: function () {
 				return linkFinder;
 			}
-		},
-		parser;
-	
-	beforeEach(function () {
-		parser = new ResponseParser({
-			uri: "http://localhost/",
-			linkFinderFactory: linkFinderFactory,
-			uriParser: new UriParser()
+		};
+		
+	describe("constructor", function () {
+		it("should throw an exception if no spec is passed in", function () {
+			expect(function () {
+				var parser = new ResponseParser();
+			}).toThrow({
+				name: "Missing Parameter",
+				message: "Required parameter spec is missing"
+			});
+		});
+		
+		it("should throw an exception if no linkFinderFactory is passed in", function () {
+			expect(function () {
+				var parser = new ResponseParser({
+						uri: "http://localhost/",
+						uriParser: new UriParser()
+					});
+			}).toThrow({
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: linkFinderFactory"
+			});
+		});
+		
+		it("should throw an exception if no uriParser is passed in", function () {
+			expect(function () {
+				var parser = new ResponseParser({
+						uri: "http://localhost/",
+						linkFinderFactory: linkFinderFactory
+					});
+			}).toThrow({
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: uriParser"
+			});
+		});
+		
+		it("should throw an exception if no uri is passed in", function () {
+			expect(function () {
+				var parser = new ResponseParser({
+						uriParser: new UriParser(),
+						linkFinderFactory: linkFinderFactory
+					});
+			}).toThrow({
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: uri"
+			});
 		});
 	});
 	
-	it("should identify itself as ResponseParser", function () {
-		expect(parser.constructor.name).toEqual("ResponseParser");
-	});
-	
 	describe("getLinks", function () {
-			
+		
+		var parser;
+		
+		beforeEach(function () {
+			parser = new ResponseParser({
+				uri: "http://localhost/",
+				linkFinderFactory: linkFinderFactory,
+				uriParser: new UriParser()
+			});
+		});
+	
 		it("should return each link from getLinks", function () {
 			var actualLinks;
 			
