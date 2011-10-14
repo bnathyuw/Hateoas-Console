@@ -43,6 +43,13 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 			message: "Parameter spec is missing a required member: contentType"
 		};
 	}
+	
+	if (spec.response === undefined) {
+		throw {
+			name: "Invalid Parameter",
+			message: "Parameter spec is missing a required member: response"
+		};
+	}
 
 	var response = spec.response,
 		

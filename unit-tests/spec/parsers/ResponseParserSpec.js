@@ -31,7 +31,8 @@ describe("ResponseParser", function () {
 				var parser = new ResponseParser({
 						uri: "http://localhost/",
 						uriParser: new UriParser(),
-						contentType: "text/html"
+						contentType: "text/html",
+						response: ""
 					});
 			}).toThrow({
 				name: "Invalid Parameter",
@@ -44,7 +45,8 @@ describe("ResponseParser", function () {
 				var parser = new ResponseParser({
 						uri: "http://localhost/",
 						linkFinderFactory: linkFinderFactory,
-						contentType: "text/html"
+						contentType: "text/html",
+						response: ""
 					});
 			}).toThrow({
 				name: "Invalid Parameter",
@@ -57,7 +59,8 @@ describe("ResponseParser", function () {
 				var parser = new ResponseParser({
 						uriParser: new UriParser(),
 						linkFinderFactory: linkFinderFactory,
-						contentType: "text/html"
+						contentType: "text/html",
+						response: ""
 					});
 			}).toThrow({
 				name: "Invalid Parameter",
@@ -70,11 +73,26 @@ describe("ResponseParser", function () {
 				var parser = new ResponseParser({
 						uriParser: new UriParser(),
 						linkFinderFactory: linkFinderFactory,
-						uri: "http://localhost/"
+						uri: "http://localhost/",
+						response: ""
 					});
 			}).toThrow({
 				name: "Invalid Parameter",
 				message: "Parameter spec is missing a required member: contentType"
+			});
+		});
+		
+		it("should throw an exception if no response is passed in", function () {
+			expect(function () {
+				var parser = new ResponseParser({
+						uriParser: new UriParser(),
+						linkFinderFactory: linkFinderFactory,
+						uri: "http://localhost/",
+						contentType: "text/html"
+					});
+			}).toThrow({
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: response"
 			});
 		});
 	});
@@ -87,7 +105,8 @@ describe("ResponseParser", function () {
 				uri: "http://localhost/",
 				linkFinderFactory: linkFinderFactory,
 				uriParser: new UriParser(),
-				contentType: "text/html"
+				contentType: "text/html",
+				response: ""
 			});
 		});
 		
@@ -107,7 +126,8 @@ describe("ResponseParser", function () {
 				uri: "http://localhost/",
 				linkFinderFactory: linkFinderFactory,
 				uriParser: new UriParser(),
-				contentType: "text/html"
+				contentType: "text/html",
+				response: ""
 			});
 		});
 	
