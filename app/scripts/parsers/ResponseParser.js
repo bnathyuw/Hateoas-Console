@@ -130,7 +130,13 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 			});
 			
 			return links;
+		},
+		
+		toHttpString = function () {
+			return "HTTP STRING";
 		};
 		
 	this.getLinks = getLinks;
+	
+	this.toHttpString = toHttpString;
 };

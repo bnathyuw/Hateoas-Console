@@ -79,6 +79,25 @@ describe("ResponseParser", function () {
 		});
 	});
 	
+	describe("toHttpString", function () {
+		var parser;
+		
+		beforeEach(function () {
+			parser = new ResponseParser({
+				uri: "http://localhost/",
+				linkFinderFactory: linkFinderFactory,
+				uriParser: new UriParser(),
+				contentType: "text/html"
+			});
+		});
+		
+		it("should return something", function () {
+			var httpString = parser.toHttpString();
+			
+			expect(httpString).toBeTruthy();
+		});
+	});
+	
 	describe("getLinks", function () {
 		
 		var parser;
