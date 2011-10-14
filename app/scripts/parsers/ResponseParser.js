@@ -19,7 +19,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 		
 		linkFinder = linkFinderFactory.create(contentType),
 	
-		uriParser = spec.uriParser || new HATEOAS_CONSOLE.parsers.UriParser(),
+		uriParser = spec.uriParser,
 		
 		parsedRequestUri = uriParser.parse(uri),
 		

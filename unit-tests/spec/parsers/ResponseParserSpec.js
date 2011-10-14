@@ -3,6 +3,7 @@
 describe("ResponseParser", function () {
 	"use strict";
 	var ResponseParser = HATEOAS_CONSOLE.parsers.ResponseParser,
+		UriParser = HATEOAS_CONSOLE.parsers.UriParser,
 		links,
 		linkFinder = {
 			getLinks: function () {
@@ -19,13 +20,12 @@ describe("ResponseParser", function () {
 	beforeEach(function () {
 		parser = new ResponseParser({
 			uri: "http://localhost/",
-			linkFinderFactory: linkFinderFactory
+			linkFinderFactory: linkFinderFactory,
+			uriParser: new UriParser()
 		});
 	});
 	
 	it("should identify itself as ResponseParser", function () {
-		var parser = new ResponseParser({linkFinderFactory: {create: function () {}}});
-		
 		expect(parser.constructor.name).toEqual("ResponseParser");
 	});
 	
