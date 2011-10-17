@@ -31,10 +31,10 @@ Then /^links from the response are logged$/ do
 	@browser.div(:id => 'links').table.exists?.should be_true
 end
 
-Then /^the request body field is not visible$/ do
-	@browser.text_field(:name => 'requestBody').should_not be_visible
-end
-
-Then /^the request body field is visible$/ do
-	@browser.text_field(:name => 'requestBody').should be_visible
+Then /^the request body field is( not)? visible$/ do | not_visible |
+	if not_visible == " not" then
+		@browser.text_field(:name => 'requestBody').should_not be_visible
+	else
+		@browser.text_field(:name => 'requestBody').should be_visible
+	end
 end
