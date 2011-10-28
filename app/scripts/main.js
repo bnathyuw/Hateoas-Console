@@ -26,15 +26,6 @@
 			requestParser: requestParser
 		}),
 		
-		responseParser = {
-			toHttpString: function () {
-				return "<title>HATEOAS console</title>";
-			},
-			getLinks: function () {
-				return "<table><tr><td>Links</td></tr></table>";
-			}
-		},
-		
 		responseParserFactory = {
 			create: function (response) {
 				var spec = {
