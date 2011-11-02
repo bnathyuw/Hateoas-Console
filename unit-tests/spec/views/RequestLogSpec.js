@@ -24,7 +24,9 @@ describe("RequestLog", function () {
 		
 		it("should call the reqest parser", function () {
 			spyOn(requestParser, "parse");
-			aggregator.trigger("send", model);
+			aggregator.trigger("send", {
+				request: model
+			});
 			expect(requestParser.parse).toHaveBeenCalledWith(model);
 		});
 		
@@ -33,7 +35,9 @@ describe("RequestLog", function () {
 			requestParser.parse = function () {
 				return expectedLog;
 			};
-			aggregator.trigger("send", model);
+			aggregator.trigger("send", {
+				request: model
+			});
 			expect($("#request")).toHaveText(expectedLog);
 		});
 		

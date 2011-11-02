@@ -14,8 +14,8 @@ HATEOAS_CONSOLE.views.RequestLog = (function () {
 			this.requestParser = options.requestParser;
 		},
 		
-		logRequest: function (request) {
-			var log = this.requestParser.parse(request);
+		logRequest: function (event) {
+			var log = this.requestParser.parse(event.request);
 			$(this.el).text(log);
 		}
 	});

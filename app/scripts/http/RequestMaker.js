@@ -9,8 +9,14 @@ HATEOAS_CONSOLE.http.RequestMaker = function RequestMaker(options) {
 		return new RequestMaker(options);
 	}
 	
-	this.sendRequest = function () {
-		options.aggregator.trigger("received");
+	this.sendRequest = function (event) {
+		options.aggregator.trigger("received", {
+			uri: event.request.get("url"),
+			response: {
+				contentType: "text/html",
+				body: ""
+			}
+		});
 	};
 	
 	_.bindAll(this, "sendRequest");

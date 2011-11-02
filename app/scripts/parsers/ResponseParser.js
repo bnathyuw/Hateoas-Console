@@ -37,13 +37,6 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 		};
 	}
 	
-	if (!spec.contentType) {
-		throw {	
-			name: "Invalid Parameter",
-			message: "Parameter spec is missing a required member: contentType"
-		};
-	}
-	
 	if (spec.response === undefined) {
 		throw {
 			name: "Invalid Parameter",
@@ -53,7 +46,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 
 	var response = spec.response,
 		
-		linkFinder = spec.linkFinderFactory.create(spec.contentType),
+		linkFinder = spec.linkFinderFactory.create(response.contentType),
 	
 		uriParser = spec.uriParser,
 		
@@ -130,7 +123,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 			
 			links = [];
 			
-			linksFound = linkFinder.getLinks(response);
+			linksFound = linkFinder.getLinks(response.body);
 			
 			linksFound.forEach(function (link) {
 				addLink(link);

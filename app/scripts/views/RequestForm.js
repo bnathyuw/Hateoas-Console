@@ -31,7 +31,9 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 				url: this.$("[name=url]").val(),
 				verb: this.$("[name=verb]").val()
 			});
-			this.aggregator.trigger("send", this.model);
+			this.aggregator.trigger("send", {
+				request: this.model
+			});
 		}
 	});
 }());

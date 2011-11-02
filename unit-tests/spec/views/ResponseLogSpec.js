@@ -27,21 +27,41 @@ describe("ResponseLog", function () {
 	});
 	
 	describe("when received is triggered", function () {
-		var response;
+		var response,
+			event,
+			uri = "http://cde.com";
 		
 		beforeEach(function () {
 			response = {};
+			event = {
+				response: response,
+				uri: uri
+			};
 		});
 	
 		it("should get a response parser", function () {
 			spyOn(responseParserFactory, "create").andCallThrough();
-			aggregator.trigger("received", response);
-			expect(responseParserFactory.create).toHaveBeenCalledWith(response);
+			aggregator.trigger("received", event);
+			expect(responseParserFactory.create).toHaveBeenCalled();
+		});
+		
+		it("should pass the response into the response parser factory", function () {
+			spyOn(responseParserFactory, "create").andCallThrough();
+			aggregator.trigger("received", event);
+			expect(responseParserFactory.create.mostRecentCall.args[0].response).
+				toEqual(response);
+		});
+		
+		it("should pass the uri into the response parser factory", function () {
+			spyOn(responseParserFactory, "create").andCallThrough();
+			aggregator.trigger("received", event);
+			expect(responseParserFactory.create.mostRecentCall.args[0].uri).
+				toEqual(uri);
 		});
 		
 		it("should get the log from the response parser", function () {
 			spyOn(responseParser, "toHttpString");
-			aggregator.trigger("received", response);
+			aggregator.trigger("received", event);
 			expect(responseParser.toHttpString).toHaveBeenCalled();
 		});
 		
@@ -50,7 +70,7 @@ describe("ResponseLog", function () {
 			responseParser.toHttpString = function () {
 				return expectedResponse;
 			};
-			aggregator.trigger("received", response);
+			aggregator.trigger("received", event);
 			expect($("#response")).toHaveText(expectedResponse);
 		});
 	});

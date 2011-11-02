@@ -16,87 +16,6 @@ describe("ResponseParser", function () {
 			}
 		};
 		
-	describe("constructor", function () {
-		it("should throw an exception if no spec is passed in", function () {
-			expect(function () {
-				var parser = new ResponseParser();
-			}).toThrow({
-				name: "Missing Parameter",
-				message: "Required parameter spec is missing"
-			});
-		});
-		
-		it("should throw an exception if no linkFinderFactory is passed in", function () {
-			expect(function () {
-				var parser = new ResponseParser({
-						uri: "http://localhost/",
-						uriParser: new UriParser(),
-						contentType: "text/html",
-						response: ""
-					});
-			}).toThrow({
-				name: "Invalid Parameter",
-				message: "Parameter spec is missing a required member: linkFinderFactory"
-			});
-		});
-		
-		it("should throw an exception if no uriParser is passed in", function () {
-			expect(function () {
-				var parser = new ResponseParser({
-						uri: "http://localhost/",
-						linkFinderFactory: linkFinderFactory,
-						contentType: "text/html",
-						response: ""
-					});
-			}).toThrow({
-				name: "Invalid Parameter",
-				message: "Parameter spec is missing a required member: uriParser"
-			});
-		});
-		
-		it("should throw an exception if no uri is passed in", function () {
-			expect(function () {
-				var parser = new ResponseParser({
-						uriParser: new UriParser(),
-						linkFinderFactory: linkFinderFactory,
-						contentType: "text/html",
-						response: ""
-					});
-			}).toThrow({
-				name: "Invalid Parameter",
-				message: "Parameter spec is missing a required member: uri"
-			});
-		});
-		
-		it("should throw an exception if no contentType is passed in", function () {
-			expect(function () {
-				var parser = new ResponseParser({
-						uriParser: new UriParser(),
-						linkFinderFactory: linkFinderFactory,
-						uri: "http://localhost/",
-						response: ""
-					});
-			}).toThrow({
-				name: "Invalid Parameter",
-				message: "Parameter spec is missing a required member: contentType"
-			});
-		});
-		
-		it("should throw an exception if no response is passed in", function () {
-			expect(function () {
-				var parser = new ResponseParser({
-						uriParser: new UriParser(),
-						linkFinderFactory: linkFinderFactory,
-						uri: "http://localhost/",
-						contentType: "text/html"
-					});
-			}).toThrow({
-				name: "Invalid Parameter",
-				message: "Parameter spec is missing a required member: response"
-			});
-		});
-	});
-	
 	describe("toHttpString", function () {
 		var parser;
 		
@@ -105,8 +24,10 @@ describe("ResponseParser", function () {
 				uri: "http://localhost/",
 				linkFinderFactory: linkFinderFactory,
 				uriParser: new UriParser(),
-				contentType: "text/html",
-				response: ""
+				response: {
+					contentType: "text/html",
+					body: ""
+				}
 			});
 		});
 		
@@ -126,8 +47,10 @@ describe("ResponseParser", function () {
 				uri: "http://localhost/",
 				linkFinderFactory: linkFinderFactory,
 				uriParser: new UriParser(),
-				contentType: "text/html",
-				response: ""
+				response: {
+					contentType: "text/html",
+					body: ""
+				}
 			});
 		});
 	

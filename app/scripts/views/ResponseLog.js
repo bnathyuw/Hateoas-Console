@@ -16,8 +16,11 @@ HATEOAS_CONSOLE.views.ResponseLog = (function () {
 				responseParserFactory = options.responseParserFactory;
 			},
 			
-			logResponse: function (response) {
-				var responseParser = responseParserFactory.create(response),
+			logResponse: function (event) {
+				var responseParser = responseParserFactory.create({
+						uri: event.uri,
+						response: event.response
+					}),
 					responseString = responseParser.toHttpString();
 					
 				$(this.el).text(responseString);

@@ -58,7 +58,13 @@ describe("RequestForm", function () {
 		it("should trigger a send event", function () {
 			spyOn(requestForm.aggregator, "trigger");
 			$("#go").trigger("click");
-			expect(aggregator.trigger).toHaveBeenCalledWith("send", requestForm.model);
+			expect(aggregator.trigger.mostRecentCall.args[0]).toEqual("send");
+		});
+		
+		it("should pass model to send event", function () {
+			spyOn(requestForm.aggregator, "trigger");
+			$("#go").trigger("click");
+			expect(aggregator.trigger.mostRecentCall.args[1].request).toEqual(requestForm.model);
 		});
 	});
 });

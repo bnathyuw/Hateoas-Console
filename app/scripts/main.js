@@ -5,6 +5,7 @@
 	var RestRequest = HATEOAS_CONSOLE.models.RestRequest,
 		RequestParser = HATEOAS_CONSOLE.parsers.RequestParser,
 		ResponseParser = HATEOAS_CONSOLE.parsers.ResponseParser,
+		ResponseParserFactory = HATEOAS_CONSOLE.parsers.ResponseParserFactory,
 		UriParser = HATEOAS_CONSOLE.parsers.UriParser,
 		LinkFinderFactory = HATEOAS_CONSOLE.parsers.LinkFinderFactory,
 		RequestLog = HATEOAS_CONSOLE.views.RequestLog,
@@ -26,18 +27,10 @@
 			requestParser: requestParser
 		}),
 		
-		responseParserFactory = {
-			create: function (response) {
-				var spec = {
-					uriParser: new UriParser(),
-					linkFinderFactory: new LinkFinderFactory(),
-					uri: "http://hateoas-console.local/",
-					contentType: "application/xml",
-					response: "<response><link rel='home'>http://www.google.com</link></response>"
-				};
-				return new ResponseParser(spec);
-			}
-		},
+		responseParserFactory = new ResponseParserFactory({
+			uriParser: new UriParser(),
+			linkFinderFactory: new LinkFinderFactory()
+		}),
 		
 		responseLog = new ResponseLog({
 			aggregator: aggregator,

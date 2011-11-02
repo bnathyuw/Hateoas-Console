@@ -27,21 +27,33 @@ describe("LinksPanel", function () {
 	});
 	
 	describe("when received is triggered", function () {
-		var response;
+		var response,
+			event,
+			uri = "http://ghi.com";
 		
 		beforeEach(function () {
 			response = {};
+			event = {
+				response: response,
+				uri: uri
+			};
 		});
 	
 		it("should get a response parser", function () {
 			spyOn(responseParserFactory, "create").andCallThrough();
-			aggregator.trigger("received", response);
-			expect(responseParserFactory.create).toHaveBeenCalledWith(response);
+			aggregator.trigger("received", event);
+			expect(responseParserFactory.create).toHaveBeenCalled();
+		});
+		
+		it("should get a response parser", function () {
+			spyOn(responseParserFactory, "create").andCallThrough();
+			aggregator.trigger("received", event);
+			expect(responseParserFactory.create.mostRecentCall.args[0].response).toEqual(response);
 		});
 		
 		it("should get the links from the response parser", function () {
 			spyOn(responseParser, "getLinks");
-			aggregator.trigger("received", response);
+			aggregator.trigger("received", event);
 			expect(responseParser.getLinks).toHaveBeenCalled();
 		});
 		
@@ -51,7 +63,7 @@ describe("LinksPanel", function () {
 					{}
 				];
 			};
-			aggregator.trigger("received", response);
+			aggregator.trigger("received", event);
 			expect($("#links table")).toExist();
 		});
 	});
