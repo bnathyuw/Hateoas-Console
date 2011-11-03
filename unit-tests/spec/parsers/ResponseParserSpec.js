@@ -17,7 +17,8 @@ describe("ResponseParser", function () {
 		};
 
 	describe("toHttpString", function () {
-		var parser;
+		var parser,
+			body = "<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>";
 
 		beforeEach(function () {
 			parser = new ResponseParser({
@@ -28,7 +29,7 @@ describe("ResponseParser", function () {
 					get: function (key) {
 						switch (key) {
 						case "body":
-							return "<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>";
+							return body;
 						}
 					},
 					getHeader: function (key) {
@@ -41,10 +42,10 @@ describe("ResponseParser", function () {
 			});
 		});
 
-		it("should return something", function () {
+		it("should include the response body", function () {
 			var httpString = parser.toHttpString();
 
-			expect(httpString).toBeTruthy();
+			expect(httpString).toContain(body);
 		});
 	});
 
