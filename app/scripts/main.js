@@ -14,13 +14,21 @@
 		RequestForm = HATEOAS_CONSOLE.views.RequestForm,
 		RequestMaker = HATEOAS_CONSOLE.http.RequestMaker,
 		LinksPanel = HATEOAS_CONSOLE.views.LinksPanel,
+		UrlHierarchicalPartParser = HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
 
 		aggregator = _.extend({}, Backbone.Events),
 
 		request = new RestRequest(),
 
 		requestParser = new RequestParser({
-			urlParser: new UriParser()
+			urlParser: new UriParser({
+				hppConstructors: {
+					http: UrlHierarchicalPartParser,
+					https: UrlHierarchicalPartParser,
+					ftp: UrlHierarchicalPartParser,
+					ftps: UrlHierarchicalPartParser
+				}
+			})
 		}),
 
 		requestLog = new RequestLog({
@@ -29,7 +37,14 @@
 		}),
 
 		responseParserFactory = new ResponseParserFactory({
-			urlParser: new UriParser(),
+			urlParser: new UriParser({
+				hppConstructors: {
+					http: UrlHierarchicalPartParser,
+					https: UrlHierarchicalPartParser,
+					ftp: UrlHierarchicalPartParser,
+					ftps: UrlHierarchicalPartParser
+				}
+			}),
 			linkFinderFactory: new LinkFinderFactory({
 				constructors: {
 					xml: HATEOAS_CONSOLE.parsers.XmlLinkFinder,

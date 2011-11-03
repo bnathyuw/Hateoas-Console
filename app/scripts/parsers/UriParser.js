@@ -8,7 +8,7 @@ HATEOAS_CONSOLE.parsers.UriParser = (function () {
 
 	var instance,
 
-		UriParser = function UriParser() {
+		UriParser = function UriParser(spec) {
 
 			if (!this instanceof UriParser) {
 				return new UriParser();
@@ -21,13 +21,6 @@ HATEOAS_CONSOLE.parsers.UriParser = (function () {
 			var memo = {},
 
 				urlRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
-
-				hppConstructors = {
-					http: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
-					https: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
-					ftp: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
-					ftps: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser
-				},
 
 				parse = function (url) {
 
@@ -53,7 +46,7 @@ HATEOAS_CONSOLE.parsers.UriParser = (function () {
 						fragment: match[4]
 					};
 
-					HppConstructor = hppConstructors[parts.scheme];
+					HppConstructor = spec.hppConstructors[parts.scheme];
 
 					if (HppConstructor) {
 						hpp = new HppConstructor();
