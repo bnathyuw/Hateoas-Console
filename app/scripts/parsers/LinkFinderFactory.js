@@ -7,37 +7,29 @@ HATEOAS_CONSOLE.parsers.LinkFinderFactory = (function () {
 
 	var instance,
 
-		constructors = {
-			xml: HATEOAS_CONSOLE.parsers.XmlLinkFinder,
-			json: HATEOAS_CONSOLE.parsers.JsonLinkFinder,
-			"json-p": HATEOAS_CONSOLE.parsers.JsonpLinkFinder,
-			html: HATEOAS_CONSOLE.parsers.XmlLinkFinder
-		},
-
-		create = function (contentType, spec) {
-			var	mimeType = contentType.split(";").shift(),
-				responseFormat = mimeType.split(/[\/\+]/).pop(),
-				Ctor = constructors[responseFormat];
-
-			if (!Ctor) {
-				throw {
-					name: "Constructor Not Found",
-					message: "No constructor exists for type " + contentType
-				};
-			}
-
-			return new Ctor(spec);
-		},
-
-		LinkFinderFactory = function LinkFinderFactory() {
-
+		LinkFinderFactory = function LinkFinderFactory(spec) {
 			if (!this instanceof LinkFinderFactory) {
-				return new LinkFinderFactory();
+				return new LinkFinderFactory(spec);
 			}
 
 			if (instance) {
 				return instance;
 			}
+
+			var	create = function (contentType, createSpec) {
+				var	mimeType = contentType.split(";").shift(),
+					responseFormat = mimeType.split(/[\/\+]/).pop(),
+					Ctor = spec.constructors[responseFormat];
+
+				if (!Ctor) {
+					throw {
+						name: "Constructor Not Found",
+						message: "No constructor exists for type " + contentType
+					};
+				}
+
+				return new Ctor(createSpec);
+			};
 
 			this.create = create;
 

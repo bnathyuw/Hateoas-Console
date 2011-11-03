@@ -30,7 +30,14 @@
 
 		responseParserFactory = new ResponseParserFactory({
 			urlParser: new UriParser(),
-			linkFinderFactory: new LinkFinderFactory()
+			linkFinderFactory: new LinkFinderFactory({
+				constructors: {
+					xml: HATEOAS_CONSOLE.parsers.XmlLinkFinder,
+					json: HATEOAS_CONSOLE.parsers.JsonLinkFinder,
+					"json-p": HATEOAS_CONSOLE.parsers.JsonpLinkFinder,
+					html: HATEOAS_CONSOLE.parsers.XmlLinkFinder
+				}
+			})
 		}),
 
 		responseLog = new ResponseLog({

@@ -1,12 +1,21 @@
-﻿/*global describe: false, toString: false, beforeEach: false, it: false, HATEOAS_CONSOLE: false, expect: false */
+﻿/*global describe: false, toString: false, beforeEach: false, it: false, HATEOAS_CONSOLE: false, expect: false, spyOn: false */
 
 describe("LinkFinderFactory", function () {
 	"use strict";
-	var LinkFinderFactory = HATEOAS_CONSOLE.parsers.LinkFinderFactory;
+	var LinkFinderFactory = HATEOAS_CONSOLE.parsers.LinkFinderFactory,
+		constructors = {
+			xml: function () {},
+			html: function () {},
+			"json-p": function () {},
+			json: function () {}
+		},
+		spec = {
+			constructors: constructors
+		};
 
 	it("should be a singleton", function () {
-		var factory1 = new LinkFinderFactory(),
-			factory2 = new LinkFinderFactory();
+		var factory1 = new LinkFinderFactory(spec),
+			factory2 = new LinkFinderFactory(spec);
 
 		expect(factory1 === factory2).toEqual(true);
 	});
@@ -18,58 +27,62 @@ describe("LinkFinderFactory", function () {
 	});
 
 	describe("getParser", function () {
+		var factory;
+
+		beforeEach(function () {
+			factory = new LinkFinderFactory(spec);
+		});
+
 		it("should return xmlLinkFinder for text/xml", function () {
-			var factory = new LinkFinderFactory(),
+			var spy = spyOn(constructors, "xml"),
 				parser = factory.create("text/xml");
 
-			expect(parser.constructor.name).toEqual("XmlLinkFinder");
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should return xmlLinkFinder for application/xml", function () {
-			var factory = new LinkFinderFactory(),
+			var spy = spyOn(constructors, "xml"),
 				parser = factory.create("application/xml");
 
-			expect(parser.constructor.name).toEqual("XmlLinkFinder");
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should return xmlLinkFinder for application/something+xml", function () {
-			var factory = new LinkFinderFactory(),
+			var spy = spyOn(constructors, "xml"),
 				parser = factory.create("application/something+xml");
 
-			expect(parser.constructor.name).toEqual("XmlLinkFinder");
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should return jsonLinkFinder for application/json", function () {
-			var factory = new LinkFinderFactory(),
+			var spy = spyOn(constructors, "json"),
 				parser = factory.create("application/json");
 
-			expect(parser.constructor.name).toEqual("JsonLinkFinder");
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should return jsonpLinkFinder for application/json-p", function () {
-			var factory = new LinkFinderFactory(),
+			var spy = spyOn(constructors, "json-p"),
 				parser = factory.create("application/json-p");
 
-			expect(parser.constructor.name).toEqual("JsonpLinkFinder");
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should return xmlLinkFinder for text/html", function () {
-			var factory = new LinkFinderFactory(),
+			var spy = spyOn(constructors, "html"),
 				parser = factory.create("text/html");
 
-			expect(parser.constructor.name).toEqual("XmlLinkFinder");
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should be able to cope with charset declarations in the content type", function () {
-			var factory = new LinkFinderFactory(),
+			var spy = spyOn(constructors, "xml"),
 				parser = factory.create("application/xml; charset=utf-8");
 
-			expect(parser.constructor.name).toEqual("XmlLinkFinder");
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should throw an appropriate error if no constructor can be found", function () {
-			var factory = new LinkFinderFactory();
-
 			expect(function () {
 				factory.create("application/foo");
 			}).toThrow({
