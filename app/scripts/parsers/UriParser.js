@@ -6,73 +6,74 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 HATEOAS_CONSOLE.parsers.UriParser = (function () {
 	"use strict";
 
-	var instance;
+	var instance,
 
-	return function UriParser() {
+		UriParser = function UriParser() {
 
-		if (instance) {
-			return instance;
-		}
+			if (!this instanceof UriParser) {
+				return new UriParser();
+			}
 
-		var memo = {},
+			if (instance) {
+				return instance;
+			}
 
-			urlRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
+			var memo = {},
 
-			hppConstructors = {
-				http: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
-				https: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
-				ftp: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
-				ftps: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser
-			},
+				urlRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
 
-			parse = function (url) {
+				hppConstructors = {
+					http: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
+					https: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
+					ftp: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
+					ftps: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser
+				},
 
-				if (memo[url]) {
-					return memo[url];
-				}
+				parse = function (url) {
 
-				var match = urlRegex.exec(url),
-					parts,
-					hpp,
-					HppConstructor,
-					extraParts,
-					c;
+					if (memo[url]) {
+						return memo[url];
+					}
 
-				if (!match) {
-					return;
-				}
+					var match = urlRegex.exec(url),
+						parts,
+						hpp,
+						HppConstructor,
+						extraParts,
+						c;
 
-				parts = {
-					scheme: match[1],
-					hierarchicalPart: match[2],
-					query: match[3],
-					fragment: match[4]
-				};
+					if (!match) {
+						return;
+					}
 
-				HppConstructor = hppConstructors[parts.scheme];
+					parts = {
+						scheme: match[1],
+						hierarchicalPart: match[2],
+						query: match[3],
+						fragment: match[4]
+					};
 
-				if (HppConstructor) {
-					hpp = new HppConstructor();
-					extraParts = hpp.parse(parts.hierarchicalPart);
-					for (c in extraParts) {
-						if (extraParts.hasOwnProperty(c)) {
-							parts[c] = extraParts[c];
+					HppConstructor = hppConstructors[parts.scheme];
+
+					if (HppConstructor) {
+						hpp = new HppConstructor();
+						extraParts = hpp.parse(parts.hierarchicalPart);
+						for (c in extraParts) {
+							if (extraParts.hasOwnProperty(c)) {
+								parts[c] = extraParts[c];
+							}
 						}
 					}
-				}
 
-				memo[url] = parts;
+					memo[url] = parts;
 
-				return memo[url];
-			};
+					return memo[url];
+				};
 
-		instance = {
-			parse: parse
+			this.parse = parse;
+
+			instance = this;
 		};
 
-		instance.constructor = UriParser;
-
-		return instance;
-	};
-
+	return UriParser;
 }());

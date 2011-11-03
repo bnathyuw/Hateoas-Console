@@ -14,28 +14,30 @@ HATEOAS_CONSOLE.http.RequestMaker = (function () {
 		}
 
 		var handler = function () {
-			if (this.readyState === 4) {
-				spec.aggregator.trigger("received", {
-					url: this.url,
-					response: new RestResponse({
-						body: this.responseText
-					})
-				});
-			}
-		};
+				if (this.readyState === 4) {
+					spec.aggregator.trigger("received", {
+						url: this.url,
+						response: new RestResponse({
+							body: this.responseText
+						})
+					});
+				}
+			},
 
-		this.sendRequest = function (event) {
-			var xmlHttpRequest = new spec.XMLHttpRequest(),
-				request = event.request,
-				url = request.get("url"),
-				verb = request.get("verb"),
-				body = request.get("body");
+			sendRequest = function (event) {
+				var xmlHttpRequest = new spec.XMLHttpRequest(),
+					request = event.request,
+					url = request.get("url"),
+					verb = request.get("verb"),
+					body = request.get("body");
 
-			xmlHttpRequest.onreadystatechange = handler;
-			xmlHttpRequest.url = url;
-			xmlHttpRequest.open(verb, url, true);
-			xmlHttpRequest.send(body);
-		};
+				xmlHttpRequest.onreadystatechange = handler;
+				xmlHttpRequest.url = url;
+				xmlHttpRequest.open(verb, url, true);
+				xmlHttpRequest.send(body);
+			};
+
+		this.sendRequest = sendRequest;
 
 		_.bindAll(this, "sendRequest");
 

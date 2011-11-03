@@ -17,31 +17,32 @@ HATEOAS_CONSOLE.parsers.LinkFinderFactory = (function () {
 		create = function (contentType, spec) {
 			var	mimeType = contentType.split(";").shift(),
 				responseFormat = mimeType.split(/[\/\+]/).pop(),
-				ctor = constructors[responseFormat];
+				Ctor = constructors[responseFormat];
 
-			if (!ctor) {
+			if (!Ctor) {
 				throw {
 					name: "Constructor Not Found",
 					message: "No constructor exists for type " + contentType
 				};
 			}
 
-			return ctor(spec);
+			return new Ctor(spec);
+		},
+
+		LinkFinderFactory = function LinkFinderFactory() {
+
+			if (!this instanceof LinkFinderFactory) {
+				return new LinkFinderFactory();
+			}
+
+			if (instance) {
+				return instance;
+			}
+
+			this.create = create;
+
+			instance = this;
 		};
 
-	return function LinkFinderFactory() {
-
-		if (instance) {
-			return instance;
-		}
-
-		instance = {
-			create: create
-		};
-
-		instance.constructor = LinkFinderFactory;
-
-		return instance;
-	};
-
+	return LinkFinderFactory;
 }());

@@ -26,20 +26,22 @@ HATEOAS_CONSOLE.parsers.JsonLinkFinder = (function () {
 			});
 
 			return links;
+		},
+
+		JsonLinkFinder = function JsonLinkFinder() {
+
+			if (!this instanceof JsonLinkFinder) {
+				return new JsonLinkFinder();
+			}
+
+			if (instance) {
+				return instance;
+			}
+
+			this.getLinks = getLinks;
+
+			instance = this;
 		};
 
-	return function JsonLinkFinder() {
-
-		if (instance) {
-			return instance;
-		}
-
-		instance = {
-			getLinks: getLinks
-		};
-
-		instance.constructor = JsonLinkFinder;
-
-		return instance;
-	};
+	return JsonLinkFinder;
 }());

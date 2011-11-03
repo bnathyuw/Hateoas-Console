@@ -6,19 +6,24 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 HATEOAS_CONSOLE.parsers.JsonpLinkFinder = (function () {
 	"use strict";
 
-	var instance;
+	var instance,
+		getLinks = function () {},
 
-	return function JsonpLinkFinder() {
+		JsonpLinkFinder = function JsonpLinkFinder() {
 
-		if (instance) {
-			return instance;
-		}
+			if (!this instanceof JsonpLinkFinder) {
+				return new JsonpLinkFinder();
+			}
 
-		instance = {};
+			if (instance) {
+				return instance;
+			}
 
-		instance.constructor = JsonpLinkFinder;
+			this.getLinks = getLinks;
 
-		return instance;
-	};
+			instance = this;
+		};
+
+	return JsonpLinkFinder;
 
 }());

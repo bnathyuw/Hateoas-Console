@@ -37,20 +37,22 @@ HATEOAS_CONSOLE.parsers.XmlLinkFinder = (function () {
 			}
 
 			return links;
-		};
+		},
 
-	return function XmlLinkFinder() {
+		XmlLinkFinder = function XmlLinkFinder() {
 
-		if (instance) {
+			if (instance) {
+				return instance;
+			}
+
+			instance = {
+				getLinks: getLinks
+			};
+
+			instance.constructor = XmlLinkFinder;
+
 			return instance;
-		}
-
-		instance = {
-			getLinks: getLinks
 		};
 
-		instance.constructor = XmlLinkFinder;
-
-		return instance;
-	};
+	return XmlLinkFinder;
 }());
