@@ -33,6 +33,13 @@ describe("RequestMaker", function () {
 			aggregator: aggregator,
 			XMLHttpRequest: function () {
 				return xmlHttpRequest;
+			},
+			RestResponse: function () {
+				return {
+					get: function () {
+						return responseText;
+					}
+				};
 			}
 		});
 	});

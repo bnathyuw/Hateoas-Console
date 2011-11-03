@@ -3,6 +3,7 @@
 (function () {
 	"use strict";
 	var RestRequest = HATEOAS_CONSOLE.models.RestRequest,
+		RestResponse = HATEOAS_CONSOLE.models.RestResponse,
 		RequestParser = HATEOAS_CONSOLE.parsers.RequestParser,
 		ResponseParser = HATEOAS_CONSOLE.parsers.ResponseParser,
 		ResponseParserFactory = HATEOAS_CONSOLE.parsers.ResponseParserFactory,
@@ -49,6 +50,7 @@
 
 		requestMaker = new RequestMaker({
 			aggregator: aggregator,
-			XMLHttpRequest: XMLHttpRequest
+			XMLHttpRequest: XMLHttpRequest,
+			RestResponse: RestResponse
 		});
 }());

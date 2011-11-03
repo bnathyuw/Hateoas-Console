@@ -5,8 +5,6 @@ HATEOAS_CONSOLE.namespace("http");
 HATEOAS_CONSOLE.http.RequestMaker = (function () {
 	"use strict";
 
-	var RestResponse = HATEOAS_CONSOLE.models.RestResponse;
-
 	return function RequestMaker(spec) {
 
 		if (!(this instanceof RequestMaker)) {
@@ -17,7 +15,7 @@ HATEOAS_CONSOLE.http.RequestMaker = (function () {
 				if (this.readyState === 4) {
 					spec.aggregator.trigger("received", {
 						url: this.url,
-						response: new RestResponse({
+						response: new spec.RestResponse({
 							body: this.responseText
 						})
 					});
