@@ -50,6 +50,16 @@ describe("ResponseParser", function () {
 	});
 
 	describe("getLinks", function () {
+	
+		it("should call linkFinder.getLinks with response body", function () {
+			var spy = spyOn(linkFinder, "getLinks").andCallThrough();
+			
+			links = [];
+			
+			parser.getLinks();
+			
+			expect(spy).toHaveBeenCalledWith(body);
+		});
 
 		it("should return each link from getLinks", function () {
 			var actualLinks;

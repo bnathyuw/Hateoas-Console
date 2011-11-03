@@ -125,7 +125,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = (function () {
 
 					links = [];
 
-					linksFound = linkFinder.getLinks(response.body);
+					linksFound = linkFinder.getLinks(response.get("body"));
 
 					linksFound.forEach(function (link) {
 						addLink(link);
