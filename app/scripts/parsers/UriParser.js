@@ -1,7 +1,7 @@
 /*global HATEOAS_CONSOLE */
 /*jslint regexp: true */
 
-HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
+HATEOAS_CONSOLE.namespace("parsers");
 
 HATEOAS_CONSOLE.parsers.UriParser = (function () {
 	"use strict";

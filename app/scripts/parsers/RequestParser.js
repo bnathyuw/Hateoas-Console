@@ -1,4 +1,5 @@
 /*global HATEOAS_CONSOLE: false */
+
 HATEOAS_CONSOLE.namespace("parsers");
 
 HATEOAS_CONSOLE.parsers.RequestParser = (function () {
