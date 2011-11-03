@@ -37,7 +37,8 @@
 					"json-p": HATEOAS_CONSOLE.parsers.JsonpLinkFinder,
 					html: HATEOAS_CONSOLE.parsers.XmlLinkFinder
 				}
-			})
+			}),
+			ResponseParser: ResponseParser
 		}),
 
 		responseLog = new ResponseLog({

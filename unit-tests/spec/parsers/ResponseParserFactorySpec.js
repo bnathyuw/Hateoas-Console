@@ -7,7 +7,9 @@ describe("ResponseParserFactory", function () {
 		linkFinderFactory,
 		urlParser,
 		response,
-		url;
+		url,
+		responseParser,
+		spec;
 
 	beforeEach(function () {
 		linkFinderFactory = {
@@ -21,67 +23,64 @@ describe("ResponseParserFactory", function () {
 			getHeader: function () {}
 		};
 		url = "http://abc.com/";
-		responseParserFactory = new HATEOAS_CONSOLE.parsers.ResponseParserFactory({
+		responseParser = {};
+		spec = {
 			urlParser: urlParser,
-			linkFinderFactory: linkFinderFactory
-		});
+			linkFinderFactory: linkFinderFactory,
+			ResponseParser: function () {
+				return responseParser;
+			}
+		};
+		responseParserFactory = new HATEOAS_CONSOLE.parsers.ResponseParserFactory(spec);
 	});
 
 	describe("create", function () {
-		it("should return a response parser", function () {
-			var responseParser = responseParserFactory.create({
-				url: url,
-				response: response
-			});
-			expect(responseParser.constructor.name).toEqual("ResponseParser");
-		});
-
 		it("should create a new ResponseParser", function () {
-			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
+			var spy = spyOn(spec, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
 				url: url,
 				response: response
 			});
-			expect(HATEOAS_CONSOLE.parsers.ResponseParser).toHaveBeenCalled();
+			expect(spy).toHaveBeenCalled();
 		});
 
 		it("should pass in its own urlParser", function () {
-			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
+			var spy = spyOn(spec, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
 				url: url,
 				response: response
 			});
-			expect(HATEOAS_CONSOLE.parsers.ResponseParser.mostRecentCall.args[0].urlParser).
+			expect(spy.mostRecentCall.args[0].urlParser).
 				toEqual(urlParser);
 		});
 
 		it("should pass in its own linkFinderFactory", function () {
-			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
+			var spy = spyOn(spec, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
 				url: url,
 				response: response
 			});
-			expect(HATEOAS_CONSOLE.parsers.ResponseParser.mostRecentCall.args[0].linkFinderFactory).
+			expect(spy.mostRecentCall.args[0].linkFinderFactory).
 				toEqual(linkFinderFactory);
 		});
 
 		it("should pass in the response", function () {
-			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
+			var spy = spyOn(spec, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
 				url: url,
 				response: response
 			});
-			expect(HATEOAS_CONSOLE.parsers.ResponseParser.mostRecentCall.args[0].response).
+			expect(spy.mostRecentCall.args[0].response).
 				toEqual(response);
 		});
 
 		it("should pass in the url", function () {
-			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
+			var spy = spyOn(spec, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
 				url: url,
 				response: response
 			});
-			expect(HATEOAS_CONSOLE.parsers.ResponseParser.mostRecentCall.args[0].url).
+			expect(spy.mostRecentCall.args[0].url).
 				toEqual(url);
 		});
 	});
