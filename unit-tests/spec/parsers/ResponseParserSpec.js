@@ -14,34 +14,34 @@ describe("ResponseParser", function () {
 			create: function () {
 				return linkFinder;
 			}
-		};
+		},
+		body = "<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>",
+		response = {
+			get: function (key) {
+				switch (key) {
+				case "body":
+					return body;
+				}
+			},
+			getHeader: function (key) {
+				switch (key.toLowerCase()) {
+				case "content-type":
+					return "text/html";
+				}
+			}
+		},
+		parser;
+
+	beforeEach(function () {
+		parser = new ResponseParser({
+			uri: "http://localhost/",
+			linkFinderFactory: linkFinderFactory,
+			uriParser: new UriParser(),
+			response: response
+		});
+	});
 
 	describe("toHttpString", function () {
-		var parser,
-			body = "<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>";
-
-		beforeEach(function () {
-			parser = new ResponseParser({
-				uri: "http://localhost/",
-				linkFinderFactory: linkFinderFactory,
-				uriParser: new UriParser(),
-				response: {
-					get: function (key) {
-						switch (key) {
-						case "body":
-							return body;
-						}
-					},
-					getHeader: function (key) {
-						switch (key.toLowerCase()) {
-						case "content-type":
-							return "text/html";
-						}
-					}
-				}
-			});
-		});
-
 		it("should include the response body", function () {
 			var httpString = parser.toHttpString();
 
@@ -50,20 +50,6 @@ describe("ResponseParser", function () {
 	});
 
 	describe("getLinks", function () {
-
-		var parser;
-
-		beforeEach(function () {
-			parser = new ResponseParser({
-				uri: "http://localhost/",
-				linkFinderFactory: linkFinderFactory,
-				uriParser: new UriParser(),
-				response: {
-					contentType: "text/html",
-					body: ""
-				}
-			});
-		});
 
 		it("should return each link from getLinks", function () {
 			var actualLinks;

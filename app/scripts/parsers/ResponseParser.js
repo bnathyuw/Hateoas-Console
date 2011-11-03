@@ -46,7 +46,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 
 	var response = spec.response,
 
-		linkFinder = spec.linkFinderFactory.create(response.contentType),
+		linkFinder = spec.linkFinderFactory.create(response.getHeader("content-type")),
 
 		uriParser = spec.uriParser,
 

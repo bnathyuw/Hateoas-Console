@@ -17,8 +17,8 @@ describe("ResponseParserFactory", function () {
 			parse: function () {}
 		};
 		response = {
-			contentType: "",
-			body: ""
+			get: function () {},
+			getHeader: function () {}
 		};
 		uri = "http://abc.com/";
 		responseParserFactory = new HATEOAS_CONSOLE.parsers.ResponseParserFactory({
