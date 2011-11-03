@@ -11,9 +11,9 @@ HATEOAS_CONSOLE.parsers.ResponseParserFactory = function ResponseParserFactory(s
 
 	var create = function create(createSpec) {
 			return new HATEOAS_CONSOLE.parsers.ResponseParser({
-				uriParser: spec.uriParser,
+				urlParser: spec.urlParser,
 				linkFinderFactory: spec.linkFinderFactory,
-				uri: createSpec.uri,
+				url: createSpec.url,
 				response: createSpec.response
 			});
 		};

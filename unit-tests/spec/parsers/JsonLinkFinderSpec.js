@@ -26,7 +26,7 @@ describe("JsonResponseParser", function () {
 				parser = new JsonLinkFinder(),
 				links = parser.getLinks(JSON.stringify(response));
 
-			expect(links[0].uri).toEqual(response.href);
+			expect(links[0].url).toEqual(response.href);
 		});
 
 
@@ -37,7 +37,7 @@ describe("JsonResponseParser", function () {
 				parser = new JsonLinkFinder(),
 				links = parser.getLinks(JSON.stringify(response));
 
-			expect(links[0].uri).toEqual(response.link);
+			expect(links[0].url).toEqual(response.link);
 		});
 
 		it("should identify a URI from a key named src", function () {
@@ -47,7 +47,7 @@ describe("JsonResponseParser", function () {
 				parser = new JsonLinkFinder(),
 				links = parser.getLinks(JSON.stringify(response));
 
-			expect(links[0].uri).toEqual(response.src);
+			expect(links[0].url).toEqual(response.src);
 		});
 
 		it("should identify a URI from a key ending in url", function () {
@@ -57,17 +57,17 @@ describe("JsonResponseParser", function () {
 				parser = new JsonLinkFinder(),
 				links = parser.getLinks(JSON.stringify(response));
 
-			expect(links[0].uri).toEqual(response["my-url"]);
+			expect(links[0].url).toEqual(response["my-url"]);
 		});
 
-		it("should identify a URI from a key ending in uri", function () {
+		it("should identify a URI from a key ending in url", function () {
 			var response = {
-					"my-uri": "http://localhost/bar"
+					"my-url": "http://localhost/bar"
 				},
 				parser = new JsonLinkFinder(),
 				links = parser.getLinks(JSON.stringify(response));
 
-			expect(links[0].uri).toEqual(response["my-uri"]);
+			expect(links[0].url).toEqual(response["my-url"]);
 		});
 
 
@@ -82,7 +82,7 @@ describe("JsonResponseParser", function () {
 				parser = new JsonLinkFinder(),
 				links = parser.getLinks(JSON.stringify(response));
 
-			expect(links[0].uri).toEqual(response.foo.bar.href);
+			expect(links[0].url).toEqual(response.foo.bar.href);
 		});
 
 		it("should identify multiple URIs in the response", function () {
@@ -98,8 +98,8 @@ describe("JsonResponseParser", function () {
 				links = parser.getLinks(JSON.stringify(response));
 
 			expect(links.length).toEqual(2);
-			expect(links[0].uri).toEqual(response.foo.href);
-			expect(links[1].uri).toEqual(response.bar.src);
+			expect(links[0].url).toEqual(response.foo.href);
+			expect(links[1].url).toEqual(response.bar.src);
 		});
 
 		it("should be able to identify links in arrays", function () {
@@ -117,8 +117,8 @@ describe("JsonResponseParser", function () {
 				links = parser.getLinks(JSON.stringify(response));
 
 			expect(links.length).toEqual(2);
-			expect(links[0].uri).toEqual(response.foo[0].href);
-			expect(links[1].uri).toEqual(response.foo[1].href);
+			expect(links[0].url).toEqual(response.foo[0].href);
+			expect(links[1].url).toEqual(response.foo[1].href);
 		});
 
 		it("should be able to identify an array of links", function () {
@@ -129,8 +129,8 @@ describe("JsonResponseParser", function () {
 				links = parser.getLinks(JSON.stringify(response));
 
 			expect(links.length).toEqual(2);
-			expect(links[0].uri).toEqual(response.hrefs[0]);
-			expect(links[1].uri).toEqual(response.hrefs[1]);
+			expect(links[0].url).toEqual(response.hrefs[0]);
+			expect(links[1].url).toEqual(response.hrefs[1]);
 		});
 	});
 });

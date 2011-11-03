@@ -29,13 +29,13 @@ describe("ResponseLog", function () {
 	describe("when received is triggered", function () {
 		var response,
 			event,
-			uri = "http://cde.com";
+			url = "http://cde.com";
 
 		beforeEach(function () {
 			response = {};
 			event = {
 				response: response,
-				uri: uri
+				url: url
 			};
 		});
 
@@ -52,11 +52,11 @@ describe("ResponseLog", function () {
 				toEqual(response);
 		});
 
-		it("should pass the uri into the response parser factory", function () {
+		it("should pass the url into the response parser factory", function () {
 			spyOn(responseParserFactory, "create").andCallThrough();
 			aggregator.trigger("received", event);
-			expect(responseParserFactory.create.mostRecentCall.args[0].uri).
-				toEqual(uri);
+			expect(responseParserFactory.create.mostRecentCall.args[0].url).
+				toEqual(url);
 		});
 
 		it("should get the log from the response parser", function () {

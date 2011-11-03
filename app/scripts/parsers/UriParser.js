@@ -16,7 +16,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 		var memo = {},
 
-			uriRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
+			urlRegex = /^([^:]*):([^#?]*)(?:\?([^#]*))?(?:#(.*))?$/,
 
 			hppConstructors = {
 				http: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser,
@@ -25,13 +25,13 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 				ftps: HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser
 			},
 
-			parse = function (uri) {
+			parse = function (url) {
 
-				if (memo[uri]) {
-					return memo[uri];
+				if (memo[url]) {
+					return memo[url];
 				}
 
-				var match = uriRegex.exec(uri),
+				var match = urlRegex.exec(url),
 					parts,
 					hpp,
 					HppConstructor,
@@ -61,9 +61,9 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 					}
 				}
 
-				memo[uri] = parts;
+				memo[url] = parts;
 
-				return memo[uri];
+				return memo[url];
 			};
 
 		instance = {

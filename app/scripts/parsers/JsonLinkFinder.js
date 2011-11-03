@@ -7,19 +7,19 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 	var instance,
 
-		singleLinkRegExp = /^\S*(?:href|link|src|url|uri)$/g,
+		singleLinkRegExp = /^\S*(?:href|link|src|url|url)$/g,
 
-		multipleLinkRegExp = /^\S*(?:href|link|src|url|uri)s$/g,
+		multipleLinkRegExp = /^\S*(?:href|link|src|url|url)s$/g,
 
 		getLinks = function (response) {
 			var links = [];
 
 			JSON.parse(response, function (key, value) {
 				if (singleLinkRegExp.test(key)) {
-					links.push({uri: value});
+					links.push({url: value});
 				} else if (multipleLinkRegExp.test(key)) {
 					value.forEach(function (v) {
-						links.push({uri: v});
+						links.push({url: v});
 					});
 				}
 				return value;

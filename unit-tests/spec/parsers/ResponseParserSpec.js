@@ -34,9 +34,9 @@ describe("ResponseParser", function () {
 
 	beforeEach(function () {
 		parser = new ResponseParser({
-			uri: "http://localhost/",
+			url: "http://localhost/",
 			linkFinderFactory: linkFinderFactory,
-			uriParser: new UriParser(),
+			urlParser: new UriParser(),
 			response: response
 		});
 	});
@@ -55,34 +55,34 @@ describe("ResponseParser", function () {
 			var actualLinks;
 
 			links = [
-				{uri: "a", location: 10},
-				{uri: "b", location: 20},
-				{uri: "c", location: 30}
+				{url: "a", location: 10},
+				{url: "b", location: 20},
+				{url: "c", location: 30}
 			];
 
 			actualLinks = parser.getLinks();
 
 			expect(actualLinks.length).toEqual(3);
 
-			expect(actualLinks[0].uri).toEqual("a");
-			expect(actualLinks[1].uri).toEqual("b");
-			expect(actualLinks[2].uri).toEqual("c");
+			expect(actualLinks[0].url).toEqual("a");
+			expect(actualLinks[1].url).toEqual("b");
+			expect(actualLinks[2].url).toEqual("c");
 		});
 
 		it("should return duplicate links just once", function () {
 			var actualLinks;
 
 			links = [
-				{uri: "a", location: 10},
-				{uri: "a", location: 20},
-				{uri: "a", location: 30}
+				{url: "a", location: 10},
+				{url: "a", location: 20},
+				{url: "a", location: 30}
 			];
 
 			actualLinks = parser.getLinks();
 
 			expect(actualLinks.length).toEqual(1);
 
-			expect(actualLinks[0].uri).toEqual("a");
+			expect(actualLinks[0].url).toEqual("a");
 
 		});
 
@@ -90,9 +90,9 @@ describe("ResponseParser", function () {
 			var actualLinks;
 
 			links = [
-				{uri: "a", location: 10},
-				{uri: "a", location: 20},
-				{uri: "a", location: 30}
+				{url: "a", location: 10},
+				{url: "a", location: 20},
+				{url: "a", location: 30}
 			];
 
 			actualLinks = parser.getLinks();
@@ -106,9 +106,9 @@ describe("ResponseParser", function () {
 			var actualLinks;
 
 			links = [
-				{uri: "a", location: 10, rel: ["me"]},
-				{uri: "a", location: 20, rel: ["you"]},
-				{uri: "a", location: 30, rel: ["him"]}
+				{url: "a", location: 10, rel: ["me"]},
+				{url: "a", location: 20, rel: ["you"]},
+				{url: "a", location: 30, rel: ["him"]}
 			];
 
 			actualLinks = parser.getLinks();
@@ -122,9 +122,9 @@ describe("ResponseParser", function () {
 			var actualLinks;
 
 			links = [
-				{uri: "a", location: 10, rel: ["me"]},
-				{uri: "a", location: 20, rel: ["me"]},
-				{uri: "a", location: 30, rel: ["me"]}
+				{url: "a", location: 10, rel: ["me"]},
+				{url: "a", location: 20, rel: ["me"]},
+				{url: "a", location: 30, rel: ["me"]}
 			];
 
 			actualLinks = parser.getLinks();
@@ -138,9 +138,9 @@ describe("ResponseParser", function () {
 			var actualLinks;
 
 			links = [
-				{uri: "a", location: 10, rev: ["me"]},
-				{uri: "a", location: 20, rev: ["you"]},
-				{uri: "a", location: 30, rev: ["him"]}
+				{url: "a", location: 10, rev: ["me"]},
+				{url: "a", location: 20, rev: ["you"]},
+				{url: "a", location: 30, rev: ["him"]}
 			];
 
 			actualLinks = parser.getLinks();
@@ -154,9 +154,9 @@ describe("ResponseParser", function () {
 			var actualLinks;
 
 			links = [
-				{uri: "a", location: 10, rev: ["me"]},
-				{uri: "a", location: 20, rev: ["me"]},
-				{uri: "a", location: 30, rev: ["me"]}
+				{url: "a", location: 10, rev: ["me"]},
+				{url: "a", location: 20, rev: ["me"]},
+				{url: "a", location: 30, rev: ["me"]}
 			];
 
 			actualLinks = parser.getLinks();
@@ -184,13 +184,13 @@ describe("ResponseParser", function () {
 		it("should mark links as same origin if and only if they have the same scheme and authority", function () {
 			var actualLinks;
 			links = [
-				{uri: "http://localhost/bar", location: 10},
-				{uri: "http://localhost/bar2", location: 20},
-				{uri: "https://localhost/bar3", location: 30},
-				{uri: "http://otherhost/bar", location: 40},
-				{uri: "http://localhost:90/bar", location: 10},
-				{uri: "/bar", location: 10},
-				{uri: "bar", location: 10}
+				{url: "http://localhost/bar", location: 10},
+				{url: "http://localhost/bar2", location: 20},
+				{url: "https://localhost/bar3", location: 30},
+				{url: "http://otherhost/bar", location: 40},
+				{url: "http://localhost:90/bar", location: 10},
+				{url: "/bar", location: 10},
+				{url: "bar", location: 10}
 			];
 
 			actualLinks = parser.getLinks();

@@ -16,10 +16,10 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 		};
 	}
 
-	if (!spec.uriParser) {
+	if (!spec.urlParser) {
 		throw {
 			name: "Invalid Parameter",
-			message: "Parameter spec is missing a required member: uriParser"
+			message: "Parameter spec is missing a required member: urlParser"
 		};
 	}
 
@@ -30,10 +30,10 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 		};
 	}
 
-	if (!spec.uri) {
+	if (!spec.url) {
 		throw {
 			name: "Invalid Parameter",
-			message: "Parameter spec is missing a required member: uri"
+			message: "Parameter spec is missing a required member: url"
 		};
 	}
 
@@ -48,9 +48,9 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 
 		linkFinder = spec.linkFinderFactory.create(response.getHeader("content-type")),
 
-		uriParser = spec.uriParser,
+		urlParser = spec.urlParser,
 
-		parsedRequestUri = uriParser.parse(spec.uri),
+		parsedRequestUri = urlParser.parse(spec.url),
 
 		links,
 
@@ -66,21 +66,21 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 
 		},
 
-		findOrCreateLink = function (uri) {
+		findOrCreateLink = function (url) {
 			var link,
 				parts,
 				i;
 
 			for (i = 0; i < links.length; i += 1) {
-				if (links[i].uri === uri) {
+				if (links[i].url === url) {
 					return links[i];
 				}
 			}
 
-			parts = uriParser.parse(uri);
+			parts = urlParser.parse(url);
 
 			link = {
-				uri: uri,
+				url: url,
 				parts: parts,
 				locations: [],
 				hasSameOrigin: compareOrigin(parts)
@@ -105,7 +105,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 		},
 
 		addLink = function (spec) {
-			var link = findOrCreateLink(spec.uri);
+			var link = findOrCreateLink(spec.url);
 
 			link.locations.push(spec.location);
 

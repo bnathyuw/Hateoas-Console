@@ -6,7 +6,7 @@ describe("RequestParser", function () {
 	var RequestParser = HATEOAS_CONSOLE.parsers.RequestParser,
 		requestParser,
 		request,
-		uriParser,
+		urlParser,
 		parts;
 
 	beforeEach(function () {
@@ -19,12 +19,12 @@ describe("RequestParser", function () {
 			host: "www.somewhere.com",
 			path: "here/it/is"
 		};
-		uriParser = {
+		urlParser = {
 			parse: function () {
 				return parts;
 			}
 		};
-		requestParser = new RequestParser({uriParser: uriParser});
+		requestParser = new RequestParser({urlParser: urlParser});
 		request = new Request();
 	});
 
@@ -49,12 +49,12 @@ describe("RequestParser", function () {
 	it("should call UriParser with url", function () {
 		var log,
 			url = "http://www.somewhere.com/";
-		spyOn(uriParser, "parse").andCallThrough();
+		spyOn(urlParser, "parse").andCallThrough();
 		request.set({
 			url: url
 		});
 		log = requestParser.parse(request);
-		expect(uriParser.parse).toHaveBeenCalledWith(url);
+		expect(urlParser.parse).toHaveBeenCalledWith(url);
 	});
 
 	it("should log the path from the URL", function () {

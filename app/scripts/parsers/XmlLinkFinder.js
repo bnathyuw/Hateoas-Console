@@ -21,7 +21,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 		getLinks = function (response) {
 			var links = [],
-				searchRegex = /(<[^>]+\s\S*(?:href|src|link|url|uri)="([^"]+)"[^>]*>)|(?:(<(\S*(?:href|src|link|url|uri))[^>]*>)([^<]+)<\/\4>)/g,
+				searchRegex = /(<[^>]+\s\S*(?:href|src|link|url|url)="([^"]+)"[^>]*>)|(?:(<(\S*(?:href|src|link|url|url))[^>]*>)([^<]+)<\/\4>)/g,
 				match,
 				tag;
 
@@ -29,7 +29,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 				tag = match[1] || match[3];
 
 				links.push({
-					uri: match[2] || match[5],
+					url: match[2] || match[5],
 					rel: getAttributeValues("rel", tag),
 					rev: getAttributeValues("rev", tag),
 					location: match.index

@@ -29,13 +29,13 @@ describe("LinksPanel", function () {
 	describe("when received is triggered", function () {
 		var response,
 			event,
-			uri = "http://ghi.com";
+			url = "http://ghi.com";
 
 		beforeEach(function () {
 			response = {};
 			event = {
 				response: response,
-				uri: uri
+				url: url
 			};
 		});
 

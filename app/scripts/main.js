@@ -19,7 +19,7 @@
 		request = new RestRequest(),
 
 		requestParser = new RequestParser({
-			uriParser: new UriParser()
+			urlParser: new UriParser()
 		}),
 
 		requestLog = new RequestLog({
@@ -28,7 +28,7 @@
 		}),
 
 		responseParserFactory = new ResponseParserFactory({
-			uriParser: new UriParser(),
+			urlParser: new UriParser(),
 			linkFinderFactory: new LinkFinderFactory()
 		}),
 

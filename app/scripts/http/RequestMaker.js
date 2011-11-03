@@ -16,7 +16,7 @@ HATEOAS_CONSOLE.namespace("http");
 		var handler = function () {
 			if (this.readyState === 4) {
 				spec.aggregator.trigger("received", {
-					uri: this.url,
+					url: this.url,
 					response: new RestResponse({
 						body: this.responseText
 					})

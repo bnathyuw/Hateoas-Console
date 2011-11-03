@@ -10,8 +10,8 @@ HATEOAS_CONSOLE.parsers.RequestParser = function RequestParser(options) {
 
 	this.parse = function (request) {
 		var verb = request.get("verb"),
-			uri = request.get("url"),
-			parts = options.uriParser.parse(uri),
+			url = request.get("url"),
+			parts = options.urlParser.parse(url),
 			log;
 		log = verb + " /" + parts.path + " HTTP/1.1";
 		log = log + "\n";

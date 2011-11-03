@@ -7,12 +7,12 @@ describe("RequestMaker", function () {
 		aggregator,
 		requestMaker,
 		request,
-		uri = "http://abc.com",
+		url = "http://abc.com",
 		xmlHttpRequest,
 		verb = "GET",
 		body = "this=that&these=those&foo=bar",
 		attributes = {
-			url: uri,
+			url: url,
 			verb: verb,
 			body: body
 		},
@@ -44,7 +44,7 @@ describe("RequestMaker", function () {
 			aggregator.trigger("send", {
 				request: request
 			});
-			expect(spy).toHaveBeenCalledWith(verb, uri, true);
+			expect(spy).toHaveBeenCalledWith(verb, url, true);
 		});
 
 		it("should send xmlHttpRequest", function () {
@@ -73,10 +73,10 @@ describe("RequestMaker", function () {
 			expect(spy.mostRecentCall.args[0]).toEqual("received");
 		});
 
-		it("should pass uri", function () {
+		it("should pass url", function () {
 			var spy = spyOn(aggregator, "trigger").andCallThrough();
 			xmlHttpRequest.onreadystatechange();
-			expect(spy.mostRecentCall.args[1].uri).toEqual(uri);
+			expect(spy.mostRecentCall.args[1].url).toEqual(url);
 		});
 
 		it("should pass response", function () {

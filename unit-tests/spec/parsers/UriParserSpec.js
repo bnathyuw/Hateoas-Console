@@ -21,7 +21,7 @@ describe("UriParser", function () {
 
 		var parser = new UriParser();
 
-		it("should return correct parts from full uri", function () {
+		it("should return correct parts from full url", function () {
 			var parsedUri = parser.parse("http://localhost/foo?bar=1#lala");
 
 			expect(parsedUri.scheme).toEqual("http");
