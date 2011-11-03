@@ -2,12 +2,12 @@
 
 HATEOAS_CONSOLE.namespace("http");
 
-(function () {
+HATEOAS_CONSOLE.http.RequestMaker = (function () {
 	"use strict";
 
 	var RestResponse = HATEOAS_CONSOLE.models.RestResponse;
 
-	HATEOAS_CONSOLE.http.RequestMaker = function RequestMaker(spec) {
+	return function RequestMaker(spec) {
 
 		if (!(this instanceof RequestMaker)) {
 			return new RequestMaker(spec);

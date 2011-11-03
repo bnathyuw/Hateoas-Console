@@ -2,141 +2,143 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
-HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
+HATEOAS_CONSOLE.parsers.ResponseParser = (function () {
 	"use strict";
 
-	if (!this instanceof ResponseParser) {
-		return new ResponseParser(spec);
-	}
+	return function ResponseParser(spec) {
+		if (!this instanceof ResponseParser) {
+			return new ResponseParser(spec);
+		}
 
-	if (!spec) {
-		throw {
-			name: "Missing parameter",
-			message: "Required parameter spec is missing"
-		};
-	}
-
-	if (!spec.urlParser) {
-		throw {
-			name: "Invalid Parameter",
-			message: "Parameter spec is missing a required member: urlParser"
-		};
-	}
-
-	if (!spec.linkFinderFactory) {
-		throw {
-			name: "Invalid Parameter",
-			message: "Parameter spec is missing a required member: linkFinderFactory"
-		};
-	}
-
-	if (!spec.url) {
-		throw {
-			name: "Invalid Parameter",
-			message: "Parameter spec is missing a required member: url"
-		};
-	}
-
-	if (spec.response === undefined) {
-		throw {
-			name: "Invalid Parameter",
-			message: "Parameter spec is missing a required member: response"
-		};
-	}
-
-	var response = spec.response,
-
-		linkFinder = spec.linkFinderFactory.create(response.getHeader("content-type")),
-
-		urlParser = spec.urlParser,
-
-		parsedRequestUri = urlParser.parse(spec.url),
-
-		links,
-
-		compareOrigin = function (parsedLinkUri) {
-			if (!parsedRequestUri || !parsedLinkUri) {
-				return false;
-			}
-
-			// TODO: deal with schemeless URIs
-
-			return parsedRequestUri.scheme === parsedLinkUri.scheme &&
-				parsedRequestUri.authority === parsedLinkUri.authority;
-
-		},
-
-		findOrCreateLink = function (url) {
-			var link,
-				parts,
-				i;
-
-			for (i = 0; i < links.length; i += 1) {
-				if (links[i].url === url) {
-					return links[i];
-				}
-			}
-
-			parts = urlParser.parse(url);
-
-			link = {
-				url: url,
-				parts: parts,
-				locations: [],
-				hasSameOrigin: compareOrigin(parts)
+		if (!spec) {
+			throw {
+				name: "Missing parameter",
+				message: "Required parameter spec is missing"
 			};
-			links.push(link);
-			return link;
-		},
+		}
 
-		setAttributes =  function (attributeName, values, link) {
+		if (!spec.urlParser) {
+			throw {
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: urlParser"
+			};
+		}
 
-			link[attributeName] = link[attributeName] || [];
+		if (!spec.linkFinderFactory) {
+			throw {
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: linkFinderFactory"
+			};
+		}
 
-			if (!values) {
-				return;
-			}
+		if (!spec.url) {
+			throw {
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: url"
+			};
+		}
 
-			values.forEach(function (value) {
-				if (link[attributeName].indexOf(value) === -1) {
-					link[attributeName].push(value);
+		if (spec.response === undefined) {
+			throw {
+				name: "Invalid Parameter",
+				message: "Parameter spec is missing a required member: response"
+			};
+		}
+
+		var response = spec.response,
+
+			linkFinder = spec.linkFinderFactory.create(response.getHeader("content-type")),
+
+			urlParser = spec.urlParser,
+
+			parsedRequestUri = urlParser.parse(spec.url),
+
+			links,
+
+			compareOrigin = function (parsedLinkUri) {
+				if (!parsedRequestUri || !parsedLinkUri) {
+					return false;
 				}
-			});
-		},
 
-		addLink = function (spec) {
-			var link = findOrCreateLink(spec.url);
+				// TODO: deal with schemeless URIs
 
-			link.locations.push(spec.location);
+				return parsedRequestUri.scheme === parsedLinkUri.scheme &&
+					parsedRequestUri.authority === parsedLinkUri.authority;
 
-			setAttributes("rel", spec.rel, link);
-			setAttributes("rev", spec.rev, link);
+			},
 
-		},
+			findOrCreateLink = function (url) {
+				var link,
+					parts,
+					i;
 
-		getLinks = function () {
-			if (links) {
+				for (i = 0; i < links.length; i += 1) {
+					if (links[i].url === url) {
+						return links[i];
+					}
+				}
+
+				parts = urlParser.parse(url);
+
+				link = {
+					url: url,
+					parts: parts,
+					locations: [],
+					hasSameOrigin: compareOrigin(parts)
+				};
+				links.push(link);
+				return link;
+			},
+
+			setAttributes =  function (attributeName, values, link) {
+
+				link[attributeName] = link[attributeName] || [];
+
+				if (!values) {
+					return;
+				}
+
+				values.forEach(function (value) {
+					if (link[attributeName].indexOf(value) === -1) {
+						link[attributeName].push(value);
+					}
+				});
+			},
+
+			addLink = function (spec) {
+				var link = findOrCreateLink(spec.url);
+
+				link.locations.push(spec.location);
+
+				setAttributes("rel", spec.rel, link);
+				setAttributes("rev", spec.rev, link);
+
+			},
+
+			getLinks = function () {
+				if (links) {
+					return links;
+				}
+
+				var linksFound;
+
+				links = [];
+
+				linksFound = linkFinder.getLinks(response.body);
+
+				linksFound.forEach(function (link) {
+					addLink(link);
+				});
+
 				return links;
-			}
+			},
 
-			var linksFound;
+			toHttpString = function () {
+				return spec.response.get("body");
+			};
 
-			links = [];
+		this.getLinks = getLinks;
 
-			linksFound = linkFinder.getLinks(response.body);
-
-			linksFound.forEach(function (link) {
-				addLink(link);
-			});
-
-			return links;
-		},
-
-		toHttpString = function () {
-			return spec.response.get("body");
-		};
-
-	this.getLinks = getLinks;
-
-	this.toHttpString = toHttpString;
-};
+		this.toHttpString = toHttpString;
+	};
+}());

@@ -2,9 +2,13 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.models");
 
-HATEOAS_CONSOLE.models.RestRequest = Backbone.Model.extend({
-	defaults: {
-		verb: "GET",
-		url: "http://hateoas-console.local/"
-	}
-});
+HATEOAS_CONSOLE.models.RestRequest = (function () {
+	"use strict";
+
+	return Backbone.Model.extend({
+		defaults: {
+			verb: "GET",
+			url: "http://hateoas-console.local/"
+		}
+	});
+}());

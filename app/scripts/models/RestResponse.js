@@ -2,9 +2,10 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.models");
 
-(function () {
+HATEOAS_CONSOLE.models.RestResponse = (function () {
 	"use strict";
-	HATEOAS_CONSOLE.models.RestResponse = Backbone.Model.extend({
+
+	return Backbone.Model.extend({
 		getHeader: function () {
 			return "application/xml";
 		}

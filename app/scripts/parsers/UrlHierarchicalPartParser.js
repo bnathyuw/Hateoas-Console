@@ -3,12 +3,12 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
-(function () {
+HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser = (function () {
 	"use strict";
 
 	var instance;
 
-	HATEOAS_CONSOLE.parsers.UrlHierarchicalPartParser = function UrlHierarchicalPartParser() {
+	return function UrlHierarchicalPartParser() {
 		if (instance) {
 			return instance;
 		}

@@ -3,12 +3,12 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
-(function () {
+HATEOAS_CONSOLE.parsers.UriParser = (function () {
 	"use strict";
 
 	var instance;
 
-	HATEOAS_CONSOLE.parsers.UriParser = function UriParser() {
+	return function UriParser() {
 
 		if (instance) {
 			return instance;

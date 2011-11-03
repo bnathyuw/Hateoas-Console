@@ -2,7 +2,7 @@
 
 HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
-(function () {
+HATEOAS_CONSOLE.parsers.LinkFinderFactory = (function () {
 	"use strict";
 
 	var instance,
@@ -29,7 +29,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 			return ctor(spec);
 		};
 
-	HATEOAS_CONSOLE.parsers.LinkFinderFactory = function LinkFinderFactory() {
+	return function LinkFinderFactory() {
 
 		if (instance) {
 			return instance;
