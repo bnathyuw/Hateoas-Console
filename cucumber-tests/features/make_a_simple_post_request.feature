@@ -10,8 +10,8 @@ Background:
 Scenario: Logs request
 	Then my request is logged
 
-Scenario: Logs response
-	Then the response is logged
+#Scenario: Logs response
+#	Then the response is logged
 
-Scenario: Displays links
-	Then links from the response are logged
+#Scenario: Displays links
+#	Then links from the response are logged
