@@ -4,7 +4,19 @@ HATEOAS_CONSOLE.namespace("views");
 
 HATEOAS_CONSOLE.views.LinksPanel = (function () {
 	"use strict";
-	var responseParserFactory;
+	var responseParserFactory,
+		template = "<table>" +
+			"	<thead>" +
+			"		<tr>" +
+			"			<th>Link</th>" +
+			"		</tr>" +
+			"	</thead>" +
+			"	<tbody>" +
+			"		<% _.each(links, function (link) { %><tr>" +
+			"			<td><a href=\"<%= link.url %>\"><%= link.url %></a></td>" +
+			"		</tr><% }); %>" +
+			"	</tbody>" +
+			"</table>";
 
 	return Backbone.View.extend({
 		el: "#links",
@@ -20,9 +32,10 @@ HATEOAS_CONSOLE.views.LinksPanel = (function () {
 					url: event.url,
 					response: event.response
 				}),
-				links = responseParser.getLinks();
+				links = responseParser.getLinks(),
+				html = _.template(template, {links: links});
 
-			$(this.el).html("<table></table>");
+			$(this.el).html(html);
 		}
 	});
 

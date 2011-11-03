@@ -58,13 +58,17 @@ describe("LinksPanel", function () {
 		});
 
 		it("should output a table", function () {
+			var url = "http://test.com/";
+
 			responseParser.getLinks = function () {
 				return [
-					{}
+					{ url: url }
 				];
 			};
 			aggregator.trigger("received", event);
-			expect($("#links table")).toExist();
+			expect($("#links table thead tr th::nth-child(1)").text()).toEqual("Link");
+			expect($("#links table tbody tr").length).toEqual(1);
+			expect($("#links table tbody tr::nth-child(1) td::nth-child(1) a").attr("href")).toEqual(url);
 		});
 	});
 });
