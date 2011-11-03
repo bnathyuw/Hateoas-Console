@@ -7,42 +7,83 @@ describe("RequestMaker", function () {
 		aggregator,
 		requestMaker,
 		request,
-		uri = "http://abc.com";
+		uri = "http://abc.com",
+		xmlHttpRequest,
+		verb = "GET",
+		body = "this=that&these=those&foo=bar",
+		attributes = {
+			url: uri,
+			verb: verb,
+			body: body
+		},
+		responseText = "<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>";
 
 	beforeEach(function () {
 		aggregator = _.extend({}, Backbone.Events);
+		xmlHttpRequest = {
+			open: function () {},
+			send: function () {}
+		};
 		request = {
-			get: function () {
-				return uri;
+			get: function (key) {
+				return attributes[key];
 			}
 		};
 		requestMaker = new RequestMaker({
-			aggregator: aggregator
+			aggregator: aggregator,
+			XMLHttpRequest: function () {
+				return xmlHttpRequest;
+			}
 		});
 	});
 
-	it("should trigger received when send is triggered", function () {
-		var spy = spyOn(aggregator, "trigger").andCallThrough();
-		aggregator.trigger("send", {
-			request: request
+	describe("when send is triggered", function () {
+
+		it("should open xmlHttpRequest", function () {
+			var spy = spyOn(xmlHttpRequest, "open");
+			aggregator.trigger("send", {
+				request: request
+			});
+			expect(spy).toHaveBeenCalledWith(verb, uri, true);
 		});
-		expect(spy.mostRecentCall.args[0]).toEqual("received");
+
+		it("should send xmlHttpRequest", function () {
+			var spy = spyOn(xmlHttpRequest, "send");
+			aggregator.trigger("send", {
+				request: request
+			});
+			expect(spy).toHaveBeenCalledWith(body);
+		});
+
 	});
 
-	it("should pass uri in received event", function () {
-		var spy = spyOn(aggregator, "trigger").andCallThrough();
-		aggregator.trigger("send", {
-			request: request
+	describe("when response is received", function () {
+		beforeEach(function () {
+			xmlHttpRequest.readyState = 4;
+			xmlHttpRequest.responseText = responseText;
+			aggregator.trigger("send", {
+				request: request
+			});
 		});
-		expect(spy.mostRecentCall.args[1].uri).toEqual(uri);
-	});
 
-	it("should pass response in received event", function () {
-		var spy = spyOn(aggregator, "trigger").andCallThrough();
-		aggregator.trigger("send", {
-			request: request
+		it("should trigger received", function () {
+			var spy = spyOn(aggregator, "trigger").andCallThrough();
+			xmlHttpRequest.onreadystatechange();
+			expect(spy).toHaveBeenCalled();
+			expect(spy.mostRecentCall.args[0]).toEqual("received");
 		});
-		expect(spy.mostRecentCall.args[1].response).toBeDefined();
+
+		it("should pass uri", function () {
+			var spy = spyOn(aggregator, "trigger").andCallThrough();
+			xmlHttpRequest.onreadystatechange();
+			expect(spy.mostRecentCall.args[1].uri).toEqual(uri);
+		});
+
+		it("should pass response", function () {
+			var spy = spyOn(aggregator, "trigger").andCallThrough();
+			xmlHttpRequest.onreadystatechange();
+			expect(spy.mostRecentCall.args[1].response.get("body")).toEqual(responseText);
+		});
 	});
 
 });

@@ -7,21 +7,38 @@ HATEOAS_CONSOLE.namespace("http");
 
 	var RestResponse = HATEOAS_CONSOLE.models.RestResponse;
 
-	HATEOAS_CONSOLE.http.RequestMaker = function RequestMaker(options) {
+	HATEOAS_CONSOLE.http.RequestMaker = function RequestMaker(spec) {
 
 		if (!(this instanceof RequestMaker)) {
-			return new RequestMaker(options);
+			return new RequestMaker(spec);
 		}
 
+		var handler = function () {
+			if (this.readyState === 4) {
+				spec.aggregator.trigger("received", {
+					uri: this.url,
+					response: new RestResponse({
+						body: this.responseText
+					})
+				});
+			}
+		};
+
 		this.sendRequest = function (event) {
-			options.aggregator.trigger("received", {
-				uri: event.request.get("url"),
-				response: new RestResponse()
-			});
+			var xmlHttpRequest = new spec.XMLHttpRequest(),
+				request = event.request,
+				url = request.get("url"),
+				verb = request.get("verb"),
+				body = request.get("body");
+
+			xmlHttpRequest.onreadystatechange = handler;
+			xmlHttpRequest.url = url;
+			xmlHttpRequest.open(verb, url, true);
+			xmlHttpRequest.send(body);
 		};
 
 		_.bindAll(this, "sendRequest");
 
-		options.aggregator.bind("send", this.sendRequest);
+		spec.aggregator.bind("send", this.sendRequest);
 	};
 }());

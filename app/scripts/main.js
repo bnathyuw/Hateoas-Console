@@ -1,4 +1,4 @@
-﻿/*global $: false, jQuery: false, HATEOAS_CONSOLE: false, Backbone: false, _: false */
+﻿/*global $: false, jQuery: false, HATEOAS_CONSOLE: false, Backbone: false, _: false, XMLHttpRequest */
 
 (function () {
 	"use strict";
@@ -48,6 +48,7 @@
 		}),
 
 		requestMaker = new RequestMaker({
-			aggregator: aggregator
+			aggregator: aggregator,
+			XMLHttpRequest: XMLHttpRequest
 		});
 }());
