@@ -8,7 +8,7 @@ describe("RequestParser", function () {
 		request,
 		uriParser,
 		parts;
-	
+
 	beforeEach(function () {
 		var Request = Backbone.Model.extend({});
 		parts = {
@@ -27,7 +27,7 @@ describe("RequestParser", function () {
 		requestParser = new RequestParser({uriParser: uriParser});
 		request = new Request();
 	});
-	
+
 	it("logs a GET request", function () {
 		var log;
 		request.set({
@@ -36,7 +36,7 @@ describe("RequestParser", function () {
 		log = requestParser.parse(request);
 		expect(log).toContain("GET");
 	});
-	
+
 	it("logs a POST request", function () {
 		var log;
 		request.set({
@@ -45,7 +45,7 @@ describe("RequestParser", function () {
 		log = requestParser.parse(request);
 		expect(log).toContain("POST");
 	});
-	
+
 	it("should call UriParser with url", function () {
 		var log,
 			url = "http://www.somewhere.com/";
@@ -56,7 +56,7 @@ describe("RequestParser", function () {
 		log = requestParser.parse(request);
 		expect(uriParser.parse).toHaveBeenCalledWith(url);
 	});
-	
+
 	it("should log the path from the URL", function () {
 		var log,
 			path = "this/is/my/path";
@@ -64,7 +64,7 @@ describe("RequestParser", function () {
 		log = requestParser.parse(request);
 		expect(log).toContain("/" + path);
 	});
-	
+
 	it("should log a null path appropriately", function () {
 		var log,
 			path = "";
@@ -72,7 +72,7 @@ describe("RequestParser", function () {
 		log = requestParser.parse(request);
 		expect(log).toContain(" / HTTP/1.1");
 	});
-	
+
 	it("should log the host", function () {
 		var log,
 			host = "www.foo.com";

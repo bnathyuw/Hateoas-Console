@@ -3,11 +3,11 @@ HATEOAS_CONSOLE.namespace("parsers");
 
 HATEOAS_CONSOLE.parsers.RequestParser = function RequestParser(options) {
 	"use strict";
-	
+
 	if (!(this instanceof RequestParser)) {
 		return new RequestParser();
 	}
-	
+
 	this.parse = function (request) {
 		var verb = request.get("verb"),
 			uri = request.get("url"),
@@ -18,5 +18,5 @@ HATEOAS_CONSOLE.parsers.RequestParser = function RequestParser(options) {
 		log = log + "Host: " + parts.host;
 		return log;
 	};
-	
+
 };

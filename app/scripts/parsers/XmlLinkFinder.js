@@ -5,9 +5,9 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 (function () {
 	"use strict";
-	
+
 	var instance,
-	
+
 		getAttributeValues = function (attributeName, tag) {
 			var regex = new RegExp(" " + attributeName + "=\"([^\"]+)\"", "g"),
 				match = regex.exec(tag);
@@ -18,7 +18,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 			return match[1].split(" ");
 		},
-		
+
 		getLinks = function (response) {
 			var links = [],
 				searchRegex = /(<[^>]+\s\S*(?:href|src|link|url|uri)="([^"]+)"[^>]*>)|(?:(<(\S*(?:href|src|link|url|uri))[^>]*>)([^<]+)<\/\4>)/g,
@@ -27,20 +27,20 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 			while ((match = searchRegex.exec(response)) !== null) {
 				tag = match[1] || match[3];
-				
+
 				links.push({
-					uri: match[2] || match[5], 
-					rel: getAttributeValues("rel", tag), 
-					rev: getAttributeValues("rev", tag), 
+					uri: match[2] || match[5],
+					rel: getAttributeValues("rel", tag),
+					rev: getAttributeValues("rev", tag),
 					location: match.index
 				});
 			}
-			
+
 			return links;
 		};
 
 	HATEOAS_CONSOLE.parsers.XmlLinkFinder = function XmlLinkFinder() {
-	
+
 		if (instance) {
 			return instance;
 		}
@@ -48,9 +48,9 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 		instance = {
 			getLinks: getLinks
 		};
-			
+
 		instance.constructor = XmlLinkFinder;
-		
+
 		return instance;
 	};
 }());

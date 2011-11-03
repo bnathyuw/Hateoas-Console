@@ -13,40 +13,40 @@
 		RequestForm = HATEOAS_CONSOLE.views.RequestForm,
 		RequestMaker = HATEOAS_CONSOLE.http.RequestMaker,
 		LinksPanel = HATEOAS_CONSOLE.views.LinksPanel,
-		
+
 		aggregator = _.extend({}, Backbone.Events),
-	
+
 		request = new RestRequest(),
-		
+
 		requestParser = new RequestParser({
 			uriParser: new UriParser()
 		}),
-		
+
 		requestLog = new RequestLog({
 			aggregator: aggregator,
 			requestParser: requestParser
 		}),
-		
+
 		responseParserFactory = new ResponseParserFactory({
 			uriParser: new UriParser(),
 			linkFinderFactory: new LinkFinderFactory()
 		}),
-		
+
 		responseLog = new ResponseLog({
 			aggregator: aggregator,
 			responseParserFactory: responseParserFactory
 		}),
-		
+
 		linksPanel = new LinksPanel({
 			aggregator: aggregator,
 			responseParserFactory: responseParserFactory
 		}),
-		
+
 		requestForm = new RequestForm({
 			model: request,
 			aggregator: aggregator
 		}),
-		
+
 		requestMaker = new RequestMaker({
 			aggregator: aggregator
 		});

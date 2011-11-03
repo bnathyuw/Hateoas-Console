@@ -1,12 +1,12 @@
 /*global describe: false, HATEOAS_CONSOLE: false, beforeEach: false, loadFixtures: false, Backbone: false, _: false, it: false, expect: false, $: false, spyOn: false */
 describe("RequestLog", function () {
 	"use strict";
-	
+
 	var RequestLog = HATEOAS_CONSOLE.views.RequestLog,
 		aggregator,
 		requestLog,
 		requestParser;
-	
+
 	beforeEach(function () {
 		loadFixtures("requestLog.html");
 		aggregator = _.extend({}, Backbone.Events);
@@ -18,10 +18,10 @@ describe("RequestLog", function () {
 			requestParser: requestParser
 		});
 	});
-	
+
 	describe("when send is triggered", function () {
 		var model = {};
-		
+
 		it("should call the reqest parser", function () {
 			spyOn(requestParser, "parse");
 			aggregator.trigger("send", {
@@ -29,7 +29,7 @@ describe("RequestLog", function () {
 			});
 			expect(requestParser.parse).toHaveBeenCalledWith(model);
 		});
-		
+
 		it("should show the response from the parser on the page", function () {
 			var expectedLog = "Neque porro quisquam est qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit";
 			requestParser.parse = function () {
@@ -40,6 +40,6 @@ describe("RequestLog", function () {
 			});
 			expect($("#request")).toHaveText(expectedLog);
 		});
-		
+
 	});
 });

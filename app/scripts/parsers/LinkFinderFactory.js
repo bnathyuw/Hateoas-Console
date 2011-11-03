@@ -6,7 +6,7 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 	"use strict";
 
 	var instance,
-		
+
 		constructors = {
 			xml: HATEOAS_CONSOLE.parsers.XmlLinkFinder,
 			json: HATEOAS_CONSOLE.parsers.JsonLinkFinder,
@@ -18,19 +18,19 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 			var	mimeType = contentType.split(";").shift(),
 				responseFormat = mimeType.split(/[\/\+]/).pop(),
 				ctor = constructors[responseFormat];
-		
+
 			if (!ctor) {
-				throw { 
+				throw {
 					name: "Constructor Not Found",
 					message: "No constructor exists for type " + contentType
 				};
 			}
-		
+
 			return ctor(spec);
 		};
 
 	HATEOAS_CONSOLE.parsers.LinkFinderFactory = function LinkFinderFactory() {
-		
+
 		if (instance) {
 			return instance;
 		}
@@ -38,10 +38,10 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 		instance = {
 			create: create
 		};
-		
+
 		instance.constructor = LinkFinderFactory;
-	
+
 		return instance;
 	};
-	
+
 }());

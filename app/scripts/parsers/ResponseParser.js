@@ -4,39 +4,39 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 
 HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 	"use strict";
-	
+
 	if (!this instanceof ResponseParser) {
 		return new ResponseParser(spec);
 	}
-	
+
 	if (!spec) {
 		throw {
 			name: "Missing parameter",
 			message: "Required parameter spec is missing"
 		};
 	}
-	
+
 	if (!spec.uriParser) {
-		throw {	
+		throw {
 			name: "Invalid Parameter",
 			message: "Parameter spec is missing a required member: uriParser"
 		};
 	}
-	
+
 	if (!spec.linkFinderFactory) {
-		throw {	
+		throw {
 			name: "Invalid Parameter",
 			message: "Parameter spec is missing a required member: linkFinderFactory"
 		};
 	}
-	
+
 	if (!spec.uri) {
-		throw {	
+		throw {
 			name: "Invalid Parameter",
 			message: "Parameter spec is missing a required member: uri"
 		};
 	}
-	
+
 	if (spec.response === undefined) {
 		throw {
 			name: "Invalid Parameter",
@@ -45,27 +45,27 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 	}
 
 	var response = spec.response,
-		
+
 		linkFinder = spec.linkFinderFactory.create(response.contentType),
-	
+
 		uriParser = spec.uriParser,
-		
+
 		parsedRequestUri = uriParser.parse(spec.uri),
-		
+
 		links,
-	
+
 		compareOrigin = function (parsedLinkUri) {
 			if (!parsedRequestUri || !parsedLinkUri) {
 				return false;
 			}
-			
+
 			// TODO: deal with schemeless URIs
-			
+
 			return parsedRequestUri.scheme === parsedLinkUri.scheme &&
 				parsedRequestUri.authority === parsedLinkUri.authority;
-			
+
 		},
-		
+
 		findOrCreateLink = function (uri) {
 			var link,
 				parts,
@@ -76,19 +76,19 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 					return links[i];
 				}
 			}
-			
+
 			parts = uriParser.parse(uri);
-			
+
 			link = {
 				uri: uri,
 				parts: parts,
-				locations: [], 
+				locations: [],
 				hasSameOrigin: compareOrigin(parts)
 			};
 			links.push(link);
 			return link;
 		},
-		
+
 		setAttributes =  function (attributeName, values, link) {
 
 			link[attributeName] = link[attributeName] || [];
@@ -103,7 +103,7 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 				}
 			});
 		},
-		
+
 		addLink = function (spec) {
 			var link = findOrCreateLink(spec.uri);
 
@@ -111,32 +111,32 @@ HATEOAS_CONSOLE.parsers.ResponseParser = function ResponseParser(spec) {
 
 			setAttributes("rel", spec.rel, link);
 			setAttributes("rev", spec.rev, link);
-		
+
 		},
-		
+
 		getLinks = function () {
 			if (links) {
 				return links;
 			}
-			
+
 			var linksFound;
-			
+
 			links = [];
-			
+
 			linksFound = linkFinder.getLinks(response.body);
-			
+
 			linksFound.forEach(function (link) {
 				addLink(link);
 			});
-			
+
 			return links;
 		},
-		
+
 		toHttpString = function () {
 			return "<title>HATEOAS console</title>";
 		};
-		
+
 	this.getLinks = getLinks;
-	
+
 	this.toHttpString = toHttpString;
 };

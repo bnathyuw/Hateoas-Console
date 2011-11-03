@@ -2,13 +2,13 @@
 
 describe("LinksPanel", function () {
 	"use strict";
-	
+
 	var LinksPanel = HATEOAS_CONSOLE.views.LinksPanel,
 		linksPanel,
 		aggregator,
 		responseParser,
 		responseParserFactory;
-	
+
 	beforeEach(function () {
 		loadFixtures("linksPanel.html");
 		aggregator = _.extend({}, Backbone.Events);
@@ -25,12 +25,12 @@ describe("LinksPanel", function () {
 			responseParserFactory: responseParserFactory
 		});
 	});
-	
+
 	describe("when received is triggered", function () {
 		var response,
 			event,
 			uri = "http://ghi.com";
-		
+
 		beforeEach(function () {
 			response = {};
 			event = {
@@ -38,25 +38,25 @@ describe("LinksPanel", function () {
 				uri: uri
 			};
 		});
-	
+
 		it("should get a response parser", function () {
 			spyOn(responseParserFactory, "create").andCallThrough();
 			aggregator.trigger("received", event);
 			expect(responseParserFactory.create).toHaveBeenCalled();
 		});
-		
+
 		it("should get a response parser", function () {
 			spyOn(responseParserFactory, "create").andCallThrough();
 			aggregator.trigger("received", event);
 			expect(responseParserFactory.create.mostRecentCall.args[0].response).toEqual(response);
 		});
-		
+
 		it("should get the links from the response parser", function () {
 			spyOn(responseParser, "getLinks");
 			aggregator.trigger("received", event);
 			expect(responseParser.getLinks).toHaveBeenCalled();
 		});
-		
+
 		it("should output a table", function () {
 			responseParser.getLinks = function () {
 				return [

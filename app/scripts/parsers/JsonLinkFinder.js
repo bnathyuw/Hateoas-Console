@@ -6,11 +6,11 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 	"use strict";
 
 	var instance,
-		
+
 		singleLinkRegExp = /^\S*(?:href|link|src|url|uri)$/g,
-			
+
 		multipleLinkRegExp = /^\S*(?:href|link|src|url|uri)s$/g,
-		
+
 		getLinks = function (response) {
 			var links = [];
 
@@ -24,12 +24,12 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 				}
 				return value;
 			});
-			
+
 			return links;
 		};
 
 	HATEOAS_CONSOLE.parsers.JsonLinkFinder = function JsonLinkFinder() {
-	
+
 		if (instance) {
 			return instance;
 		}
@@ -37,9 +37,9 @@ HATEOAS_CONSOLE.namespace("HATEOAS_CONSOLE.parsers");
 		instance = {
 			getLinks: getLinks
 		};
-			
+
 		instance.constructor = JsonLinkFinder;
-		
+
 		return instance;
 	};
 }());

@@ -2,13 +2,13 @@
 
 describe("ResponseParserFactory", function () {
 	"use strict";
-	
+
 	var responseParserFactory,
 		linkFinderFactory,
 		uriParser,
 		response,
 		uri;
-	
+
 	beforeEach(function () {
 		linkFinderFactory = {
 			create: function () {}
@@ -26,7 +26,7 @@ describe("ResponseParserFactory", function () {
 			linkFinderFactory: linkFinderFactory
 		});
 	});
-	
+
 	describe("create", function () {
 		it("should return a response parser", function () {
 			var responseParser = responseParserFactory.create({
@@ -35,7 +35,7 @@ describe("ResponseParserFactory", function () {
 			});
 			expect(responseParser.constructor.name).toEqual("ResponseParser");
 		});
-		
+
 		it("should create a new ResponseParser", function () {
 			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
@@ -44,7 +44,7 @@ describe("ResponseParserFactory", function () {
 			});
 			expect(HATEOAS_CONSOLE.parsers.ResponseParser).toHaveBeenCalled();
 		});
-		
+
 		it("should pass in its own uriParser", function () {
 			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
@@ -54,7 +54,7 @@ describe("ResponseParserFactory", function () {
 			expect(HATEOAS_CONSOLE.parsers.ResponseParser.mostRecentCall.args[0].uriParser).
 				toEqual(uriParser);
 		});
-		
+
 		it("should pass in its own linkFinderFactory", function () {
 			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
@@ -64,7 +64,7 @@ describe("ResponseParserFactory", function () {
 			expect(HATEOAS_CONSOLE.parsers.ResponseParser.mostRecentCall.args[0].linkFinderFactory).
 				toEqual(linkFinderFactory);
 		});
-		
+
 		it("should pass in the response", function () {
 			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
@@ -74,7 +74,7 @@ describe("ResponseParserFactory", function () {
 			expect(HATEOAS_CONSOLE.parsers.ResponseParser.mostRecentCall.args[0].response).
 				toEqual(response);
 		});
-		
+
 		it("should pass in the uri", function () {
 			spyOn(HATEOAS_CONSOLE.parsers, "ResponseParser").andCallThrough();
 			responseParserFactory.create({
