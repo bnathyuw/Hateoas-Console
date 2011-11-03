@@ -66,9 +66,9 @@ describe("LinksPanel", function () {
 				];
 			};
 			aggregator.trigger("received", event);
-			expect($("#links table thead tr th::nth-child(1)").text()).toEqual("Link");
+			expect($("#links table thead tr th::nth-child(1)")).toHaveText("Link");
 			expect($("#links table tbody tr").length).toEqual(1);
-			expect($("#links table tbody tr::nth-child(1) td::nth-child(1) a").attr("href")).toEqual(url);
+			expect($("#links table tbody tr::nth-child(1) td::nth-child(1) a")).toHaveAttr("href", url);
 		});
 	});
 });
