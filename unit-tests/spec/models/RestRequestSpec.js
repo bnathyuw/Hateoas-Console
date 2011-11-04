@@ -1,4 +1,4 @@
-/*global describe: false, it: false, beforeEach: false, HATEOAS_CONSOLE: false, expect: false */
+﻿/*global describe: false, it: false, beforeEach: false, HATEOAS_CONSOLE: false, expect: false */
 describe("RestRequest", function () {
 	"use strict";
 
@@ -108,6 +108,24 @@ describe("RestRequest", function () {
 			}).toThrow({
 				name: "Invalid Header",
 				message: "You cannot set the value of proXY-abc; header names starting with Proxy- are reserved"
+			});
+		});
+
+		it("should reject a header with a character beyond OxFF", function () {
+			expect(function () {
+				restRequest.setHeader("abcΞdef", "Value");
+			}).toThrow({
+				name: "Invalid Header",
+				message: "You cannot set the value of abcΞdef as it contains character outside the permitted range"
+			});
+		});
+
+		it("should reject a value with a character beyond OxFF", function () {
+			expect(function () {
+				restRequest.setHeader("Key", "abcΞdef");
+			}).toThrow({
+				name: "Invalid Header",
+				message: "You cannot set the value of Key as it contains character outside the permitted range"
 			});
 		});
 	});

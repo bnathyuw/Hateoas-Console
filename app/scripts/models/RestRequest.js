@@ -25,6 +25,7 @@ HATEOAS_CONSOLE.models.RestRequest = function RestRequest(spec) {
 			"User-Agent",
 			"Via"
 		],
+
 		illegalHeaderPrefixes = [
 			"Proxy-",
 			"Sec-"
@@ -32,8 +33,37 @@ HATEOAS_CONSOLE.models.RestRequest = function RestRequest(spec) {
 
 		headers = {},
 
-		setHeader = function (key, value) {
+		validateKeyChars = function (key, value) {
+			var i,
+				len;
+
+			for (i = 0, len = key.length; i < len; i = i + 1) {
+				if (key.charCodeAt(i) > 0xFF) {
+					throw {
+						name: "Invalid Header",
+						message: "You cannot set the value of " + key + " as it contains character outside the permitted range"
+					};
+				}
+			}
+		},
+
+		validateValueChars = function (key, value) {
+			var i,
+				len;
+
+			for (i = 0, len = value.length; i < len; i = i + 1) {
+				if (value.charCodeAt(i) > 0xFF) {
+					throw {
+						name: "Invalid Header",
+						message: "You cannot set the value of " + key + " as it contains character outside the permitted range"
+					};
+				}
+			}
+		},
+
+		validateHeaderIsLegal = function (key, value) {
 			var lowerCaseKey = key.toLowerCase();
+
 			illegalHeaders.forEach(function (header) {
 				if (header.toLowerCase() === lowerCaseKey) {
 					throw {
@@ -42,6 +72,11 @@ HATEOAS_CONSOLE.models.RestRequest = function RestRequest(spec) {
 					};
 				}
 			});
+		},
+
+		validateHeaderPrefixIsLegal = function (key, value) {
+			var lowerCaseKey = key.toLowerCase();
+
 			illegalHeaderPrefixes.forEach(function (prefix) {
 				if (lowerCaseKey.indexOf(prefix.toLowerCase()) === 0) {
 					throw {
@@ -50,6 +85,18 @@ HATEOAS_CONSOLE.models.RestRequest = function RestRequest(spec) {
 					};
 				}
 			});
+		},
+
+		validateHeader = function (key, value) {
+			validateKeyChars(key, value);
+			validateValueChars(key, value);
+			validateHeaderIsLegal(key, value);
+			validateHeaderPrefixIsLegal(key, value);
+		},
+
+		setHeader = function (key, value) {
+			validateHeader(key, value);
+
 			headers[key] = value;
 		},
 
