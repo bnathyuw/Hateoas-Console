@@ -37,6 +37,40 @@ describe("RestRequest", function () {
 		});
 	});
 
+	describe("setHeader", function () {
+		var illegalHeaders = [
+				"Accept-Charset",
+				"Accept-Encoding",
+				"Connection",
+				"Content-Length",
+				"Cookie",
+				"Cookie2",
+				"Content-Transfer-Encoding",
+				"Date",
+				"Expect",
+				"Host",
+				"Keep-Alive",
+				"Referer",
+				"TE",
+				"Trailer",
+				"Transfer-Encoding",
+				"Upgrade",
+				"User-Agent",
+				"Via"
+			];
+
+		illegalHeaders.forEach(function (header) {
+			it("should throw an exception if key is " + header, function () {
+				expect(function () {
+					restRequest.setHeader(header, "Value");
+				}).toThrow({
+					name: "Invalid Header",
+					message: "You cannot set the value of " + header + "; this value is automatically set by the browser"
+				});
+			});
+		});
+	});
+
 	describe("getAllHeaders", function () {
 		it("should return nothing when no headers have been set", function () {
 			expect(restRequest.getAllHeaders()).toEqual({});
