@@ -135,7 +135,15 @@ HATEOAS_CONSOLE.parsers.ResponseParser = (function () {
 				},
 
 				toHttpString = function () {
-					return spec.response.get("body");
+					var status = spec.response.get("status"),
+						statusText = spec.response.get("statusText"),
+						body = spec.response.get("body"),
+						headers = spec.response.get("headers"),
+						httpString = "HTTP/1.1 " + status + " " + statusText + "\n" +
+							(headers ? headers + "\n" : "") +
+							body;
+
+					return httpString;
 				};
 
 			this.getLinks = getLinks;

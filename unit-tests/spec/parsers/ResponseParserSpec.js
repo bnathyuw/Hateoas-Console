@@ -1,4 +1,4 @@
-﻿/*global describe: false, HATEOAS_CONSOLE: false, it: false, expect: false, beforeEach: false, spyOn: false */
+﻿/*global describe: false, HATEOAS_CONSOLE: false, it: false, expect: false, beforeEach: false, spyOn: false, Backbone: false */
 
 describe("ResponseParser", function () {
 	"use strict";
@@ -16,23 +16,27 @@ describe("ResponseParser", function () {
 			}
 		},
 		body = "<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>",
-		response = {
-			get: function (key) {
-				switch (key) {
-				case "body":
-					return body;
-				}
-			},
+		parser,
+		response,
+		status = 100,
+		statusText = "Continue",
+		headers = "this: that\nthese: those";
+
+	beforeEach(function () {
+		var RestResponse = Backbone.Model.extend({
 			getHeader: function (key) {
 				switch (key.toLowerCase()) {
 				case "content-type":
 					return "text/html";
 				}
 			}
-		},
-		parser;
-
-	beforeEach(function () {
+		});
+		response = new RestResponse({
+			body: body,
+			status: status,
+			statusText: statusText,
+			headers: headers
+		});
 		parser = new ResponseParser({
 			url: "http://localhost/",
 			linkFinderFactory: linkFinderFactory,
@@ -44,8 +48,17 @@ describe("ResponseParser", function () {
 	describe("toHttpString", function () {
 		it("should include the response body", function () {
 			var httpString = parser.toHttpString();
-
 			expect(httpString).toContain(body);
+		});
+
+		it("should include the status code", function () {
+			var httpString = parser.toHttpString();
+			expect(httpString).toContain("HTTP/1.1 100 Continue\n");
+		});
+		
+		it("should include the headers", function () {
+			var httpString = parser.toHttpString();
+			expect(httpString).toContain(headers);
 		});
 	});
 
