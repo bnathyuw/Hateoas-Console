@@ -5,17 +5,17 @@ HATEOAS_CONSOLE.namespace("views");
 HATEOAS_CONSOLE.views.LinksPanel = (function () {
 	"use strict";
 	var responseParserFactory,
-		template = "<table>" +
-			"	<thead>" +
-			"		<tr>" +
-			"			<th>Link</th>" +
-			"		</tr>" +
-			"	</thead>" +
-			"	<tbody>" +
-			"		<% _.each(links, function (link) { %><tr>" +
-			"			<td><a href=\"<%= link.url %>\"><%= link.url %></a></td>" +
-			"		</tr><% }); %>" +
-			"	</tbody>" +
+		template = "<table>\n" +
+			"	<thead>\n" +
+			"		<tr>\n" +
+			"			<th>Link</th>\n" +
+			"		</tr>\n" +
+			"	</thead>\n" +
+			"	<tbody>\n" +
+			"		<% _.each(links, function (link) { %><tr>\n" +
+			"			<td><a href=\"<%= link.url %>\"><%= link.url %></a></td>\n" +
+			"		</tr><% }); %>\n" +
+			"	</tbody>\n" +
 			"</table>";
 
 	return Backbone.View.extend({
