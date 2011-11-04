@@ -16,7 +16,10 @@ HATEOAS_CONSOLE.http.RequestMaker = (function () {
 					spec.aggregator.trigger("received", {
 						url: this.url,
 						response: new spec.RestResponse({
-							body: this.responseText
+							body: this.responseText,
+							headers: this.getAllResponseHeaders(),
+							status: this.status,
+							statusText: this.statusText
 						})
 					});
 				}

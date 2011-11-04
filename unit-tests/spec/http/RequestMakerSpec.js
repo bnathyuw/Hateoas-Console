@@ -16,32 +16,34 @@ describe("RequestMaker", function () {
 			verb: verb,
 			body: body
 		},
-		responseText = "<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>";
+		requestMakerSpec,
+		responseText = "Ille mi par esse deo videtur",
+		headers = "this: that\nthose: these",
+		status = 100,
+		statusText = "Continue";
 
 	beforeEach(function () {
 		aggregator = _.extend({}, Backbone.Events);
 		xmlHttpRequest = {
 			open: function () {},
-			send: function () {}
+			send: function () {},
+			getAllResponseHeaders: function () {
+				return headers;
+			}
 		};
 		request = {
 			get: function (key) {
 				return attributes[key];
 			}
 		};
-		requestMaker = new RequestMaker({
+		requestMakerSpec = {
 			aggregator: aggregator,
 			XMLHttpRequest: function () {
 				return xmlHttpRequest;
 			},
-			RestResponse: function () {
-				return {
-					get: function () {
-						return responseText;
-					}
-				};
-			}
-		});
+			RestResponse: function () {}
+		};
+		requestMaker = new RequestMaker(requestMakerSpec);
 	});
 
 	describe("when send is triggered", function () {
@@ -68,9 +70,41 @@ describe("RequestMaker", function () {
 		beforeEach(function () {
 			xmlHttpRequest.readyState = 4;
 			xmlHttpRequest.responseText = responseText;
+			xmlHttpRequest.status = status;
+			xmlHttpRequest.statusText = statusText;
 			aggregator.trigger("send", {
 				request: request
 			});
+		});
+
+		it("should create a response", function () {
+			var spy = spyOn(requestMakerSpec, "RestResponse");
+			xmlHttpRequest.onreadystatechange();
+			expect(spy).toHaveBeenCalled();
+		});
+
+		it("should pass body into response", function () {
+			var spy = spyOn(requestMakerSpec, "RestResponse");
+			xmlHttpRequest.onreadystatechange();
+			expect(spy.mostRecentCall.args[0].body).toEqual(responseText);
+		});
+
+		it("should pass status into response", function () {
+			var spy = spyOn(requestMakerSpec, "RestResponse");
+			xmlHttpRequest.onreadystatechange();
+			expect(spy.mostRecentCall.args[0].status).toEqual(status);
+		});
+
+		it("should pass status text into response", function () {
+			var spy = spyOn(requestMakerSpec, "RestResponse");
+			xmlHttpRequest.onreadystatechange();
+			expect(spy.mostRecentCall.args[0].statusText).toEqual(statusText);
+		});
+
+		it("should pass headers into response", function () {
+			var spy = spyOn(requestMakerSpec, "RestResponse");
+			xmlHttpRequest.onreadystatechange();
+			expect(spy.mostRecentCall.args[0].headers).toEqual(headers);
 		});
 
 		it("should trigger received", function () {
@@ -87,9 +121,13 @@ describe("RequestMaker", function () {
 		});
 
 		it("should pass response", function () {
-			var spy = spyOn(aggregator, "trigger").andCallThrough();
+			var spy = spyOn(aggregator, "trigger").andCallThrough(),
+				response = {};
+			requestMakerSpec.RestResponse = function () {
+				return response;
+			};
 			xmlHttpRequest.onreadystatechange();
-			expect(spy.mostRecentCall.args[1].response.get("body")).toEqual(responseText);
+			expect(spy.mostRecentCall.args[1].response).toEqual(response);
 		});
 	});
 
