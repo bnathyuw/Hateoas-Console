@@ -36,4 +36,17 @@ describe("RestRequest", function () {
 			expect(restRequest.get("url")).toEqual(params.url);
 		});
 	});
+
+	describe("getAllHeaders", function () {
+		it("should return nothing when no headers have been set", function () {
+			expect(restRequest.getAllHeaders()).toEqual({});
+		});
+
+		it("should return a header if one has been set", function () {
+			restRequest.setHeader("Super-Foo", "Bar");
+			expect(restRequest.getAllHeaders()).toEqual({
+				"Super-Foo": "Bar"
+			});
+		});
+	});
 });

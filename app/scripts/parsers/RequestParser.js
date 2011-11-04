@@ -15,10 +15,19 @@ HATEOAS_CONSOLE.parsers.RequestParser = (function () {
 					var verb = request.get("verb"),
 						url = request.get("url"),
 						parts = options.urlParser.parse(url),
-						log;
-					log = verb + " /" + (parts.path ? parts.path : "") + " HTTP/1.1";
+						log,
+						headers = request.getAllHeaders(),
+						header;
+					log = verb + " /" + (parts.path || "") + " HTTP/1.1";
 					log = log + "\n";
 					log = log + "Host: " + parts.host;
+					if (headers) {
+						for (header in headers) {
+							if (headers.hasOwnProperty(header)) {
+								log = log + header + ": " + headers[header] + "\n";
+							}
+						}
+					}
 					return log;
 				};
 

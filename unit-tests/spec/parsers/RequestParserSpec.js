@@ -7,10 +7,15 @@ describe("RequestParser", function () {
 		requestParser,
 		request,
 		urlParser,
-		parts;
+		parts,
+		headers;
 
 	beforeEach(function () {
-		var Request = Backbone.Model.extend({});
+		var Request = Backbone.Model.extend({
+			getAllHeaders: function () {
+				return headers;
+			}
+		});
 		parts = {
 			scheme: "http",
 			hierarchicalPart: "//www.somewhere.com/path/to/resource",
@@ -72,10 +77,10 @@ describe("RequestParser", function () {
 		log = requestParser.parse(request);
 		expect(log).toContain(" / HTTP/1.1");
 	});
-	
+
 	it("should log an undefined path appropriately", function () {
 		var log,
-			path = undefined;
+			path;
 		parts.path = path;
 		log = requestParser.parse(request);
 		expect(log).toContain(" / HTTP/1.1");
@@ -87,5 +92,21 @@ describe("RequestParser", function () {
 		parts.host = host;
 		log = requestParser.parse(request);
 		expect(log).toContain("Host: " + host);
+	});
+
+	it("should log the request headers", function () {
+		var log,
+			header;
+		headers = {
+			"Content-Type": "application/json",
+			"Accept": "application/json",
+			"Extra-Foo": "Bar"
+		};
+		log = requestParser.parse(request);
+		for (header in headers) {
+			if (headers.hasOwnProperty(header)) {
+				expect(log).toContain(header + ": " + headers[header]);
+			}
+		}
 	});
 });
