@@ -109,4 +109,12 @@ describe("RequestParser", function () {
 			}
 		}
 	});
+
+	it("should log the request body", function () {
+		var body = "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
+			log;
+		request.set({body: body});
+		log = requestParser.parse(request);
+		expect(log).toContain(body);
+	});
 });

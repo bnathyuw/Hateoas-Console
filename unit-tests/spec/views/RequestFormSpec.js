@@ -43,28 +43,42 @@ describe("RequestForm", function () {
 	});
 
 	describe("effects of clicking 'Go'", function () {
-		beforeEach(function () {
+		it("should update the model", function () {
+			var spy = spyOn(requestForm.model, "set");
+			$("#go").trigger("click");
+			expect(spy).toHaveBeenCalled();
+			expect(spy.mostRecentCall.args[0].url).toEqual($("[name=url]").val());
+			expect(spy.mostRecentCall.args[0].verb).toEqual($("[name=verb]").val());
 		});
 
-		it("should update the model", function () {
-			spyOn(requestForm.model, "set");
+		it("should set the request body if the body field is visible", function () {
+			var spy = spyOn(requestForm.model, "set"),
+				body = "Exegi monumentum aere perennius";
+			$("[name=requestBody]").val(body).show();
 			$("#go").trigger("click");
-			expect(requestForm.model.set).toHaveBeenCalledWith({
-				url: $("[name=url]").val(),
-				verb: $("[name=verb]").val()
-			});
+			expect(spy).toHaveBeenCalled();
+			expect(spy.mostRecentCall.args[0].body).toEqual(body);
+		});
+
+		it("should set the request body to undefined if the body field is not visible", function () {
+			var spy = spyOn(requestForm.model, "set"),
+				body = "Vixi puellis nuper idoneus";
+			$("[name=requestBody]").val(body).hide();
+			$("#go").trigger("click");
+			expect(spy).toHaveBeenCalled();
+			expect(spy.mostRecentCall.args[0].body).toEqual(undefined);
 		});
 
 		it("should trigger a send event", function () {
-			spyOn(requestForm.aggregator, "trigger");
+			var spy = spyOn(requestForm.aggregator, "trigger");
 			$("#go").trigger("click");
-			expect(aggregator.trigger.mostRecentCall.args[0]).toEqual("send");
+			expect(spy.mostRecentCall.args[0]).toEqual("send");
 		});
 
 		it("should pass model to send event", function () {
-			spyOn(requestForm.aggregator, "trigger");
+			var spy = spyOn(requestForm.aggregator, "trigger");
 			$("#go").trigger("click");
-			expect(aggregator.trigger.mostRecentCall.args[1].request).toEqual(requestForm.model);
+			expect(spy.mostRecentCall.args[1].request).toEqual(requestForm.model);
 		});
 	});
 });

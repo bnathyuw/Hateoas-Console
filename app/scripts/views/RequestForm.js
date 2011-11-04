@@ -27,10 +27,17 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 		},
 
 		saveRequest: function () {
+			var url = this.$("[name=url]").val(),
+				verb = this.$("[name=verb]").val(),
+				bodyEl = this.$("[name=requestBody]"),
+				body = bodyEl.is(":visible") ? bodyEl.val() : undefined;
+
 			this.model.set({
-				url: this.$("[name=url]").val(),
-				verb: this.$("[name=verb]").val()
+				url: url,
+				verb: verb,
+				body: body
 			});
+
 			this.aggregator.trigger("send", {
 				request: this.model
 			});

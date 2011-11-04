@@ -17,16 +17,19 @@ HATEOAS_CONSOLE.parsers.RequestParser = (function () {
 						parts = options.urlParser.parse(url),
 						log,
 						headers = request.getAllHeaders(),
-						header;
-					log = verb + " /" + (parts.path || "") + " HTTP/1.1";
-					log = log + "\n";
-					log = log + "Host: " + parts.host;
+						header,
+						body = request.get("body");
+					log = verb + " /" + (parts.path || "") + " HTTP/1.1\n";
+					log = log + "Host: " + parts.host + "\n";
 					if (headers) {
 						for (header in headers) {
 							if (headers.hasOwnProperty(header)) {
 								log = log + header + ": " + headers[header] + "\n";
 							}
 						}
+					}
+					if (body) {
+						log = log + body + "\n";
 					}
 					return log;
 				};
