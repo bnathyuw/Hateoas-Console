@@ -18,3 +18,34 @@ If you don't configure the project like this, the unit tests won't run.
 I have been testing exclusively in Chrome, as this project uses some modern
 JavaScript. It may well work in FireFox, but woe betide anyone who attempts to 
 run it in Internet Explorer
+
+## Other notes
+
+### Headers that cannot be set by user
+
+When using an XMLHttpRequest, there are certain headers that you cannot set; they are automatically set by the browser instead.
+
+They are:
+
+* Accept-Charset
+* Accept-Encoding
+* Connection
+* Content-Length
+* Cookie
+* Cookie2
+* Content-Transfer-Encoding
+* Date
+* Expect
+* Host
+* Keep-Alive
+* Referer
+* TE
+* Trailer
+* Transfer-Encoding
+* Upgrade
+* User-Agent
+* Via
+* Proxy-*
+* Sec-*
+
+Further information can be found in the [XMLHttpRequest documentation: The setRequestHeader() method](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method)
