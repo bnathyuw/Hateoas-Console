@@ -2,11 +2,12 @@
 describe("RestRequest", function () {
 	"use strict";
 
-	var restRequest;
+	var RestRequest = HATEOAS_CONSOLE.models.RestRequest,
+		restRequest;
 
 	describe("with default constructor", function () {
 		beforeEach(function () {
-			restRequest = new HATEOAS_CONSOLE.models.RestRequest();
+			restRequest = new RestRequest();
 		});
 
 		it("should start with 'verb' equal to 'GET'", function () {
@@ -25,7 +26,7 @@ describe("RestRequest", function () {
 		};
 
 		beforeEach(function () {
-			restRequest = new HATEOAS_CONSOLE.models.RestRequest(params);
+			restRequest = new RestRequest(params);
 		});
 
 		it("should start with custom value of 'verb'", function () {
@@ -59,6 +60,10 @@ describe("RestRequest", function () {
 				"Via"
 			];
 
+		beforeEach(function () {
+			restRequest = new RestRequest();
+		});
+
 		illegalHeaders.forEach(function (header) {
 			it("should throw an exception if key is " + header, function () {
 				expect(function () {
@@ -69,9 +74,50 @@ describe("RestRequest", function () {
 				});
 			});
 		});
+
+		it("should reject illegal headers regardless of case", function () {
+			expect(function () {
+				restRequest.setHeader("uSER-agenT", "Value");
+			}).toThrow({
+				name: "Invalid Header",
+				message: "You cannot set the value of uSER-agenT; this value is automatically set by the browser"
+			});
+		});
+
+		it("should throw an exception if key starts with 'Proxy-'", function () {
+			expect(function () {
+				restRequest.setHeader("Proxy-abc", "Value");
+			}).toThrow({
+				name: "Invalid Header",
+				message: "You cannot set the value of Proxy-abc; header names starting with Proxy- are reserved"
+			});
+		});
+
+		it("should throw an exception if key starts with 'Sec-'", function () {
+			expect(function () {
+				restRequest.setHeader("Sec-abc", "Value");
+			}).toThrow({
+				name: "Invalid Header",
+				message: "You cannot set the value of Sec-abc; header names starting with Sec- are reserved"
+			});
+		});
+
+		it("should reject illegal header prefixes regardless of case", function () {
+			expect(function () {
+				restRequest.setHeader("proXY-abc", "Value");
+			}).toThrow({
+				name: "Invalid Header",
+				message: "You cannot set the value of proXY-abc; header names starting with Proxy- are reserved"
+			});
+		});
 	});
 
 	describe("getAllHeaders", function () {
+
+		beforeEach(function () {
+			restRequest = new RestRequest();
+		});
+
 		it("should return nothing when no headers have been set", function () {
 			expect(restRequest.getAllHeaders()).toEqual({});
 		});
