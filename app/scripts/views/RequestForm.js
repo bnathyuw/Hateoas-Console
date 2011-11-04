@@ -5,7 +5,7 @@ HATEOAS_CONSOLE.namespace("views");
 HATEOAS_CONSOLE.views.RequestForm = (function () {
 	"use strict";
 	return Backbone.View.extend({
-		el: "form",
+		el: "form#request-form",
 
 		initialize: function (options) {
 			this.$("[name=requestBody]").hide();
@@ -14,7 +14,7 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 
 		events: {
 			"change [name=verb]":	"showRequestBody",
-			"click	#go":			"saveRequest"
+			"submit":				"saveRequest"
 		},
 
 		showRequestBody: function () {
@@ -41,6 +41,8 @@ HATEOAS_CONSOLE.views.RequestForm = (function () {
 			this.aggregator.trigger("send", {
 				request: this.model
 			});
+			
+			return false;
 		}
 	});
 }());

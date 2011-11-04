@@ -42,10 +42,10 @@ describe("RequestForm", function () {
 		});
 	});
 
-	describe("effects of clicking 'Go'", function () {
+	describe("effects of submitting the form", function () {
 		it("should update the model", function () {
 			var spy = spyOn(requestForm.model, "set");
-			$("#go").trigger("click");
+			$("form#request-form").trigger("submit");
 			expect(spy).toHaveBeenCalled();
 			expect(spy.mostRecentCall.args[0].url).toEqual($("[name=url]").val());
 			expect(spy.mostRecentCall.args[0].verb).toEqual($("[name=verb]").val());
@@ -55,7 +55,7 @@ describe("RequestForm", function () {
 			var spy = spyOn(requestForm.model, "set"),
 				body = "Exegi monumentum aere perennius";
 			$("[name=requestBody]").val(body).show();
-			$("#go").trigger("click");
+			$("form#request-form").trigger("submit");
 			expect(spy).toHaveBeenCalled();
 			expect(spy.mostRecentCall.args[0].body).toEqual(body);
 		});
@@ -64,20 +64,20 @@ describe("RequestForm", function () {
 			var spy = spyOn(requestForm.model, "set"),
 				body = "Vixi puellis nuper idoneus";
 			$("[name=requestBody]").val(body).hide();
-			$("#go").trigger("click");
+			$("form#request-form").trigger("submit");
 			expect(spy).toHaveBeenCalled();
 			expect(spy.mostRecentCall.args[0].body).toEqual(undefined);
 		});
 
 		it("should trigger a send event", function () {
 			var spy = spyOn(requestForm.aggregator, "trigger");
-			$("#go").trigger("click");
+			$("form#request-form").trigger("submit");
 			expect(spy.mostRecentCall.args[0]).toEqual("send");
 		});
 
 		it("should pass model to send event", function () {
 			var spy = spyOn(requestForm.aggregator, "trigger");
-			$("#go").trigger("click");
+			$("form#request-form").trigger("submit");
 			expect(spy.mostRecentCall.args[1].request).toEqual(requestForm.model);
 		});
 	});

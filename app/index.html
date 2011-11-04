@@ -17,7 +17,7 @@
 	<h1>HATEOAS console</h1>
 </header>
 
-<form>
+<form id="request-form">
 
 <input type="url"
 	   name="url"
@@ -34,10 +34,11 @@
 	<option>OPTIONS</option>
 </select>
 
-<input type="button" value="Go" id="go"/>
+<input type="submit"
+	   value="Go" />
 
-	<textarea name="requestBody"
-			  placeholder="Request body"></textarea>
+<textarea name="requestBody"
+		  placeholder="Request body"></textarea>
 
 </form>
 
