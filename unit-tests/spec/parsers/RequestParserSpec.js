@@ -65,9 +65,17 @@ describe("RequestParser", function () {
 		expect(log).toContain("/" + path);
 	});
 
-	it("should log a null path appropriately", function () {
+	it("should log an empty path appropriately", function () {
 		var log,
 			path = "";
+		parts.path = path;
+		log = requestParser.parse(request);
+		expect(log).toContain(" / HTTP/1.1");
+	});
+	
+	it("should log an undefined path appropriately", function () {
+		var log,
+			path = undefined;
 		parts.path = path;
 		log = requestParser.parse(request);
 		expect(log).toContain(" / HTTP/1.1");

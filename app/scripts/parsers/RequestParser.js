@@ -16,7 +16,7 @@ HATEOAS_CONSOLE.parsers.RequestParser = (function () {
 						url = request.get("url"),
 						parts = options.urlParser.parse(url),
 						log;
-					log = verb + " /" + parts.path + " HTTP/1.1";
+					log = verb + " /" + (parts.path ? parts.path : "") + " HTTP/1.1";
 					log = log + "\n";
 					log = log + "Host: " + parts.host;
 					return log;
